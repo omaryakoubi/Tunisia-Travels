@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Home />
+    <Home v-on:destination="getDestination($event)" />
   </div>
 </template>
 <script>
@@ -10,6 +10,11 @@ export default {
   name: "App",
   components: {
     Home,
+  },
+  methods: {
+    getDestination(destination) {
+      console.log("destination", destination);
+    },
   },
 };
 </script>
