@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <header>
-      <div class="overlay"></div>
-      <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
-      </video>
+      </video> -->
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="/#">Become a host</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#credit">Earn credit</a>
+            <li class="nav-item active">
+              <!-- <router-link to="/#profile">Profile</router-link> -->
+            <a href="/profile"> <vs-avatar /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/#help">Help</a>
@@ -26,6 +26,7 @@
           </ul>
         </div>
       </nav>
+          </header>
       <form
         class="container mt-3 rounded"
         style="
@@ -95,7 +96,7 @@
         </div>
       </form>
       <!-- <router-link to="/"><img src="../images/tunisian travels logo.png" /></router-link> -->
-    </header>
+
   </div>
 </template>
 
@@ -122,6 +123,9 @@ export default {
     submit() {
       this.$emit("destination", this.destination);
     },
+    getProfile() {
+      window.location.href = "http://localhost:8080/"
+    }
   },
 };
 </script>
@@ -130,14 +134,13 @@ export default {
 header {
   position: relative;
   /* background-color: black; */
-  height: 80vh;
-  min-height: 25rem;
+
   width: 100%;
   overflow: hidden;
   border-radius: 30px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
-  color: white;
+  color: black;
   margin-bottom: 20px;
   padding: 14px 16px;
   font-size: 15px;
