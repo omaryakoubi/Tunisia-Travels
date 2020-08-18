@@ -16,7 +16,7 @@
         >Primary</vs-button
       >
       <vs-button
-        href="http://localhost:5000/Auth/google"
+        href="http://localhost:5000/auth/google"
         class="Button"
         color="danger"
         type="filled"

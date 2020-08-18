@@ -9,11 +9,6 @@ module.exports = router.get(
   })
 );
 
-router.get(
-  "/google/redirect",
-  passport.authenticate("google"),
-  (req, res) => {
-    console.log("pfff malla 7ala");
-    res.send(res.user);
-  }
-);
+router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  res.send("user interface");
+});
