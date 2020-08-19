@@ -10,8 +10,8 @@
             <li class="nav-item">
               <a class="nav-link" href="/#">Become a host</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#credit">Earn credit</a>
+            <li class="nav-item active">
+            <a href="/profile"> <vs-avatar /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/#help">Help</a>
@@ -20,15 +20,15 @@
               <a class="nav-link" href="/#register">SignUp</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/#login">Login</a>
+              <a class="nav-link" href="/login">Login</a>
             </li>
           </ul>
         </div>
       </nav>
-    </header>
-    <form
-      class="container mt-3 rounded"
-      style="
+          </header>
+      <form
+        class="container mt-3 rounded"
+        style="
           margin: 150px;
           max-width: 420px;
           padding: 30px 30px 60px 30px;
@@ -128,6 +128,7 @@ export default {
       alert(error);
     },
     submit() {
+      console.log(this.destination)
       this.$emit("destination", this.destination);
     },
   },
