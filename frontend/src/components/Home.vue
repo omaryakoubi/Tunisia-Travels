@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <header>
-      <div class="overlay"></div>
-      <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <dropDown />
+      <video>
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
       </video>
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -11,8 +11,8 @@
             <li class="nav-item">
               <a class="nav-link" href="/#">Become a host</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#credit">Earn credit</a>
+            <li class="nav-item active">
+              <a href="/profile"> <vs-avatar /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/#help">Help</a>
@@ -21,7 +21,7 @@
               <a class="nav-link" href="/#register">SignUp</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/#login">Login</a>
+              <a class="nav-link" href="/login">Login</a>
             </li>
           </ul>
         </div>
@@ -35,25 +35,18 @@
           background-color: white;
           font-family: Helvetica;
           font-weight: 600;
-           color: #484848;
+          color: #484848;
         "
       >
         <h1
           style="font-size: 2em;
          font-weight: bold;
          margin-bottom: 15px;"
-        >Book unique home and experiences.</h1>
-        <!-- <div class="form-group" style=" font-size: small;">
-          <label>WHERE</label>
-          <br />
-          <input
-            id="autocomplete"
-            class="form-control"
-            type="text"
-            placeholder="Anywhere"
-            name="destination"
-          /> 
-        </div>-->
+        >
+          Book unique home and experiences.
+        </h1>
+        <br />
+        <br />
         <vue-google-autocomplete
           :country="['TN']"
           types="(cities)"
@@ -63,16 +56,21 @@
           v-on:placechanged="getFromAddress"
           v-on:error="handleError"
         ></vue-google-autocomplete>
-
-        <div class="input-group-prepend" style=" font-size: small;">
-          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
-          <label>CHECK OUT</label>
-          <br />
-        </div>
+        <br />
+        <br />
         <div class="input-group" style=" font-size: small;">
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkin" />
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkout" />
+          <DatePicker
+            mode="range"
+            :attributes="attrs"
+            :value="null"
+            v-model="date"
+            color="blue"
+            :min-date="new Date()"
+            is-expanded
+            v-bind:date="date"
+          />
         </div>
+        <br />
         <br />
         <div class="form-group" style=" font-size: small;">
           <label>GUESTS</label>
@@ -91,35 +89,51 @@
             class="btn btn-primary btn-lg"
             style="float: right;"
             v-on:click.prevent="submit"
-          >Search</button>
+          >
+            Search
+          </button>
         </div>
       </form>
-      <!-- <router-link to="/"><img src="../images/tunisian travels logo.png" /></router-link> -->
     </header>
   </div>
 </template>
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
+// import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import dropDown from "./dropDown.vue";
+
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete },
-  data: function () {
+  components: { VueGoogleAutocomplete, DatePicker, dropDown },
+  data: function() {
     return {
       destination: {},
+      date: "",
+      attrs: [
+        {
+          key: "today",
+          highlight: "red",
+          dates: new Date(),
+        },
+      ],
     };
   },
   methods: {
+    select() {
+      console.log("ddddd");
+    },
     getFromAddress(destination) {
       this.destination = destination;
-      // console.log(from_address);
     },
     handleError(error) {
       alert(error);
     },
     submit() {
+      console.log(this.destination);
       this.$emit("destination", this.destination);
     },
   },
@@ -129,15 +143,14 @@ export default {
 <style scoped>
 header {
   position: relative;
-  /* background-color: black; */
   height: 80vh;
   min-height: 25rem;
   width: 100%;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
-  color: white;
+  color: red;
   margin-bottom: 20px;
   padding: 14px 16px;
   font-size: 15px;
@@ -147,8 +160,8 @@ header {
   opacity: 0.9;
 }
 .navbar.navbar-expand-lg.navbar-light li a:hover {
-  color: white;
-  border-bottom: 10px solid white;
+  color: black;
+  border-bottom: 0.05px solid black;
 }
 header video {
   position: absolute;
@@ -165,9 +178,10 @@ header video {
   transform: translateX(-50%) translateY(-50%);
 }
 
-header .container {
+body .container {
   position: relative;
   z-index: 2;
+  background-color: whitesmoke;
 }
 
 header .overlay {
@@ -188,7 +202,7 @@ header .overlay {
   }
   header video {
     display: none;
-    margin-top: 10px;
+    z-index: 0;
   }
 }
 </style>
