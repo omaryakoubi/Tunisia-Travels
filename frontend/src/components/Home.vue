@@ -1,31 +1,15 @@
 <template>
   <div class="home">
     <header>
-      <div class="overlay"></div>
-      <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <video
+        playsinline="playsinline"
+        autoplay="autoplay"
+        muted="muted"
+        loop="loop"
+      >
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
       </video>
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/#">Become a host</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#credit">Earn credit</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#help">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#register">SignUp</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#login">Login</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <dropDown />
       <form
         class="container mt-3 rounded"
         style="
@@ -35,25 +19,12 @@
           background-color: white;
           font-family: Helvetica;
           font-weight: 600;
-           color: #484848;
+          color: #484848;
         "
       >
-        <h1
-          style="font-size: 2em;
-         font-weight: bold;
-         margin-bottom: 15px;"
-        >Book unique home and experiences.</h1>
-        <!-- <div class="form-group" style=" font-size: small;">
-          <label>WHERE</label>
-          <br />
-          <input
-            id="autocomplete"
-            class="form-control"
-            type="text"
-            placeholder="Anywhere"
-            name="destination"
-          /> 
-        </div>-->
+        <h1 style="font-size: 2em; font-weight: bold; margin-bottom: 15px;">
+          Book unique home and experiences.
+        </h1>
         <vue-google-autocomplete
           :country="['TN']"
           types="(cities)"
@@ -64,17 +35,28 @@
           v-on:error="handleError"
         ></vue-google-autocomplete>
 
-        <div class="input-group-prepend" style=" font-size: small;">
-          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+        <div class="input-group-prepend" style="font-size: small;">
+          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+          &emsp; &emsp;
           <label>CHECK OUT</label>
           <br />
         </div>
-        <div class="input-group" style=" font-size: small;">
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkin" />
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkout" />
+        <div class="input-group" style="font-size: small;">
+          <input
+            class="form-control"
+            type="date"
+            placeholder="dd-mm-yyyy"
+            name="checkin"
+          />
+          <input
+            class="form-control"
+            type="date"
+            placeholder="dd-mm-yyyy"
+            name="checkout"
+          />
         </div>
         <br />
-        <div class="form-group" style=" font-size: small;">
+        <div class="form-group" style="font-size: small;">
           <label>GUESTS</label>
           <br />
           <select class="custom-select">
@@ -91,7 +73,9 @@
             class="btn btn-primary btn-lg"
             style="float: right;"
             v-on:click.prevent="submit"
-          >Search</button>
+          >
+            Search
+          </button>
         </div>
       </form>
       <!-- <router-link to="/"><img src="../images/tunisian travels logo.png" /></router-link> -->
@@ -103,10 +87,13 @@
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import dropDown from "./dropDown.vue";
+
+
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete },
-  data: function () {
+  components: { VueGoogleAutocomplete, dropDown },
+  data: function() {
     return {
       destination: {},
     };
@@ -114,7 +101,6 @@ export default {
   methods: {
     getFromAddress(destination) {
       this.destination = destination;
-      // console.log(from_address);
     },
     handleError(error) {
       alert(error);
@@ -129,12 +115,11 @@ export default {
 <style scoped>
 header {
   position: relative;
-  /* background-color: black; */
   height: 80vh;
   min-height: 25rem;
   width: 100%;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
   color: white;
@@ -189,6 +174,7 @@ header .overlay {
   header video {
     display: none;
     margin-top: 10px;
+    z-index: 0;
   }
 }
 </style>

@@ -8,20 +8,32 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bootstrap": "^4.5.2",
+    "bootstrap-icons": "^1.0.0-alpha5",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
+    "material-icons": "^0.3.1",
     "vue": "^2.6.11",
     "vue-google-autocomplete": "^1.1.0",
+    "vue-material": "^1.0.0-beta-15",
+    "vue-material-design-icons": "^4.9.0",
     "vue-place-autocomplete": "^0.5.3",
-    "vuesax": "^3.11.17"
+    "vue-responsive-video-background-player": "^1.1.2",
+    "vue-videobg": "^2.0.0",
+    "vuesax": "^4.0.1-alpha.23"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
