@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <Home />
-    <!-- <SelectionPage /> -->
-    <!-- <NearBy /> -->
+    <!-- <Home /> -->
+    <LoginSM/>
   </div>
 </template>
+
 <script>
-import Home from "./components/Home.vue";
-// import SelectionPage from "./components/SelectionPage.vue";
-// import NearBy from "./components/NearBy";
+// import Home from "./components/Home.vue";
+import LoginSM from "./LoginSM";
 
 export default {
   name: "App",
   components: {
-    Home,
-    // NearBy,
-    // SelectionPage,
+    // Home,
+    LoginSM,
   },
 };
 </script>

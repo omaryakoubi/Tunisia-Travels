@@ -2,7 +2,12 @@
   <div class="home">
     <header>
       <div class="overlay"></div>
-      <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <video
+        playsinline="playsinline"
+        autoplay="autoplay"
+        muted="muted"
+        loop="loop"
+      >
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
       </video>
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -42,7 +47,9 @@
           style="font-size: 2em;
          font-weight: bold;
          margin-bottom: 15px;"
-        >Book unique home and experiences.</h1>
+        >
+          Book unique home and experiences.
+        </h1>
         <!-- <div class="form-group" style=" font-size: small;">
           <label>WHERE</label>
           <br />
@@ -65,13 +72,24 @@
         ></vue-google-autocomplete>
 
         <div class="input-group-prepend" style=" font-size: small;">
-          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+          &emsp; &emsp;
           <label>CHECK OUT</label>
           <br />
         </div>
         <div class="input-group" style=" font-size: small;">
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkin" />
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkout" />
+          <input
+            class="form-control"
+            type="date"
+            placeholder="dd-mm-yyyy"
+            name="checkin"
+          />
+          <input
+            class="form-control"
+            type="date"
+            placeholder="dd-mm-yyyy"
+            name="checkout"
+          />
         </div>
         <br />
         <div class="form-group" style=" font-size: small;">
@@ -91,7 +109,9 @@
             class="btn btn-primary btn-lg"
             style="float: right;"
             v-on:click.prevent="submit"
-          >Search</button>
+          >
+            Search
+          </button>
         </div>
       </form>
       <!-- <router-link to="/"><img src="../images/tunisian travels logo.png" /></router-link> -->
@@ -103,10 +123,13 @@
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete },
-  data: function () {
+  components: {
+    VueGoogleAutocomplete,
+  },
+  data() {
     return {
       destination: {},
     };
@@ -134,7 +157,6 @@ header {
   min-height: 25rem;
   width: 100%;
   overflow: hidden;
-  border-radius: 30px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
   color: white;
