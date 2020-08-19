@@ -123,9 +123,6 @@ export default {
     submit() {
       this.$emit("destination", this.destination);
     },
-    getProfile() {
-      window.location.href = "http://localhost:8080/"
-    }
   },
 };
 </script>
