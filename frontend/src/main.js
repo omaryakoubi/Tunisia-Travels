@@ -10,7 +10,7 @@ import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 import VueRouter from "vue-router";
-import Profile from "./components/Profile.vue";
+import Profile from "./components/Profile/Profile.vue";
 import Home from "./components/Home.vue";
 import LoginSM from "./components/LoginSM.vue";
 

@@ -6,7 +6,7 @@
       </span>
       <md-button class="md-icon-button" md-menu-trigger>
         <md-avatar>
-          <img src="../assets/images/ferrr.png" alt="Avatar" />
+          <!-- <img src="../assets/images/ferrr.png" alt="Avatar" /> -->
         </md-avatar>
       </md-button>
       <md-menu-content :class="menuOpen ? 'block' : 'hidden'">
