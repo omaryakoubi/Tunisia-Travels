@@ -1,26 +1,13 @@
 <template>
   <div id="app">
-    <!-- <Home v-on:destination="getDestination($event)" /> -->
-    <Home/>
-    <!-- <LoginSM /> -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Home from "./components/Home.vue";
-// import LoginSM from "./components/LoginSM";
-
 export default {
   name: "App",
-  components: {
-    Home,
-    // LoginSM,
-  },
-  methods: {
-    getDestination(destination) {
-      console.log("destination", destination);
-    },
-  },
+  components: {},
 };
 </script>
 <style>
