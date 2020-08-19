@@ -11,10 +11,11 @@
       </md-button>
       <md-menu-content :class="menuOpen ? 'block' : 'hidden'">
         <md-menu-item>
-          <modal-login />
+          <span>Login</span>
         </md-menu-item>
         <md-menu-item>
-          <modal-register />
+          <!-- <modal-register /> -->
+          <span>SignUp</span>
         </md-menu-item>
         <md-menu-item>
           <span>Host your home</span>

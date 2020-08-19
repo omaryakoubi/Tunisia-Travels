@@ -5,31 +5,37 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
 const User = require("../../model/User.js");
-
 /**
  * @route POST api/users/register
  * @desc Register the User
  * @access Public
  */
-
 router.post("/register", (req, res) => {
-  let { name, username, email, password, confirm_password, age, phone } = req.body;
+  let {
+    name,
+    username,
+    email,
+    password,
+    confirm_password,
+    age,
+    phone,
+  } = req.body;
   if (password !== confirm_password) {
     return res.status(400).json({
       msg: "Password do not match.",
     });
   }
   // Check for the Age
-  if( age < 18){
+  if (age < 18) {
     return res.status(400).json({
-      msg:"Age have to be greater than 18"
-    })
+      msg: "Age have to be greater than 18",
+    });
   }
   // Check for the phone
-  if(phone.length !== 8){
+  if (phone.length !== 8) {
     return res.status(400).json({
-      msg:"Enter valid phone number Please"
-    })
+      msg: "Enter valid phone number Please",
+    });
   }
   // Check for the unique Username
   User.findOne({ usename: username }).then((user) => {
@@ -54,7 +60,7 @@ router.post("/register", (req, res) => {
     password,
     email,
     phone,
-    age
+    age,
   });
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {
@@ -94,7 +100,7 @@ router.post("/login", (req, res) => {
           username: user.username,
           email: user.email,
           phone: user.phone,
-          age: user.age
+          age: user.age,
         };
         jwt.sign(
           payload,
