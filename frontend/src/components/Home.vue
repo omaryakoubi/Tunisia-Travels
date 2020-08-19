@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <header>
-      <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <!-- <video>
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
       </video> -->
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -11,7 +11,6 @@
               <a class="nav-link" href="/#">Become a host</a>
             </li>
             <li class="nav-item active">
-              <!-- <router-link to="/#profile">Profile</router-link> -->
             <a href="/profile"> <vs-avatar /></a>
             </li>
             <li class="nav-item">
@@ -21,7 +20,7 @@
               <a class="nav-link" href="/#register">SignUp</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/#login">Login</a>
+              <a class="nav-link" href="/login">Login</a>
             </li>
           </ul>
         </div>
@@ -38,106 +37,114 @@
           font-weight: 600;
            color: #484848;
         "
-      >
-        <h1
-          style="font-size: 2em;
+    >
+      <h1
+        style="font-size: 2em;
          font-weight: bold;
          margin-bottom: 15px;"
-        >Book unique home and experiences.</h1>
-        <!-- <div class="form-group" style=" font-size: small;">
-          <label>WHERE</label>
-          <br />
-          <input
-            id="autocomplete"
-            class="form-control"
-            type="text"
-            placeholder="Anywhere"
-            name="destination"
-          /> 
-        </div>-->
-        <vue-google-autocomplete
-          :country="['TN']"
-          types="(cities)"
-          id="destination"
-          class="form-control"
-          placeholder="Choose a destination"
-          v-on:placechanged="getFromAddress"
-          v-on:error="handleError"
-        ></vue-google-autocomplete>
-
-        <div class="input-group-prepend" style=" font-size: small;">
-          <label>CHECK IN</label> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
-          <label>CHECK OUT</label>
-          <br />
-        </div>
-        <div class="input-group" style=" font-size: small;">
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkin" />
-          <input class="form-control" type="date" placeholder="dd-mm-yyyy" name="checkout" />
-        </div>
+      >Book unique home and experiences.</h1>
+      <br />
+      <br />
+      <vue-google-autocomplete
+        :country="['TN']"
+        types="(cities)"
+        id="destination"
+        class="form-control"
+        placeholder="Choose a destination"
+        v-on:placechanged="getFromAddress"
+        v-on:error="handleError"
+      ></vue-google-autocomplete>
+      <br />
+      <br />
+      <div class="input-group" style=" font-size: small;">
+        <DatePicker
+          mode="range"
+          :attributes="attrs"
+          :value="null"
+          v-model="date"
+          color="blue"
+          :min-date="new Date()"
+          is-expanded
+          v-bind:date="date"
+        />
+      </div>
+      <br />
+      <br />
+      <div class="form-group" style=" font-size: small;">
+        <label>GUESTS</label>
         <br />
-        <div class="form-group" style=" font-size: small;">
-          <label>GUESTS</label>
-          <br />
-          <select class="custom-select">
-            <option selected>1 guest</option>
-            <option value="Adults">Adults</option>
-            <option value="Children">Children</option>
-            <option value="Infants">Infant</option>
-          </select>
-          <br />
-        </div>
-        <div class="form-group">
-          <button
-            type="submit"
-            class="btn btn-primary btn-lg"
-            style="float: right;"
-            v-on:click.prevent="submit"
-          >Search</button>
-        </div>
-      </form>
-      <!-- <router-link to="/"><img src="../images/tunisian travels logo.png" /></router-link> -->
-
+        <select class="custom-select">
+          <option selected>1 guest</option>
+          <option value="Adults">Adults</option>
+          <option value="Children">Children</option>
+          <option value="Infants">Infant</option>
+        </select>
+        <br />
+      </div>
+      <div class="form-group">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          style="float: right;"
+          v-on:click.prevent="submit"
+        >Search</button>
+      </div>
+    </form>
   </div>
 </template>
 
+
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
+// import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete },
+  components: { VueGoogleAutocomplete, DatePicker },
   data: function () {
     return {
       destination: {},
+      date: "",
+      attrs: [
+        {
+          key: "today",
+          highlight: "red",
+          dates: new Date(),
+        },
+      ],
     };
   },
   methods: {
+    select() {
+      console.log("ddddd");
+    },
     getFromAddress(destination) {
       this.destination = destination;
-      // console.log(from_address);
     },
     handleError(error) {
       alert(error);
     },
     submit() {
+      console.log(this.destination)
       this.$emit("destination", this.destination);
     },
   },
 };
 </script>
 
+
+
 <style scoped>
 header {
   position: relative;
-  /* background-color: black; */
-
   width: 100%;
   overflow: hidden;
-  border-radius: 30px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
-  color: black;
+  color: red;
   margin-bottom: 20px;
   padding: 14px 16px;
   font-size: 15px;
@@ -147,8 +154,8 @@ header {
   opacity: 0.9;
 }
 .navbar.navbar-expand-lg.navbar-light li a:hover {
-  color: white;
-  border-bottom: 10px solid white;
+  color: black;
+  border-bottom: 0.05px solid black;
 }
 header video {
   position: absolute;

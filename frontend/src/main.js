@@ -6,6 +6,7 @@ import "material-icons/iconfont/material-icons.css";
 import VueRouter from "vue-router"
 import Profile from "./components/Profile.vue"
 import Home from "./components/Home.vue"
+import LoginSM from "./components/LoginSM.vue"
 
 
 
@@ -14,7 +15,9 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/profile', component: Profile },
-  { path: '/', component: Home }
+  { path: '/', component: Home }, 
+  { path: '/login', component: LoginSM },
+
 ];
 
 const router = new VueRouter({
@@ -22,7 +25,7 @@ const router = new VueRouter({
   mode: 'history'
 })
 
-Vue.use(Vuesax, {});
+Vue.use(Vuesax);
 new Vue({
   router,
   render: (h) => h(app),

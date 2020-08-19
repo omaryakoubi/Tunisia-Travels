@@ -68,6 +68,7 @@ router.post("/register", (req, res) => {
     });
   });
 });
+
 /**
  * @route POST api/users/login
  * @desc Signing in the User
@@ -123,17 +124,14 @@ router.post("/login", (req, res) => {
  */
 router.get(
   "/profile",
-  // passport.authenticate("jwt", {
-  //   session: false,
-  // }),
+  passport.authenticate("jwt", {
+    session: false,
+  }),
   (req, res) => {
-    console.log(req.user)
     return res.json({
       user: req.user,
-    
     });
   }
 );
-
 
 module.exports = router;
