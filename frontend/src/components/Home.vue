@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <header>
-      <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <!-- <video>
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
-      </video>-->
+      </video> -->
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
@@ -57,7 +57,6 @@
       <br />
       <br />
       <div class="input-group" style=" font-size: small;">
-        <!-- <Calendar /> -->
         <DatePicker
           mode="range"
           :attributes="attrs"
@@ -142,7 +141,6 @@ header {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: 30px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
   color: red;
