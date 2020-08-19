@@ -3,18 +3,26 @@ const Schema = mongoose.Schema
 // Create the User Model
 const UserSchema = new Schema({
     name: {
-        type: String,
+        type:String,
         required: true
     },
-    username: {
-        type: String,
+    username:{
+        type:String,
         required: true
     },
-    email: {
-        type: String,
+    age:{
+        type:Number,
+        required:true
+    },
+    phone:{
+        type:Number,
+        required:true
+    },
+    email:{
+        type:String,
         required: true
     },
-    password: {
+    password:{
         type: String,
         required: true
     },
@@ -23,5 +31,4 @@ const UserSchema = new Schema({
         default: Date.now
     }
 })
-
 module.exports = User = mongoose.model('users', UserSchema)

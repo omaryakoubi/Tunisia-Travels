@@ -1,21 +1,14 @@
 <template>
   <div id="app">
-    <Home />
-    <!-- <SelectionPage /> -->
-    <!-- <NearBy /> -->
+    <router-view></router-view>
   </div>
 </template>
+
 <script>
-import Home from "./components/Home.vue";
-// import SelectionPage from "./components/SelectionPage.vue";
-// import NearBy from "./components/NearBy";
 
 export default {
   name: "App",
   components: {
-    Home,
-    // NearBy,
-    // SelectionPage,
   },
 };
 </script>
