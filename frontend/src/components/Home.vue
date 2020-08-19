@@ -57,7 +57,17 @@
       <br />
       <br />
       <div class="input-group" style=" font-size: small;">
-        <DatePickers />
+        <!-- <Calendar /> -->
+        <DatePicker
+          mode="range"
+          :attributes="attrs"
+          :value="null"
+          v-model="date"
+          color="blue"
+          :min-date="new Date()"
+          is-expanded
+          v-bind:date="date"
+        />
       </div>
       <br />
       <br />
@@ -87,19 +97,31 @@
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import DatePickers from "./DatePickers";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
+// import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete, DatePickers },
+  components: { VueGoogleAutocomplete, DatePicker },
   data: function () {
     return {
       destination: {},
+      date: "",
+      attrs: [
+        {
+          key: "today",
+          highlight: "red",
+          dates: new Date(),
+        },
+      ],
     };
   },
   methods: {
+    select() {
+      console.log("ddddd");
+    },
     getFromAddress(destination) {
       this.destination = destination;
     },
