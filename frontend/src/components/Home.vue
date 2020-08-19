@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <header>
-      <!-- <video>
+      <dropDown />
+      <video>
         <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
-      </video> -->
+      </video>
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
@@ -11,7 +12,7 @@
               <a class="nav-link" href="/#">Become a host</a>
             </li>
             <li class="nav-item active">
-            <a href="/profile"> <vs-avatar /></a>
+              <a href="/profile"> <vs-avatar /></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/#help">Help</a>
@@ -25,7 +26,6 @@
           </ul>
         </div>
       </nav>
-          </header>
       <form
         class="container mt-3 rounded"
         style="
@@ -35,64 +35,68 @@
           background-color: white;
           font-family: Helvetica;
           font-weight: 600;
-           color: #484848;
+          color: #484848;
         "
-    >
-      <h1
-        style="font-size: 2em;
+      >
+        <h1
+          style="font-size: 2em;
          font-weight: bold;
          margin-bottom: 15px;"
-      >Book unique home and experiences.</h1>
-      <br />
-      <br />
-      <vue-google-autocomplete
-        :country="['TN']"
-        types="(cities)"
-        id="destination"
-        class="form-control"
-        placeholder="Choose a destination"
-        v-on:placechanged="getFromAddress"
-        v-on:error="handleError"
-      ></vue-google-autocomplete>
-      <br />
-      <br />
-      <div class="input-group" style=" font-size: small;">
-        <DatePicker
-          mode="range"
-          :attributes="attrs"
-          :value="null"
-          v-model="date"
-          color="blue"
-          :min-date="new Date()"
-          is-expanded
-          v-bind:date="date"
-        />
-      </div>
-      <br />
-      <br />
-      <div class="form-group" style=" font-size: small;">
-        <label>GUESTS</label>
+        >
+          Book unique home and experiences.
+        </h1>
         <br />
-        <select class="custom-select">
-          <option selected>1 guest</option>
-          <option value="Adults">Adults</option>
-          <option value="Children">Children</option>
-          <option value="Infants">Infant</option>
-        </select>
         <br />
-      </div>
-      <div class="form-group">
-        <button
-          type="submit"
-          class="btn btn-primary btn-lg"
-          style="float: right;"
-          v-on:click.prevent="submit"
-        >Search</button>
-      </div>
-    </form>
+        <vue-google-autocomplete
+          :country="['TN']"
+          types="(cities)"
+          id="destination"
+          class="form-control"
+          placeholder="Choose a destination"
+          v-on:placechanged="getFromAddress"
+          v-on:error="handleError"
+        ></vue-google-autocomplete>
+        <br />
+        <br />
+        <div class="input-group" style=" font-size: small;">
+          <DatePicker
+            mode="range"
+            :attributes="attrs"
+            :value="null"
+            v-model="date"
+            color="blue"
+            :min-date="new Date()"
+            is-expanded
+            v-bind:date="date"
+          />
+        </div>
+        <br />
+        <br />
+        <div class="form-group" style=" font-size: small;">
+          <label>GUESTS</label>
+          <br />
+          <select class="custom-select">
+            <option selected>1 guest</option>
+            <option value="Adults">Adults</option>
+            <option value="Children">Children</option>
+            <option value="Infants">Infant</option>
+          </select>
+          <br />
+        </div>
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            style="float: right;"
+            v-on:click.prevent="submit"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </header>
   </div>
 </template>
-
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
@@ -100,11 +104,12 @@ import DatePicker from "v-calendar/lib/components/date-picker.umd";
 // import Calendar from "./Calendar";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import dropDown from "./dropDown.vue";
 
 export default {
   name: "Home",
-  components: { VueGoogleAutocomplete, DatePicker },
-  data: function () {
+  components: { VueGoogleAutocomplete, DatePicker, dropDown },
+  data: function() {
     return {
       destination: {},
       date: "",
@@ -128,20 +133,21 @@ export default {
       alert(error);
     },
     submit() {
-      console.log(this.destination)
+      console.log(this.destination);
       this.$emit("destination", this.destination);
     },
   },
 };
 </script>
 
-
-
 <style scoped>
 header {
   position: relative;
+  height: 80vh;
+  min-height: 25rem;
   width: 100%;
   overflow: hidden;
+  border-radius: 10px;
 }
 .navbar.navbar-expand-lg.navbar-light li a {
   color: red;
@@ -172,9 +178,10 @@ header video {
   transform: translateX(-50%) translateY(-50%);
 }
 
-header .container {
+body .container {
   position: relative;
   z-index: 2;
+  background-color: whitesmoke;
 }
 
 header .overlay {
@@ -195,7 +202,7 @@ header .overlay {
   }
   header video {
     display: none;
-    margin-top: 10px;
+    z-index: 0;
   }
 }
 </style>
