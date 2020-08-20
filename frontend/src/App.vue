@@ -1,18 +1,12 @@
 <template>
   <div id="app">
-    <Landing />
+    <router-view name="header" />
+    <div class="wrapper">
+      <router-view />
+    </div>
+    <router-view name="footer" />
   </div>
 </template>
-
 <script>
-import Landing from "./components/Landing";
-
-export default {
-  name: "App",
-  components: {
-    Landing,
-  },
-};
+export default {};
 </script>
-<style>
-</style>
