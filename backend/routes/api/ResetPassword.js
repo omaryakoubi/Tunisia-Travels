@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
-const User = require("../../model/User.js");
 const NodemailerConfig = require("../../config/NodemailerConfig");
+const User = require("../../model/User.js");
 
 module.exports = router.get("/reset", (req, res) => {
   User.findOne({ email: req.body.email })
@@ -29,7 +29,7 @@ module.exports = router.get("/reset", (req, res) => {
           if (err) {
             console.log(err);
           } else {
-            res.send("Email sent : " + info.response);
+            res.send(`Email sent : ${info.response}`);
           }
         });
       }
