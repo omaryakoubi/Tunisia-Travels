@@ -1,15 +1,14 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const NodemailerConfig = require("../../config/NodemailerConfig");
+const bcrypt = require("bcryptjs");
 const User = require("../../model/User.js");
 
 module.exports = router.get("/reset", (req, res) => {
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      if (!user) {
-        res.status(500);
-      }
-      if (user.email) {
+  const tempPassword = Math.random().toString(36).slice(-8);
+  bcrypt.hash(tempPassword, 10).then((hash) => {
+    User.findOneAndUpdate({ email: req.body.email }, { password: hash })
+      .then(() => {
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -22,7 +21,8 @@ module.exports = router.get("/reset", (req, res) => {
           from: NodemailerConfig.pass,
           to: req.body.email,
           subject: "Sending email using nodejs",
-          text: "Hello I'm Omar from Tunisia-Travels how can i help u?",
+          text: `You can access your account using this code please dont share you privacy will be violated.
+          Passcode:  ${tempPassword}`,
         };
 
         transporter.sendMail(mailOptions, (err, info) => {
@@ -32,9 +32,7 @@ module.exports = router.get("/reset", (req, res) => {
             res.send(`Email sent : ${info.response}`);
           }
         });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      })
+      .catch((err) => res.status(500).send(err));
+  });
 });
