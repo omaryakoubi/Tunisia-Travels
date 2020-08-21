@@ -5,8 +5,12 @@
       <router-view />
     </div>
     <router-view name="footer" />
+    <!-- <AutoComplete /> -->
+    <!-- <Guests /> -->
   </div>
 </template>
 <script>
-export default {};
+export default {
+  components: {},
+};
 </script>
