@@ -12,6 +12,7 @@ const app = express();
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
+const resetPassword = require("./routes/api/ResetPassword");
 const coockieSession = require("cookie-session");
 
 // Middleware
@@ -37,6 +38,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
+app.use("/api/users", resetPassword);
 ////////////////////////////////////////////////////////////////////
 
 // Use the passport Middleware
