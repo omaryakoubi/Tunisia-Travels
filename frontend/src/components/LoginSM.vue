@@ -22,13 +22,18 @@
         type="filled"
         >Google+</vs-button
       >
+      <FacebookLogin />
     </div>
   </center>
 </template>
 
 <script>
+import FacebookLogin from "./FacebookLogin";
 export default {
   name: "LoginSM",
+  components: {
+    FacebookLogin,
+  },
   data() {
     return {
       Email: "",

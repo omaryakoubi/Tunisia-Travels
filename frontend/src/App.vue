@@ -1,20 +1,13 @@
 <template>
   <div id="app">
-    <!-- <Home /> -->
-    <LoginSM/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import Home from "./components/Home.vue";
-import LoginSM from "./LoginSM";
-
 export default {
   name: "App",
-  components: {
-    // Home,
-    LoginSM,
-  },
+  components: {},
 };
 </script>
 <style>
