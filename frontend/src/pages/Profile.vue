@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-header clear-filter" filter-color="orange">
+    <div class="page-header clear-filter" filter-color="black">
       <parallax
         class="page-header-image"
         style="background-image:url('img/bg5.jpg')"
@@ -10,129 +10,119 @@
         <div class="photo-container">
           <img src="img/ryan.jpg" alt="" />
         </div>
-        <h3 class="title">Ryan Scheinder</h3>
-        <p class="category">Photographer</p>
-        <div class="content">
-          <div class="social-description">
-            <h2>26</h2>
-            <p>Comments</p>
-          </div>
-          <div class="social-description">
-            <h2>26</h2>
-            <p>Comments</p>
-          </div>
-          <div class="social-description">
-            <h2>48</h2>
-            <p>Bookmarks</p>
-          </div>
-        </div>
+<!-- modal to upload a new picture  and button to start it -->
+          <n-button type="primary" style="background: transparent" @click.native="modals.classic = true">
+            Upload photo
+          </n-button>
+          <modal :show.sync="modals.classic" headerClasses="justify-content-center">
+            <h4 slot="header" class="title title-up">Modal title</h4>        
+              <div class="photo-container">
+                <img src="img/ryan.jpg" alt="" />
+              </div>  
+            <template slot="footer">
+                 <input type="file" style="background: transparent"/>
+            </template>
+          </modal>
+<!-- modal ends here -->
+        <h3 class="title">user.name</h3>
+        <p class="category"></p>
       </div>
-    </div>
+    </div>   
     <div class="section">
-      <div class="container">
-        <div class="button-container">
-          <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
-          <a
-            href="#button"
-            class="btn btn-default btn-round btn-lg btn-icon"
-            rel="tooltip"
-            title="Follow me on Twitter"
-          >
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a
-            href="#button"
-            class="btn btn-default btn-round btn-lg btn-icon"
-            rel="tooltip"
-            title="Follow me on Instagram"
-          >
-            <i class="fab fa-instagram"></i>
-          </a>
-        </div>
+      <div class="container"> 
+        <n-switch v-model="switches.defaultOff" on-text="OFF" off-text="EDIT"></n-switch>
+   
+        <p id="edit" @click="enableEdit" style=" text-decoration: underline">Edit</p>
         <h3 class="title">About me</h3>
-        <h5 class="description">
+        <fg-input class="disable" :disabled="edit"  placeholder="Email" value="Email">
           An artist of considerable range, Ryan — the name taken by
           Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
           records all of his own music, giving it a warm, intimate feel with a
           solid groove structure. An artist of considerable range.
-        </h5>
-        <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">My Portfolio</h4>
-          </div>
-          <tabs
-            pills
-            class="nav-align-center"
-            tab-content-classes="gallery"
-            tab-nav-classes="nav-pills-just-icons"
-            type="primary"
-          >
-            <tab-pane title="Profile">
-              <i slot="label" class="now-ui-icons design_image"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg6.jpg" class="img-raised" />
-                    <img src="img/bg11.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Home">
-              <i slot="label" class="now-ui-icons location_world"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg1.jpg" alt="" class="img-raised" />
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Messages">
-              <i slot="label" class="now-ui-icons sport_user-run"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg6.jpg" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-          </tabs>
-        </div>
+        </fg-input>    
+          <fg-input
+           class="disable" placeholder="Email" value="Email" style="width:700px; margin:auto; height: 80px" :disabled="edit">
+          </fg-input>
+            <fg-input
+           class="" placeholder="Age" value="Age" style="width:700px; margin:auto; height: 80px" :disabled="edit">
+          </fg-input>
+            <fg-input
+           class="" placeholder="phone Number" value="phone-number" style="width:700px; margin:auto; height: 80px" :disabled="edit">
+          </fg-input>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { Tabs, TabPane } from '@/components';
+// import  Tabs  from './components/Tabs'
+// import TabPane  from './components/Tab';
+import FormGroupInput from "../components/formGroupInput.vue";
+import Switch from './components/Switch.vue';
+import modal from './components/Modal'
+import Button from '../components/Button'
+import axios from 'axios'
+// import  requestsMixin  from "../mixins/requestsMixin";
+
 
 export default {
   name: 'profile',
   bodyClass: 'profile-page',
   components: {
-    Tabs,
-    TabPane
-  }
+    // Tabs,
+    // TabPane,
+    [FormGroupInput.name] : FormGroupInput,
+    [Switch.name] : Switch,
+    [modal.name] : modal,
+    [Button.name] : Button
+    
+  }, 
+  data() {
+    return {
+      form: {
+        firstName: '',
+        // email: '',
+        // age: '',
+        // phoneNumber: Number
+      },
+      switches: {
+          defaultOn: true,
+          defaultOff: false
+      },
+      
+      edit: true,
+      modals : {
+        classic : false
+      }
+  }},
+  methods: {
+    enableEdit() {
+      this.edit = !this.edit
+    },
+    editOrSave() {
+      const text = document.getElementById('edit')
+      if(this.edit){
+        console.log(this.edit)
+        text.innerText('Edit')
+      }
+      text.innerText('Save')
+    },
+    handleClick() {
+      this.$router.push('/upload')
+    }
+  },
+  
+    
+     mounted: function() {
+    const token = localStorage.getItem('token', token)
+    axios
+      .get("http://localhost:5000/api/users/profile", 
+     {Headers: {
+        Authorization : token
+      }})
+      .then(res => console.log('aaa', res))
+      .catch(err => console.log(err)); 
+    }
+  
 };
 </script>
 <style></style>
