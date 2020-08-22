@@ -5,11 +5,10 @@
       <router-view />
     </div>
     <router-view name="footer" />
-    <!-- <AutoComplete /> -->
-    <!-- <Guests /> -->
   </div>
 </template>
 <script>
+import Selection from "./pages/Selection.vue";
 export default {
   components: {},
 };
