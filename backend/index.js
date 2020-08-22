@@ -16,6 +16,7 @@ const app = express();
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
+const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel")
 const coockieSession = require("cookie-session");
 
@@ -42,6 +43,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
+app.use("/api/users", resetPassword);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 
