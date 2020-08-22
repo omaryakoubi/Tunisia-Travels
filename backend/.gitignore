@@ -1,3 +1,7 @@
 /node_modules
 /config/passportGoogle+Keys.js
+<<<<<<< HEAD
+/config/NodemailerConfig.js
+=======
 /config/passport.js
+>>>>>>> 0a3b475ed4db77ed80b753cb48cd8b5c366c298a

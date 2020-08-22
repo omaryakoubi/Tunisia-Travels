@@ -34,7 +34,7 @@ router.post("/register", (req, res) => {
     });
   }
   // Check for the phone
-  if (phone.length !== 8) {
+  if (phone.length < 8) {
     return res.status(400).json({
       msg: "Enter valid phone number Please",
     });
