@@ -16,6 +16,15 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./pages/Profile.vue'),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
 
   ],
   scrollBehavior: to => {

@@ -8,7 +8,6 @@
   </div>
 </template>
 <script>
-import Selection from "./pages/Selection.vue";
 export default {
   components: {},
 };
