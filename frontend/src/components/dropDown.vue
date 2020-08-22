@@ -72,7 +72,6 @@ export default {
 .dropdown {
   list-style-type: none;
 }
-
 .dropdown .dropdown-toggle {
   cursor: pointer;
 }
