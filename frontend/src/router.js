@@ -51,6 +51,16 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
+    {
+      path: "/omar",
+      name: "omar",
+      component: () => import("./pages/ResetPassword.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
