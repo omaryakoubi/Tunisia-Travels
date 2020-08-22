@@ -1,208 +1,90 @@
-<template>
-  <div class="home">
-    <header>
-      <dropDown />
-      <video>
-        <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
-      </video>
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/#">Become a host</a>
-            </li>
-            <li class="nav-item active">
-              <a href="/profile"> <vs-avatar /></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#help">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#register">SignUp</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <form
-        class="container mt-3 rounded"
-        style="
-          margin: 150px;
-          max-width: 420px;
-          padding: 30px 30px 60px 30px;
-          background-color: white;
-          font-family: Helvetica;
-          font-weight: 600;
-          color: #484848;
-        "
+
+      <!-- <dropDown /> -->
+      <!-- <video
+        playsinline="playsinline"
+        autoplay="autoplay"
+        muted="muted"
+        loop="loop"
       >
-        <h1
-          style="font-size: 2em;
-         font-weight: bold;
-         margin-bottom: 15px;"
-        >
-          Book unique home and experiences.
-        </h1>
-        <br />
-        <br />
-        <vue-google-autocomplete
-          :country="['TN']"
-          types="(cities)"
-          id="destination"
-          class="form-control"
-          placeholder="Choose a destination"
-          v-on:placechanged="getFromAddress"
-          v-on:error="handleError"
-        ></vue-google-autocomplete>
-        <br />
-        <br />
-        <div class="input-group" style=" font-size: small;">
-          <DatePicker
-            mode="range"
-            :attributes="attrs"
-            :value="null"
-            v-model="date"
-            color="blue"
-            :min-date="new Date()"
-            is-expanded
-            v-bind:date="date"
-          />
+        <source src="../assets/videos/homevid1.mp4" type="video/mp4" />
+      </video> -->
+  <template>
+  <div>
+    <div class="page-header clear-filter" filter-color="orange">
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      >
+      </parallax>
+      <div class="container">
+        <div class="content-center brand">
+          <img class="n-logo" src="img/now-logo.png" alt="" />
+          <h1 class="h1-seo">Now UI Kit.</h1>
+          <h3>A beautiful Bootstrap 4 UI kit. Yours free.</h3>
         </div>
-        <br />
-        <br />
-        <div class="form-group" style=" font-size: small;">
-          <label>GUESTS</label>
-          <br />
-          <select class="custom-select">
-            <option selected>1 guest</option>
-            <option value="Adults">Adults</option>
-            <option value="Children">Children</option>
-            <option value="Infants">Infant</option>
-          </select>
-          <br />
+        <h6 class="category category-absolute">
+          Designed by
+          <a href="http://invisionapp.com/" target="_blank">
+            <img src="img/invision-white-slim.png" class="invision-logo" /> </a
+          >. Coded by
+          <a href="https://www.creative-tim.com" target="_blank">
+            <img
+              src="img/creative-tim-white-slim2.png"
+              class="creative-tim-logo"
+            /> </a
+          >.
+        </h6>
+      </div>
+    </div>
+    <div class="main">
+      <div class="section section-images">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="hero-images-container">
+                <img src="img/hero-image-1.png" alt="" />
+              </div>
+              <div class="hero-images-container-1">
+                <img src="img/hero-image-2.png" alt="" />
+              </div>
+              <div class="hero-images-container-2">
+                <img src="img/hero-image-3.png" alt="" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <button
-            type="submit"
-            class="btn btn-primary btn-lg"
-            style="float: right;"
-            v-on:click.prevent="submit"
-          >
-            Search
-          </button>
+      </div>
+    </div>    
+    <div class="section">
+      <div class="container text-center">
+        <div class="row justify-content-md-center">
+          <div class="col-md-12 col-lg-8">
+            <h2 class="title">Completed with examples</h2>
+            <h5 class="description">
+              The kit comes with three pre-built pages to help you get started
+              faster. You can change the text and images and you're good to go.
+              More importantly, looking at them will give you a picture of what
+              you can built with this powerful Bootstrap 4 ui kit.
+            </h5>
+          </div>
         </div>
-      </form>
-    </header>
+      </div>
+    </div>
+    <examples-section></examples-section>
   </div>
 </template>
-
 <script>
-import VueGoogleAutocomplete from "vue-google-autocomplete";
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
-// import Calendar from "./Calendar";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import dropDown from "./dropDown.vue";
+import { Parallax } from './Parallax.vue';
+
+import ExamplesSection from './ExamplesSection.vue';
 
 export default {
-  name: "Home",
-  components: { VueGoogleAutocomplete, DatePicker, dropDown },
-  data: function() {
-    return {
-      destination: {},
-      date: "",
-      attrs: [
-        {
-          key: "today",
-          highlight: "red",
-          dates: new Date(),
-        },
-      ],
-    };
-  },
-  methods: {
-    select() {
-      console.log("ddddd");
-    },
-    getFromAddress(destination) {
-      this.destination = destination;
-    },
-    handleError(error) {
-      alert(error);
-    },
-    submit() {
-      console.log(this.destination);
-      this.$emit("destination", this.destination);
-    },
-  },
+  name: 'index',
+  bodyClass: 'index-page',
+  components: {
+    Parallax,
+    ExamplesSection,
+  }
 };
 </script>
-
-<style scoped>
-header {
-  position: relative;
-  height: 80vh;
-  min-height: 25rem;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-.navbar.navbar-expand-lg.navbar-light li a {
-  color: red;
-  margin-bottom: 20px;
-  padding: 14px 16px;
-  font-size: 15px;
-  font-weight: 500;
-}
-.container:hover {
-  opacity: 0.9;
-}
-.navbar.navbar-expand-lg.navbar-light li a:hover {
-  color: black;
-  border-bottom: 0.05px solid black;
-}
-header video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 0;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
-}
-
-body .container {
-  position: relative;
-  z-index: 2;
-  background-color: whitesmoke;
-}
-
-header .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0;
-  z-index: 1;
-}
-
-@media (pointer: coarse) and (hover: none) {
-  header {
-    background: url("https://source.unsplash.com/XT5OInaElMw/1600x900") black
-      no-repeat center center scroll;
-  }
-  header video {
-    display: none;
-    z-index: 0;
-  }
-}
-</style>
+<style></style>

@@ -4,11 +4,12 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
+
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
 
-//OMAR
+// 3MOR
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");

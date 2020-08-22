@@ -6,21 +6,17 @@ const passport = require("passport");
 const key = require("../../config/keys").secret;
 const User = require("../../model/User.js");
 /**
- * @route POST api/users/register
- * @desc Register the User
+ * @route POST api/users/signup
+ * @desc SignUp the User
  * @access Public
  */
-router.post("/register", (req, res) => {
-  let {
-    name,
-    username,
-    email,
-    password,
-    confirm_password,
-    age,
-    phone,
-  } = req.body;
-  if (password !== confirm_password) {
+router.post("/signup", (req, res) => {
+  let { name, username, email, password, cpassword, age, phone } = req.body;
+
+  // Check for the password
+
+  // Check for the confirm password
+  if (password !== cpassword) {
     return res.status(400).json({
       msg: "Password do not match.",
     });
@@ -32,13 +28,14 @@ router.post("/register", (req, res) => {
     });
   }
   // Check for the phone
-  if (phone.length !== 8) {
+  if (phone.length < 8) {
     return res.status(400).json({
       msg: "Enter valid phone number Please",
     });
   }
+
   // Check for the unique Username
-  User.findOne({ usename: username }).then((user) => {
+  User.findOne({ username: username }).then((user) => {
     if (user) {
       return res.status(400).json({
         msg: "Username is already taken.",
@@ -79,7 +76,7 @@ router.post("/register", (req, res) => {
 
 /**
  * @route POST api/users/login
- * @desc Signing in the User
+ * @desc Login the User
  * @access Public
  */
 router.post("/login", (req, res) => {
