@@ -4,7 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
+const multer = require('multer')
 const User = require("../../model/User.js");
+
 /**
  * @route POST api/users/signup
  * @desc SignUp the User
@@ -138,5 +140,52 @@ router.get(
     });
   }
 );
+//update profile
+router.put(
+  "/update/:id",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  (req, res) => {
+    const { email, age, phone } = req.body;
+    return req.params.id === req.user._id.toString()
+      ? User.replaceOne(
+          { _id: req.user._id },
+          { ...req.user._doc, email, age, phone }
+        )
+          .then(() => res.status(201).send("done"))
+          .catch((err) => res.status(505).send({ err }))
+      : res.status(404).send("NOT FOUND");
+  }
+);
+
+//upload image Multer
+
+const storage = multer.diskStorage({
+  destination : '../../frontend/src/assets/img',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+    cb(null, true)
+  } else {
+    cb(null, false)
+  }
+};
+const upload = multer({ storage: storage, fileFilter: fileFilter })
+
+router.post('/upload', upload.single("imageFile"), (req, res, next) => {
+  add(req, res);
+  try {
+    return res.status(201).json({
+      message: "File uploaded"
+    });
+  }
+  catch (error) {
+    console.error(error)
+  }
+})
 
 module.exports = router;

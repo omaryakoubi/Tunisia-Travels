@@ -16,9 +16,18 @@ export default new Router({
     //   }
     // },
     {
-      path: "/landing",
+      path: "/",
       name: "index",
       component: () => import("./pages/Landing.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./pages/Profile.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

@@ -8,26 +8,6 @@
         <card class="card-signup" header-classes="text-center" color="gray">
           <template slot="header">
             <h3 class="card-title title-up">SignUp</h3>
-            <div class="social-line">
-              <a
-                href="#pablo"
-                class="btn btn-neutral btn-facebook btn-icon btn-round"
-              >
-                <i class="fab fa-facebook-square"></i>
-              </a>
-              <a
-                href="#pablo"
-                class="btn btn-neutral btn-twitter btn-icon btn-lg btn-round"
-              >
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a
-                href="#pablo"
-                class="btn btn-neutral btn-google btn-icon btn-round"
-              >
-                <i class="fab fa-google-plus"></i>
-              </a>
-            </div>
           </template>
           <template>
             <fg-input
@@ -90,14 +70,14 @@
             </fg-input>
           </template>
           <div class="card-footer text-center">
-            <router-link to="/home" class="btn  btn-round btn-white btn-lg">
-              Login
-            </router-link>
             <a
               @click="signup"
               class="btn btn-primary btn-round btn-lg btn-block"
               >SignUp</a
             >
+           <router-link to="/login" class="link">
+              You already have an account?
+            </router-link>
           </div>
         </card>
       </div>
@@ -131,13 +111,13 @@ export default {
     signup() {
       axios
         .post("http://localhost:5000/api/users/signup", {
-          name:this.name,
-          username:this.username,
-          email:this.email,
-          password:this.password,
-          cpassword:this.cpassword,
-          age:this.age,
-          phone:this.phone,
+          name: this.name,
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          cpassword: this.cpassword,
+          age: this.age,
+          phone: this.phone,
         })
         .then((res) => {
           console.log("axios", res);

@@ -20,6 +20,16 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
+    },
+    {
+      path: '/profile',
+      name: 'index',
+      components: {
+
+      },
+      props: {
+        
+      }
     }
   ],
   scrollBehavior: to => {
