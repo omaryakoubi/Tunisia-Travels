@@ -153,11 +153,11 @@ router.put(
     const { email, age, phone } = req.body;
     return req.params.id === req.user._id.toString()
       ? User.replaceOne(
-          { _id: req.user._id },
-          { ...req.user._doc, email, age, phone }
-        )
-          .then(() => res.status(201).send("done"))
-          .catch((err) => res.status(505).send({ err }))
+        { _id: req.user._id },
+        { ...req.user._doc, email, age, phone }
+      )
+        .then(() => res.status(201).send("done"))
+        .catch((err) => res.status(505).send({ err }))
       : res.status(404).send("NOT FOUND");
   }
 );
@@ -165,13 +165,13 @@ router.put(
 //upload image Multer
 
 const storage = multer.diskStorage({
-  destination : '../../frontend/src/assets/img',
+  destination: '../../frontend/src/assets/img',
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname))
   }
 })
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
     cb(null, true)
   } else {
     cb(null, false)
