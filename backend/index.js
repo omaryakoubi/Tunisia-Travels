@@ -4,14 +4,19 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const InfoTravel = require("./model/InfoTravel.js")
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
+
+
+
 
 //OMAR
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
+const InfoTravelRoutes = require("./routes/api/InforTravel")
 const coockieSession = require("cookie-session");
 
 // Middleware
@@ -37,6 +42,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
+// app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 
 // Use the passport Middleware
@@ -58,6 +64,14 @@ mongoose
 const users = require("./routes/api/users");
 const keys = require("./config/keys");
 app.use("/api/users", users);
+
+//HOU i will reorganize them later {{SORRY}}
+app.post('/travelinfo', (req, res) => {
+  InfoTravel.create(req.body).then(item => {
+    res.send("Information Of The Travel Saved In the DB")
+  })
+})
+
 const port = process.env.PORT || 5000;
 app.listen(port, () =>
   console.log(`Server started on port http://localhost:${port}`)
