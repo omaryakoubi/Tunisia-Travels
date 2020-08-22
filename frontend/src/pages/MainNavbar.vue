@@ -24,10 +24,10 @@
           <i class="now-ui-icons education_paper"></i> Become a Host
         </nav-link>
         <nav-link to="/login">
-          <i class="now-ui-icons users_circle-08"></i> Sign In
+          <i class="now-ui-icons users_circle-08"></i> Login
         </nav-link>
-        <nav-link to="/profile">
-          <i class="now-ui-icons users_single-02"></i> Sign Up
+        <nav-link to="/signup">
+          <i class="now-ui-icons users_single-02"></i> SignUp
         </nav-link>
       </drop-down>
       <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
