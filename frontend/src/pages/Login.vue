@@ -1,9 +1,6 @@
 <template>
   <div class="page-header clear-filter" filter-color="black">
-    <div
-      class="page-header-image"
-      style="background-image: url('img/login.jpg')"
-    ></div>
+    <div class="page-header-image" style="background-image: url('img/login.jpg')"></div>
     <div class="container">
       <div class="col-md-5 ml-auto mr-auto">
         <card type="login" plain>
@@ -31,8 +28,7 @@
             placeholder="Username..."
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="username"
-          >
-          </fg-input>
+          ></fg-input>
 
           <fg-input
             class="no-border"
@@ -40,24 +36,17 @@
             placeholder="Password..."
             addon-left-icon="now-ui-icons ui-1_lock-circle-open"
             v-model="password"
-          >
-          </fg-input>
+          ></fg-input>
 
           <div class="card-footer text-center">
-            <a @click="login" class="btn btn-primary btn-round btn-lg btn-block"
-              >Login</a
-            >
+            <a @click="login" class="btn btn-primary btn-round btn-lg btn-block">Login</a>
           </div>
 
           <div class="pull-left">
-            <router-link to="/reset" class="link">
-              Forget Password?
-            </router-link>
+            <router-link to="/reset" class="link">Forget Password?</router-link>
           </div>
           <div class="pull-right">
-            <router-link to="/signup" class="link">
-              Create account?
-            </router-link>
+            <router-link to="/signup" class="link">Create account?</router-link>
           </div>
         </card>
       </div>
@@ -101,7 +90,7 @@ export default {
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function(response) {
+      window.FB.login(function (response) {
         if (response.authResponse) {
           console.log(response.authResponse);
           // Now you can redirect the user or do an AJAX request to
@@ -113,7 +102,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function() {
+      window.fbAsyncInit = function () {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default

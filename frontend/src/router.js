@@ -51,6 +51,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    {
+      path: "/MyGeolocation",
+      name: "MyGeolocation",
+      component: () => import("./pages/MyGeolocation.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
@@ -60,3 +69,5 @@ export default new Router({
     }
   },
 });
+
+

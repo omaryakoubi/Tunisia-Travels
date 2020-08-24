@@ -67,7 +67,13 @@ app.use("/api/users", users);
 //HOU i will reorganize them later {{SORRY}}
 app.post("/travelinfo", (req, res) => {
   InfoTravel.create(req.body).then((item) => {
-    res.send("Information Of The Travel Saved In the DB");
+    res.send(item);
+  });
+});
+
+app.get("/travelinfo", (req, res) => {
+  InfoTravel.find({}).then((item) => {
+    res.send(item);
   });
 });
 

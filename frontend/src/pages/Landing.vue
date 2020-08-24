@@ -26,7 +26,10 @@
                   <Guests v-on:numberOfGuests="guests" />
                 </vs-alert>
               </div>
-              <button @click="postTravelInformations">Submit</button>
+              <router-link to="/MyGeolocation">
+                <button @click="postTravelInformations">Submit</button>
+              </router-link>
+              <!-- <button>NearBy</button> -->
               <br />
             </div>
           </div>
@@ -237,12 +240,12 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
-      let dest = this.dest[0].locality;
+      let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
         .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
         .then((res) => {
-          console.log("axios", res);
+          console.log("axios LANDING", res);
         });
     },
   },
