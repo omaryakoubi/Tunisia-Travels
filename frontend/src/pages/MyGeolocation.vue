@@ -1,14 +1,61 @@
 <template>
   <div>
-    <GmapMap
-      ref="map"
-      :center="coordinates"
-      :zoom="15"
-      style="width:640px ; height:360px"
-      map-type-id="terrain"
-    >
-      <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
-    </GmapMap>
+    <vs-col id="red" vs-lg="8">
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+      <div>Hotel name</div>
+    </vs-col>
+    <vs-col vs-lg="4">
+      <GmapMap
+        ref="map"
+        :center="coordinates"
+        :zoom="15"
+        style="width:640px ; height:360px"
+        map-type-id="terrain"
+      >
+        <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
+      </GmapMap>
+    </vs-col>
   </div>
 </template>
 <script>
@@ -37,6 +84,9 @@ export default {
   width: 640px !important;
   height: 900px !important;
   float: right !important;
+}
+#red {
+  background-color: red;
 }
 </style>  
 

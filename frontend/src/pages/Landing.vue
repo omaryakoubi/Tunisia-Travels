@@ -39,7 +39,8 @@
         <div class="container">
           <div class="row">
             <div class="col-md-8 ml-auto mr-auto text-center">
-              <h2 class="title">Who we are?</h2>
+              <h2 class="title">Need a help to choose a place ?</h2>
+              <h3 class="title">Check the temperature</h3>
             </div>
           </div>
           <div class="separator separator-primary"></div>
@@ -50,7 +51,6 @@
                   class="image-container image-left"
                   style="background-image: url('img/login.jpg')"
                 >
-                  <!-- First image on the left side -->
                   <p class="blockquote blockquote-primary">
                     "Over the span of the satellite record, Arctic sea ice has
                     been declining significantly, while sea ice in the
