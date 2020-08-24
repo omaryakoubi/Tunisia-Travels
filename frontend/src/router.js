@@ -53,9 +53,19 @@ export default new Router({
     },
 
     {
-      path: "/omar",
-      name: "omar",
+      path: "/reset",
+      name: "reset",
       component: () => import("./pages/ResetPassword.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/payment",
+      name: "payment",
+      component: () => import("./pages/OnlinePayment.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
