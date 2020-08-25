@@ -1,3 +1,5 @@
 /node_modules
 /config/passportGoogle+Keys.js
+/config/NodemailerConfig.js
 /config/passport.js
+/config/stripeKeysBack.js

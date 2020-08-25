@@ -8,6 +8,13 @@
     ]"
     :data-background-color="color"
   >
+    <h6 class="card-category" v-if="$slots.category || category">
+      {{ category }}
+    </h6>
+    <div class="card-image" v-if="$slots.image">
+      <slot name="image"></slot>
+    </div>
+
     <div class="card-avatar" v-if="$slots.avatar">
       <slot name="avatar"></slot>
     </div>
@@ -16,7 +23,11 @@
       <slot name="info"></slot>
     </div>
 
-    <div class="card-header" :class="headerClasses" v-if="$slots.header || title">
+    <div
+      class="card-header"
+      :class="headerClasses"
+      v-if="$slots.header || title"
+    >
       <slot name="header">
         <h1 v-if="title" class="card-title">{{ title }}</h1>
         <h3 v-if="subTitle" class="card-category">{{ subTitle }}</h3>
@@ -28,6 +39,7 @@
     </div>
 
     <slot name="raw-content"></slot>
+
     <hr v-if="$slots.footer && !noFooterLine" />
     <div class="card-footer" v-if="$slots.footer">
       <slot name="footer"></slot>
@@ -36,7 +48,7 @@
 </template>
 <script>
 export default {
-  name: "card",
+  name: 'card',
   props: {
     type: String,
     title: String,
@@ -48,8 +60,8 @@ export default {
     plain: Boolean,
     raised: Boolean,
     cardBodyClasses: [String, Object, Array],
-    headerClasses: [String, Object, Array],
-  },
+    headerClasses: [String, Object, Array]
+  }
 };
 </script>
 <style></style>
