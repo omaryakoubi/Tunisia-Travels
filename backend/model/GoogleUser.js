@@ -8,6 +8,7 @@ const GoogleUserSchema = new Schema({
   },
   googleId: {
     type: String,
+    unique: true,
     required: true,
   },
 });

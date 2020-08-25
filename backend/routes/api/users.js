@@ -4,27 +4,29 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
-const multer = require('multer')
+const multer = require("multer");
 const User = require("../../model/User.js");
+const path = require("path");
 
 /**
- * @route POST api/users/register
- * @desc Register the User
+ * @route POST api/users/signup
+ * @desc SignUp the User
  * @access Public
  */
-router.post("/register", (req, res) => {
-  let {
-    name,
-    username,
-    email,
-    password,
-    confirm_password,
-    age,
-    phone,
-  } = req.body;
-  if (password !== confirm_password) {
+router.post("/signup", (req, res) => {
+  let { name, username, email, password, cpassword, age, phone } = req.body;
+
+  // Check for the password
+
+  // Check for the confirm password
+  if (password !== cpassword) {
     return res.status(400).json({
       msg: "Password do not match.",
+    });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
     });
   }
   // Check for the Age
@@ -34,13 +36,14 @@ router.post("/register", (req, res) => {
     });
   }
   // Check for the phone
-  if (phone.length !== 8) {
+  if (phone.length < 8) {
     return res.status(400).json({
       msg: "Enter valid phone number Please",
     });
   }
+
   // Check for the unique Username
-  User.findOne({ usename: username }).then((user) => {
+  User.findOne({ username: username }).then((user) => {
     if (user) {
       return res.status(400).json({
         msg: "Username is already taken.",
@@ -81,7 +84,7 @@ router.post("/register", (req, res) => {
 
 /**
  * @route POST api/users/login
- * @desc Signing in the User
+ * @desc Login the User
  * @access Public
  */
 router.post("/login", (req, res) => {
@@ -150,14 +153,19 @@ router.put(
     session: false,
   }),
   (req, res) => {
-    const { email, age, phone } = req.body;
     return req.params.id === req.user._id.toString()
-      ? User.replaceOne(
+      ? User.findOneAndUpdate(
           { _id: req.user._id },
-          { ...req.user._doc, email, age, phone }
+          ({ name, username, email, age, phone } = req.body)
         )
-          .then(() => res.status(201).send("done"))
-          .catch((err) => res.status(505).send({ err }))
+          .then(() => {
+            console.log("then", req.user);
+            res.status(201).send("done");
+          })
+          .catch((err) => {
+            console.log("catch", req.user);
+            res.status(505).send({ err });
+          })
       : res.status(404).send("NOT FOUND");
   }
 );
@@ -165,30 +173,26 @@ router.put(
 //upload image Multer
 
 const storage = multer.diskStorage({
-  destination : '../../frontend/src/assets/img',
+  destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true)
+  if (
+    file.mimetype == "image/jpeg" ||
+    file.mimetype == "image/png" ||
+    file.mimetype == "image/jpg"
+  ) {
+    cb(null, true);
   } else {
-    cb(null, false)
+    cb(null, false);
   }
 };
-const upload = multer({ storage: storage, fileFilter: fileFilter })
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post('/upload', upload.single("imageFile"), (req, res, next) => {
-  add(req, res);
-  try {
-    return res.status(201).json({
-      message: "File uploaded"
-    });
-  }
-  catch (error) {
-    console.error(error)
-  }
-})
+router.post("/upload", upload.single("imageFile"), (req, res) => {
+  res.send({ file: req.file.originalname });
+});
 
 module.exports = router;
