@@ -6,7 +6,6 @@
         <div class="photo-container">
           <img src="img/ryan.jpg" alt />
         </div>
-        <!-- modal to upload a new picture  and button to start it -->
         <n-button
           type="primary"
           style="background: transparent"

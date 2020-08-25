@@ -51,7 +51,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
-
+    {
+      path: "/MyGeolocation",
+      name: "MyGeolocation",
+      component: () => import("./pages/MyGeolocation.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      }
+    },
     {
       path: "/reset",
       name: "reset",
@@ -61,7 +69,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
-
+    {
+      path: "/BecomeAhost",
+      name: "BecomeAhost",
+      component: () => import("./pages/BecomeAhost.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
     {
       path: "/payment",
       name: "payment",
@@ -80,3 +96,5 @@ export default new Router({
     }
   },
 });
+
+

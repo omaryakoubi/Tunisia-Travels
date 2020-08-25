@@ -20,7 +20,7 @@
     </template>
     <template slot="navbar-menu">
       <drop-down tag="li" title="Hit Me" icon="now-ui-icons travel_istanbul" class="nav-item">
-        <nav-link to="/landing">
+        <nav-link to="/BecomeAhost">
           <i class="now-ui-icons education_paper"></i> Become a Host
         </nav-link>
         <nav-link to="/login">

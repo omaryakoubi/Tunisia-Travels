@@ -26,6 +26,7 @@
     "v-calendar": "^1.0.8",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-browser-geolocation": "^1.8.0",
     "vue-facebook-login-component": "^2.3.0",
     "vue-google-autocomplete": "^1.1.0",
     "vue-hotel-datepicker": "^3.0.10",
@@ -36,9 +37,11 @@
     "vue-place-autocomplete": "^0.5.3",
     "vue-router": "^3.3.4",
     "vue2-datepicker": "^3.6.2",
+    "vue2-google-maps": "^0.10.7",
     "vue2-transitions": "^0.3.0",
     "vuejs-datepicker": "^1.6.2",
-    "vuesax": "^3.11.17"
+    "vuesax": "^4.0.1-alpha.24",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.6",
