@@ -4,8 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
-const multer = require('multer')
+const multer = require("multer");
 const User = require("../../model/User.js");
+const path = require("path");
 
 /**
  * @route POST api/users/signup
@@ -21,6 +22,11 @@ router.post("/signup", (req, res) => {
   if (password !== cpassword) {
     return res.status(400).json({
       msg: "Password do not match.",
+    });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
     });
   }
   // Check for the Age
@@ -147,45 +153,46 @@ router.put(
     session: false,
   }),
   (req, res) => {
-    const { email, age, phone } = req.body;
     return req.params.id === req.user._id.toString()
-      ? User.replaceOne(
-        { _id: req.user._id },
-        { ...req.user._doc, email, age, phone }
-      )
-        .then(() => res.status(201).send("done"))
-        .catch((err) => res.status(505).send({ err }))
-      : res.status(404).send("NOT FOUND");
+      ? User.findOneAndUpdate(
+          { _id: req.user._id },
+          ({ name, username, email, age, phone } = req.body)
+        )
+          .then(() => {
+            console.log("then", req.user);
+            res.status(201).send("done");
+          })
+          .catch((err) => {
+            console.log("catch", req.user);
+            res.status(505).send({ err });
+          })
+       res.status(404).send("NOT FOUND");
   }
 );
 
 //upload image Multer
 
 const storage = multer.diskStorage({
-  destination: '../../frontend/src/assets/img',
+  destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true)
+  if (
+    file.mimetype == "image/jpeg" ||
+    file.mimetype == "image/png" ||
+    file.mimetype == "image/jpg"
+  ) {
+    cb(null, true);
   } else {
-    cb(null, false)
+    cb(null, false);
   }
 };
-const upload = multer({ storage: storage, fileFilter: fileFilter })
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post('/upload', upload.single("imageFile"), (req, res, next) => {
-  add(req, res);
-  try {
-    return res.status(201).json({
-      message: "File uploaded"
-    });
-  }
-  catch (error) {
-    console.error(error)
-  }
-})
+router.post("/upload", upload.single("imageFile"), (req, res) => {
+  res.send({ file: req.file.originalname });
+});
 
 module.exports = router;
