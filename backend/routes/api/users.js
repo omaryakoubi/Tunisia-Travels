@@ -166,7 +166,7 @@ router.put(
             console.log("catch", req.user);
             res.status(505).send({ err });
           })
-      : res.status(404).send("NOT FOUND");
+       res.status(404).send("NOT FOUND");
   }
 );
 

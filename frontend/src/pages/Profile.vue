@@ -9,9 +9,7 @@
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
         </div>
-
         <!-- modal to upload a new picture and button to start it -->
-
         <!-- <n-button
           type="primary"
           style="background: transparent"
