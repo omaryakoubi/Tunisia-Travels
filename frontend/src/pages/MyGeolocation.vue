@@ -1,49 +1,28 @@
 <template>
   <div>
     <vs-col id="red" vs-lg="8">
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
-      <div>Hotel name</div>
+      <div class="row">
+        <button>Filter1</button>
+        <button>Filter1</button>
+        <button>Filter1</button>
+        <button>Filter1</button>
+      </div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
+      <div>House details</div>
     </vs-col>
     <vs-col vs-lg="4">
       <GmapMap
@@ -60,6 +39,7 @@
 </template>
 <script>
 import GmapMarker from "vue2-google-maps/src/components/marker";
+import { vsSelect, vsOption } from "vuesax";
 export default {
   name: "MyGeolocation",
   components: { GmapMarker },
