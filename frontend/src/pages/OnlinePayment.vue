@@ -2,7 +2,12 @@
   <!-- Display a payment form -->
   <center>
     <form id="payment-form">
-      <input type="text" id="email" placeholder="Email address" />
+      <input
+        type="email"
+        id="email"
+        placeholder="Email address"
+        v-model="email"
+      />
       <div id="card-element"><!--Stripe.js injects the Card Element--></div>
       <button id="submit" class="btn btn-primary btn-round btn-lg btn-block">
         <div class="spinner hidden" id="spinner"></div>
@@ -22,13 +27,24 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import stripeKeyFront from "../../stripeKeyFront";
 // import stripeKey from "../../../backend/config/stripeKeys";
-
+import axios from "axios";
 export default {
   name: "OnlinePayment",
+
+  components: {
+    [FormGroupInput.name]: FormGroupInput,
+  },
+
+  data() {
+    return {
+      email: "",
+    };
+  },
+
   async beforeMount() {
     // A reference to Stripe.js initialized with your real test publishable API key.
     var stripe = await loadStripe(stripeKeyFront.publicKey);
-    console.log(stripe);
+
     // The items the customer wants to buy
     var purchase = {
       items: [{ id: "xl-tshirt" }],
@@ -44,6 +60,7 @@ export default {
       body: JSON.stringify(purchase),
     })
       .then(function(result) {
+        console.log(result);
         return result.json();
       })
       .then(function(data) {
@@ -93,6 +110,7 @@ export default {
       loading(true);
       stripe
         .confirmCardPayment(clientSecret, {
+          receipt_email: document.getElementById("email").value,
           payment_method: {
             card: card,
           },
