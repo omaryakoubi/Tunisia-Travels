@@ -5,6 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const InfoTravel = require("./model/InfoTravel.js");
+
+
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
@@ -70,6 +72,7 @@ app.post("/travelinfo", (req, res) => {
     res.send("Information Of The Travel Saved In the DB");
   });
 });
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

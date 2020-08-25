@@ -118,8 +118,10 @@ export default {
           cpassword: this.cpassword,
           age: this.age,
           phone: this.phone,
+        
         })
         .then((res) => {
+          window.location.href = "/login"
           console.log("axios", res);
         });
     },
