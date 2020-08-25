@@ -12,10 +12,7 @@
             <h3 class="title">Choose your travel destination and Book</h3>
             <div class="text-center">
               <DatePicker v-on:dateToParent="dateOfTravel" />
-              <br />
-              <br />
               <AutoComplete v-on:travelDestination="placeToTravel" />
-              <br />
               <div class="centerx">
                 <vs-button
                   @click="active1=!active1"

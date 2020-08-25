@@ -60,6 +60,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    {
+      path: "/BecomeAhost",
+      name: "BecomeAhost",
+      component: () => import("./pages/BecomeAhost.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
