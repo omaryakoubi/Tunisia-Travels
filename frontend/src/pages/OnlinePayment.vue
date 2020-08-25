@@ -68,7 +68,6 @@ export default {
           secret = data.clientSecret;
         });
       this.secret = secret;
-      console.log(this.secret);
       // Calls stripe.confirmCardPayment
       // If the card requires authentication Stripe shows a pop-up modal to
       // prompt the user to enter authentication details without leaving your page.
@@ -168,15 +167,6 @@ export default {
         : "";
     });
     this.card = card;
-    // var button = document.getElementById("submit");
-    // button.addEventListener("click", function(event) {
-    //   event.preventDefault();
-    //   // Complete payment when the submit button is clicked
-    //   this.test();
-    //   console.log("houssem", stripe, card, this.secret);
-    //   payWithCard(stripe, card, this.secret);
-    // });
-    // The items the customer wants to buy
   },
 };
 </script>
