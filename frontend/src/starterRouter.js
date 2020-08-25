@@ -4,6 +4,7 @@ import Starter from './pages/StarterPage.vue';
 import StarterNavbar from './layout/StarterNavbar.vue';
 import StarterFooter from './layout/StarterFooter.vue';
 
+
 Vue.use(Router);
 
 export default new Router({
