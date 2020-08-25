@@ -1,17 +1,29 @@
-import app from "./App.vue";
+/*!
+
+ =========================================================
+ * Vue Now UI Kit - v1.1.0
+ =========================================================
+
+ * Product Page: https://www.creative-tim.com/product/now-ui-kit
+ * Copyright 2019 Creative Tim (http://www.creative-tim.com)
+
+ * Designed by www.invisionapp.com Coded by www.creative-tim.com
+
+ =========================================================
+
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+ */
 import Vue from "vue";
+import App from "./App.vue";
+import axios from "axios";
 import Vuesax from "vuesax";
 import "vuesax/dist/vuesax.css";
 import "material-icons/iconfont/material-icons.css";
 import VueRouter from "vue-router";
 // import Profile from "./components/Profile.vue";
 // import Home from "./components/Home.vue";
-import LoginSM from "./components/LoginSM.vue";
-import ResetPassword from "./components/ResetPassword";
-import App from "./App.vue";
-import axios from 'axios'
 import VueAxios from 'vue-axios'
-
 import 'vuesax/dist/vuesax.css'
 import * as GmapVue from 'gmap-vue'
 // You can change this import to `import router from './starterRouter'` to quickly start development from a blank layout.

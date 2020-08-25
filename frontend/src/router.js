@@ -6,6 +6,15 @@ Vue.use(Router);
 export default new Router({
   linkExactActiveClass: "active",
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: () => import('./pages/Home.vue'),
+    //   props: {
+    //     header: { colorOnScroll: 400 },
+    //     footer: { backgroundColor: 'black' }
+    //   }
+    // },
     {
       path: "/",
       name: "index",
@@ -24,11 +33,39 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
-
     {
       path: "/login",
       name: "login",
-      component: () => import("./components/LoginSM.vue"),
+      component: () => import("./pages/Login.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("./pages/Signup.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/reset",
+      name: "reset",
+      component: () => import("./pages/ResetPassword.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/payment",
+      name: "payment",
+      component: () => import("./pages/OnlinePayment.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
