@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 // import passport from 'passport'
 // Intitialize the app
@@ -41,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
+app.use("/api/payment", payment);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 
