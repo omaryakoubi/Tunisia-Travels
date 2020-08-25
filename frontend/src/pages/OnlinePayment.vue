@@ -15,9 +15,7 @@
       </button>
 
       <p id="card-error" role="alert"></p>
-      <p class="result-message hidden">
-        Payment <a href="" target="_blank">SUCCEEDED</a> thank you!
-      </p>
+      <p class="result-message hidden">Payment <a>SUCCEEDED</a> Thank You!</p>
     </form>
   </center>
 </template>
@@ -26,7 +24,6 @@
 import FormGroupInput from "../components/formGroupInput.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import stripeKeyFront from "../../stripeKeyFront";
-// import stripeKey from "../../../backend/config/stripeKeys";
 import axios from "axios";
 export default {
   name: "OnlinePayment",
@@ -60,7 +57,6 @@ export default {
       body: JSON.stringify(purchase),
     })
       .then(function(result) {
-        console.log(result);
         return result.json();
       })
       .then(function(data) {
@@ -131,12 +127,11 @@ export default {
     // Shows a success message when the payment is complete
     var orderComplete = function(paymentIntentId) {
       loading(false);
-      document
-        .querySelector(".result-message a")
-        .setAttribute(
-          "href",
-          "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-        );
+      document.querySelector(".result-message a");
+      // .setAttribute(
+      //   "href",
+      //   "https://dashboard.stripe.com/test/payments/" + paymentIntentId
+      // );
       document.querySelector(".result-message").classList.remove("hidden");
       document.querySelector("button").disabled = true;
     };
