@@ -12,7 +12,6 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
       //WE NEED TO REPLACE THIS WITH THE CALCULATION OF HOW MANY DAYS THE CUSTOMER WILL STAY IN THE HOUSE * THE PRICE.
       return 1000;
     };
-    // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(items),
       currency: "usd",
