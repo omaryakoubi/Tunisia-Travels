@@ -1,13 +1,16 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/bg5.jpg')"
+      ></parallax>
       <div class="container">
         <div class="photo-container">
-          <img src="img/ryan.jpg" alt />
+          <img :src="`${form.file}`" alt />
         </div>
-        <!-- modal to upload a new picture  and button to start it -->
-        <n-button
+        <!-- modal to upload a new picture and button to start it -->
+        <!-- <n-button
           type="primary"
           style="background: transparent"
           @click.native="modals.classic = true"
@@ -20,65 +23,88 @@
           <template slot="footer">
             <input type="file" style="background: transparent" />
           </template>
-        </modal>
+        </modal>  -->
+
+        <form enctype="multipart/form-data">
+          <div class="fields">
+            <label>Upload</label>
+            <input type="file" ref="file" @change="onSelect" />
+          </div>
+          <div class="fields">
+            <button @click="onSubmit">submit</button>
+          </div>
+          <div class="message">
+            <h5></h5>
+          </div>
+        </form>
         <!-- modal ends here -->
-        <h3 class="title">user.name</h3>
+
+        <!-- user info -->
+        <h3 class="title">{{ form.username }}</h3>
         <p class="category"></p>
       </div>
     </div>
     <div class="section">
       <div class="container">
-        <n-switch v-model="switches.defaultOff" on-text="OFF" off-text="EDIT"></n-switch>
-
-        <p id="edit" @click="enableEdit" style=" text-decoration: underline">Edit</p>
+        <p id="edit" @click="enableEdit" style=" text-decoration: underline">
+          Edit
+        </p>
         <h3 class="title">About me</h3>
-        <fg-input class="disable" :disabled="edit" placeholder="Email" value="Email">
-          An artist of considerable range, Ryan — the name taken by
-          Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
-          records all of his own music, giving it a warm, intimate feel with a
-          solid groove structure. An artist of considerable range.
-        </fg-input>
         <fg-input
           class="disable"
-          placeholder="Email"
-          value="Email"
+          placeholder="Name"
+          v-model="form.name"
+          :value="form.name"
           style="width:700px; margin:auto; height: 80px"
           :disabled="edit"
         ></fg-input>
         <fg-input
-          class
-          placeholder="Age"
-          value="Age"
+          class="disable"
+          v-model="form.age"
+          :value="form.age"
           style="width:700px; margin:auto; height: 80px"
           :disabled="edit"
         ></fg-input>
         <fg-input
-          class
-          placeholder="phone Number"
-          value="phone-number"
+          class="disable"
+          v-model="form.phone"
+          :value="form.phone"
           style="width:700px; margin:auto; height: 80px"
           :disabled="edit"
         ></fg-input>
+        <fg-input
+          class="disable"
+          v-model="form.email"
+          :value="form.email"
+          style="width:700px; margin:auto; height: 80px"
+          :disabled="edit"
+        ></fg-input>
+        <div>
+          <a style="text-decoration: underline">Change Password</a>
+        </div>
+        <p
+          @click="disableEdit"
+          style="text-decoration: underline; inline-text: center"
+        >
+          Save Changes
+        </p>
       </div>
     </div>
+    <!-- user info ends here -->
   </div>
 </template>
 <script>
-// import  Tabs  from './components/Tabs'
-// import TabPane  from './components/Tab';
+
 import FormGroupInput from "../components/formGroupInput.vue";
 import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
 import Button from "../components/Button";
 import axios from "axios";
-// import  requestsMixin  from "../mixins/requestsMixin";
 
 export default {
   name: "profile",
   bodyClass: "profile-page",
   components: {
-    // Tabs,
-    // TabPane,
     [FormGroupInput.name]: FormGroupInput,
     [Switch.name]: Switch,
     [modal.name]: modal,
@@ -87,10 +113,14 @@ export default {
   data() {
     return {
       form: {
-        firstName: "",
-        // email: '',
-        // age: '',
-        // phoneNumber: Number
+        _id: "",
+        name: "",
+        username: "",
+        email: "",
+        age: 0,
+        phone: 0,
+        file: "",
+        message: "",
       },
       switches: {
         defaultOn: true,
@@ -105,31 +135,79 @@ export default {
   },
   methods: {
     enableEdit() {
-      this.edit = !this.edit;
+      this.edit = false;
     },
-    editOrSave() {
-      const text = document.getElementById("edit");
-      if (this.edit) {
-        console.log(this.edit);
-        text.innerText("Edit");
+    disableEdit() {
+      this.edit = true;
+      this.updateProfile();
+    },
+
+    //update profile
+
+    async updateProfile(name) {
+      console.log("here at the top");
+      try {
+        const _id = this.form._id;
+        console.log(_id);
+        await axios.put(`http://localhost:5000/api/users/update/${_id}`, {
+          name: this.form.name,
+          username: this.form.username,
+          email: this.form.email,
+          age: this.form.age,
+          phone: this.form.phone,
+        });
+        console.log("inside the request");
+      } catch (err) {
+        console.log(err);
       }
-      text.innerText("Save");
     },
-    handleClick() {
-      this.$router.push("/upload");
+
+    // upload image
+
+    onSelect() {
+      const file = this.$refs.file.files[0];
+      this.file = file;
+      console.log(this.file.name);
+    },
+    async onSubmit() {
+      try {
+        const newFile = this.file.name;
+        console.log("c", newFile);
+        await axios.post("http://localhost:5000/api/users/upload", newFile);
+        this.message = "Uploaded !";
+      } catch (err) {
+        console.log(err);
+        this.message = "something went wrong";
+      }
+    },
+    uploadImage() {
+      axios
+        .get("/upload")
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     },
   },
 
-  mounted: function () {
-    const token = localStorage.getItem("token", token);
-    axios
-      .get("http://localhost:5000/api/users/profile", {
-        Headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => console.log("aaa", res))
-      .catch((err) => console.log(err));
+  mounted: function() {
+    const token = localStorage.getItem("token");
+    console.log("token", token);
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = token;
+      axios
+        .get("http://localhost:5000/api/users/profile")
+        .then((res) => {
+          let response = res.data.user;
+            (this.form._id = response._id),
+            (this.form.username = response.username),
+            (this.form.name = response.name),
+            (this.form.username = response.username),
+            (this.form.email = response.email),
+            (this.form.age = response.age),
+            (this.form.phone = response.phone);
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
+    }
   },
 };
 </script>

@@ -302,7 +302,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .menu-btn {
   color: black !important;

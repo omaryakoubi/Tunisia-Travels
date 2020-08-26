@@ -4,7 +4,10 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
+
+
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
@@ -41,6 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
+app.use("/api/payment", payment);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 
@@ -51,7 +55,7 @@ require("./config/passport")(passport);
 // Bring in the Database Config
 const db = require("./config/keys").mongoURI;
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then((db) => {
     console.log("Database connected successfully");
   })
@@ -67,9 +71,16 @@ app.use("/api/users", users);
 //HOU i will reorganize them later {{SORRY}}
 app.post("/travelinfo", (req, res) => {
   InfoTravel.create(req.body).then((item) => {
-    res.send("Information Of The Travel Saved In the DB");
+    res.send(item);
   });
 });
+
+app.get("/travelinfo", (req, res) => {
+  InfoTravel.find({}).then((item) => {
+    res.send(item);
+  });
+});
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

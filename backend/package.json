@@ -24,11 +24,13 @@
     "material-icons": "^0.3.1",
     "mongodb": "^3.6.0",
     "mongoose": "^5.10.0",
-    "nodemailer": "^6.4.11",
     "multer": "^1.4.2",
+    "nodemailer": "^6.4.11",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "stripe": "^8.89.0"
   }
 }
