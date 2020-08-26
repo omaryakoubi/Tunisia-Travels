@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
-const multer = require('multer')
+const multer = require("multer");
 const User = require("../../model/User.js");
 
 /**
@@ -16,7 +16,11 @@ router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
 
   // Check for the password
-
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
+    });
+  }
   // Check for the confirm password
   if (password !== cpassword) {
     return res.status(400).json({
@@ -162,30 +166,29 @@ router.put(
 //upload image Multer
 
 const storage = multer.diskStorage({
-  destination : '../../frontend/src/assets/img',
+  destination: "../../frontend/src/assets/img",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true)
+  if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+    cb(null, true);
   } else {
-    cb(null, false)
+    cb(null, false);
   }
 };
-const upload = multer({ storage: storage, fileFilter: fileFilter })
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post('/upload', upload.single("imageFile"), (req, res, next) => {
+router.post("/upload", upload.single("imageFile"), (req, res, next) => {
   add(req, res);
   try {
     return res.status(201).json({
-      message: "File uploaded"
+      message: "File uploaded",
     });
+  } catch (error) {
+    console.error(error);
   }
-  catch (error) {
-    console.error(error)
-  }
-})
+});
 
 module.exports = router;

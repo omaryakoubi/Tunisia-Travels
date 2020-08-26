@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div
-      :class="[
-        { 'col-md-4': vertical && !tabNavWrapperClasses },
-        { 'col-12': centered && !tabNavWrapperClasses },
-        tabNavWrapperClasses
-      ]"
-    >
       <ul
         class="nav"
         role="tablist"
@@ -42,18 +35,8 @@
           </a>
         </li>
       </ul>
-    </div>
-    <div
-      class="tab-content"
-      :class="[
-        { 'tab-space': !vertical && !noContentSpace },
-        'text-left',
-        { 'col-md-8': vertical && !tabContentClasses },
-        tabContentClasses
-      ]"
-    >
+    
       <slot></slot>
-    </div>
   </div>
 </template>
 
@@ -78,7 +61,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'default',
+      default: 'success',
       validator: value => {
         let acceptedValues = [
           'primary',
@@ -184,3 +167,10 @@ export default {
   }
 };
 </script>
+<style >
+.nav{
+  /* border-radius: 20px; */
+  align-items: center;
+  /* margin-right: auto; */
+}
+</style>
