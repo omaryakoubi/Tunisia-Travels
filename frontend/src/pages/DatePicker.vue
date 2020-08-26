@@ -1,15 +1,16 @@
  <template>
-  <div class="block">
+  <div class="control-form" >
     <span class="demonstration"></span>
     <el-date-picker
       v-model="date"
       type="daterange"
-      range-separator="To"
+      range-separator="|"
       start-placeholder="CheckIn date"
       end-placeholder="CheckOut date"
       :picker-options="pickerOptions"
       @change="getDate"
       value-format="yyyy-MM-dd"
+    
     ></el-date-picker>
   </div>
 </template>

@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
+
+
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
@@ -78,6 +80,7 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

@@ -79,11 +79,17 @@ export default {
         .post("http://localhost:5000/api/users/login", {
           username: this.username,
           password: this.password,
+          
         })
         .then((res) => {
-          console.log("axios", res);
+          // window.location.href = "/";
+          console.log("axios", res.data.token);
+          let token = res.data.token
+          localStorage.setItem('token', token)
+        
         })
         .catch(() => {
+          localStorage.removeItem('token')
           alert("Wrong password or username");
         });
     },
