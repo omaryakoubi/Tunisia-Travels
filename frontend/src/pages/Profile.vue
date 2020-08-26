@@ -10,7 +10,7 @@
           <img :src="`${form.file}`" alt />
         </div>
 
-        <!-- modal to upload a new picture and button to start it -->
+          <!-- modal to upload a new picture and button to start it -->
 
         <!-- <n-button
           type="primary"
@@ -173,13 +173,18 @@ export default {
     },
     async onSubmit() {
       try {
+        const formData = new FormData()
+        formData.append('file', this.file)
         const newFile = this.file.name;
-        console.log("c", newFile);
-        await axios.post("http://localhost:5000/api/users/upload", newFile);
-        this.message = "Uploaded !";
+ 
+        await axios.post("http://localhost:5000/api/users/upload", formData);
+        this.message = "uploaded"
+        this.file = ""
+        console.log('loaded')
       } catch (err) {
+        this.message = "not uploaded"
         console.log(err);
-        this.message = "something went wrong";
+
       }
     },
     uploadImage() {
@@ -208,7 +213,10 @@ export default {
             (this.form.phone = response.phone);
           console.log(response);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+        console.log(err);
+        })
+        
     }
   },
 };

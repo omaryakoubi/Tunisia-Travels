@@ -176,6 +176,7 @@ const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
+    console.log('file',file)
   },
 });
 const fileFilter = (req, file, cb) => {
@@ -191,7 +192,13 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post("/upload", upload.single("imageFile"), (req, res) => {
+router.post("/upload",
+ passport.authenticate("jwt", {
+  session: false,
+}), upload.single("imageFile"), 
+async (req, res) => {
+  await User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+  console.log('user id',req.user._id)
   res.send({ file: req.file.originalname });
 });
 
