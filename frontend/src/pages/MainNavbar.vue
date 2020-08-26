@@ -76,7 +76,20 @@
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-
+        <div class="social-line">
+          <a
+            @click="logInWithFacebook"
+            class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-facebook-square"></i>
+          </a>
+          <a
+            href="http://localhost:5000/auth/google"
+            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-google-plus"></i>
+          </a>
+        </div>
         <fg-input
           type="text"
           placeholder="Username..."
@@ -94,22 +107,9 @@
         </fg-input>
 
         <div class=" text-center">
-          <a @click="login" class="btn btn-primary btn-round btn-lg ">Login</a>
+          <a @click="login" class="btn btn-danger btn-round btn-lg ">Login</a>
         </div>
-        <div class="social-line">
-          <a
-            @click="logInWithFacebook"
-            class="btn btn-default btn-facebook btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-facebook-square"></i>
-          </a>
-          <a
-            href="http://localhost:5000/auth/google"
-            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-google-plus"></i>
-          </a>
-        </div>
+
         <div class="footer">
           <div class="pull-left" type="danger">
             <n-button type="danger" size="lg" link>
@@ -182,10 +182,10 @@
           </fg-input>
         </template>
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block"
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block"
             >SignUp</a
           >
-          <a @click="modals.login = true, modals.signup = false"  link>
+          <a @click="(modals.login = true), (modals.signup = false)" link>
             You already have an account?
           </a>
         </template>

@@ -86,5 +86,4 @@ export default {
 .tab-content.tab-content-padding {
   padding: 20px;
 }
-
 </style>
