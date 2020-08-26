@@ -21,7 +21,7 @@ module.exports = router.post("/reset", (req, res) => {
         const mailOptions = {
           from: NodemailerConfig.pass,
           to: req.body.email,
-          subject: "Sending email using nodejs",
+          subject: "Reset Password Successed!",
           text: `You can access your account using this code please dont share you privacy will be violated.
           Passcode:  ${tempPassword}`,
         };

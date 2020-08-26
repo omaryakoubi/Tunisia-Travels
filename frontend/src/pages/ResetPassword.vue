@@ -15,8 +15,10 @@
         class="btn btn-primary btn-round btn-lg btn-block"
         >Login</a
       >
-      <p v-if="toggle">Please check your email</p>
     </div>
+    <p v-if="toggle">
+      Email has been send to {{ adressMail }} Please Check Your Email
+    </p>
   </center>
 </template>
 

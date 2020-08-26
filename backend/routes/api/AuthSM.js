@@ -10,5 +10,5 @@ module.exports = router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.send("user interface");
+  res.redirect("https://localhost:8080/");
 });
