@@ -1,56 +1,68 @@
   <template>
-  <div class="center con-pagination">
-    <vs-pagination progress v-model="page" :length="2" />
+  <div>
+    <vs-pagination progress v-model="page" :length="3" />
     <br />
-    <div v-show="show">
-      <div class="center content-inputs">
-        <vs-input label-placeholder="State" v-model="state" />
-        {{state}}
+
+    <div id="center">
+      <div v-show="div1">
+        <vs-input label-placeholder="Governorate" v-model="Governorate" id="content" />
         <br />
-        <vs-input label-placeholder="City" v-model="city" />
-        {{city}}
+        <vs-input label-placeholder="City" v-model="city" id="content" />
         <br />
-        <vs-input label-placeholder="Street Adress" v-model="adress" />
-        {{adress}}
+        <vs-input label-placeholder="Street Adress" v-model="adress" id="content" />
         <br />
-      </div>
-      <br />
-      <div class="center">
-        {{guests}}
-        <vs-select placeholder="Guests" v-model="guests">
+        <br />
+        <vs-select placeholder="Guests" v-model="guests" id="content">
           <vs-option label="1" value="1">1</vs-option>
           <vs-option label="2" value="2">2</vs-option>
           <vs-option label="3" value="3">3</vs-option>
           <vs-option label="4" value="4">4 +</vs-option>
         </vs-select>
         <br />
-        {{typeOfPlace}}
-        <vs-select placeholder="Type of Place" v-model="typeOfPlace">
+        <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
           <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
           <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
           <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
         </vs-select>
-        {{optionPet}}
-        <div class="center con-checkbox">
-          <vs-checkbox v-model="optionPet">Pets Allowed</vs-checkbox>
-        </div>
-        <vs-button flat :active="active == 0" @click="fn">Get Started</vs-button>
+        <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+        <vs-button id="content2" flat :active="active == 0" @click="fn">Get Started</vs-button>
       </div>
     </div>
     <br />
     <br />
-    {{houseName}}
-    {{start}}
-    <div v-show="!show">
-      <vs-input label-placeholder="Name of The house" v-model="houseName" />
-      <label>Availability from</label>
-      <vs-input type="date" @change="getStartDay"></vs-input>
-      <label>Availability from</label>
-      <vs-input type="date"></vs-input>
-      <vs-button flat :active="active == 0" @click="fn2">Submit</vs-button>
+    <div v-show="div2" id="p2">
+      <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
+      <br />
+      <br />
+      <label id="content">Availability from</label>
+      <vs-input type="date" v-model="start" id="content"></vs-input>
+      <br />
+      <br />
+      <label id="content">Availability to</label>
+      <vs-input type="date" v-model="end" id="content"></vs-input>
+      <br />
+      <br />
+      <label id="content">Upload Photos of your house</label>
+      <vs-input id="content" type="file"></vs-input>
+      <br />
+      <vs-button id="content3" flat :active="active == 0" @click="fn2">Next</vs-button>
     </div>
     <br />
     <br />
+    <div v-show="div3" id="p3">
+      <label id="content">Upload Your CIN</label>
+      <vs-input id="content" type="file"></vs-input>
+      <br />
+      <br />
+      <label id="content">Upload Your Passport</label>
+      <vs-input id="content" type="file"></vs-input>
+      <br />
+      <br />
+      <label id="content">Upload Your MELKYA</label>
+      <vs-input id="content" type="file"></vs-input>
+      <br />
+      <vs-button id="content2" flat :active="active == 0" @click="submit">Submit To Admin</vs-button>
+    </div>
   </div>
 </template>
   <script>
@@ -64,42 +76,70 @@ export default {
     page: 1,
     city: "",
     active: true,
-    show: true,
     guests: 0,
     typeOfPlace: "",
     optionPet: false,
     adress: "",
-    state: "",
+    Governorate: "",
     houseName: "",
-    start: [],
+    start: "",
+    end: "",
+    div1: true,
+    div2: false,
+    div3: false,
   }),
   methods: {
     fn() {
-      this.active = !this.active;
       this.page++;
-      this.show = !this.show;
+      this.div1 = false;
+      this.div2 = true;
+      this.div3 = false;
     },
     fn2() {
-      alert("submit");
+      this.page++;
+      this.div1 = false;
+      this.div2 = false;
+      this.div3 = true;
     },
-    getStartDay(value) {
-      this.start.push(value);
+    submit() {
+      console.log("submitted");
     },
   },
 };
 </script>
 <style  scoped>
-.container {
-  position: relative;
+#center {
+  /* align-self: center !important; */
+  /* border: 1px solid red; */
+  /* text-align: center; */
+  margin-top: 150px;
+  align-content: center !important;
 }
-
-.child {
-  width: 50px;
-  height: 50px;
-  background-color: red;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -25px 0 0 -25px;
+#content {
+  /* align-self: center !important; */
+  /* border: 1px solid green; */
+  /* text-align: center; */
+  align-content: center !important;
+  margin-left: 650px;
+}
+#content2 {
+  /* align-self: center !important; */
+  /* border: 1px solid green; */
+  /* text-align: center; */
+  align-content: center !important;
+  margin-left: 690px;
+}
+#content3 {
+  /* align-self: center !important; */
+  /* border: 1px solid green; */
+  /* text-align: center; */
+  align-content: center !important;
+  margin-left: 720px;
+}
+#p2 {
+  margin-top: -90px;
+}
+#p3 {
+  margin-top: -60px;
 }
 </style>
