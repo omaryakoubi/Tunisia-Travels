@@ -17,51 +17,21 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down
-          tag="li"
-          title
-          icon="now-ui-icons location_world"
-          class="nav-item"
-        >
-          <n-button
-            @click="modals.signup = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
-            <i class="now-ui-icons education_paper "></i> Become a Host
-          </n-button>
-          <br />
-
-          <n-button
-            @click="modals.login = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
+        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+          <nav-link to="/BecomeAhost">
+            <i class="now-ui-icons education_paper"></i> Become a Host
+          </nav-link>
+          <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn" link>
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
           <br />
-          <n-button
-            @click="modals.signup = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
+          <n-button @click="modals.signup = true" type="neutral" size="small" class="menu-btn" link>
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
         </drop-down>
-        <drop-down
-          tag="li"
-          title
-          icon="now-ui-icons location_world"
-          class="nav-item"
-        >
+        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
           <nav-link to="/landing">
             <i class="now-ui-icons education_paper"></i> Currency
           </nav-link>
@@ -82,19 +52,17 @@
           placeholder="Username..."
           addon-left-icon="now-ui-icons users_single-02"
           v-model="username"
-        >
-        </fg-input>
+        ></fg-input>
 
         <fg-input
           type="password"
           placeholder="Password..."
           addon-left-icon="now-ui-icons ui-1_lock-circle-open"
           v-model="password"
-        >
-        </fg-input>
+        ></fg-input>
 
-        <div class=" text-center">
-          <a @click="login" class="btn btn-primary btn-round btn-lg ">Login</a>
+        <div class="text-center">
+          <a @click="login" class="btn btn-primary btn-round btn-lg">Login</a>
         </div>
         <div class="social-line">
           <a
@@ -112,14 +80,10 @@
         </div>
         <div class="footer">
           <div class="pull-left" type="danger">
-            <n-button type="danger" size="lg" link>
-              Forget Password?
-            </n-button>
+            <router-link to="/reset" class="link">Forget Password?</router-link>
           </div>
           <div class="pull-right">
-            <n-button type="success" size="lg" link>
-              Create account?
-            </n-button>
+            <n-button type="success" size="lg" link>Create account?</n-button>
           </div>
         </div>
       </modal>
@@ -134,60 +98,49 @@
             type="text"
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="name"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             placeholder="Username . . ."
             type="text"
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="username"
-          >
-          </fg-input>
+          ></fg-input>
 
           <fg-input
             type="email"
             placeholder="Email..."
             addon-left-icon="now-ui-icons ui-1_email-85"
             v-model="email"
-          >
-          </fg-input>
+          ></fg-input>
 
           <fg-input
             type="password"
             placeholder="Password . . ."
             addon-left-icon="now-ui-icons ui-1_lock-circle-open"
             v-model="password"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="password"
             placeholder="Confirm Password . . ."
             addon-left-icon="now-ui-icons ui-1_lock-circle-open"
             v-model="cpassword"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="number"
             placeholder="Age..."
             addon-left-icon="now-ui-icons media-2_sound-wave"
             v-model="age"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="text"
             placeholder="Phone..."
             addon-left-icon="now-ui-icons tech_mobile"
             v-model="phone"
-          >
-          </fg-input>
+          ></fg-input>
         </template>
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block"
-            >SignUp</a
-          >
-          <a @click="modals.login = true, modals.signup = false"  link>
-            You already have an account?
-          </a>
+          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block">SignUp</a>
+          <a @click="modals.login = true, modals.signup = false" link>You already have an account?</a>
         </template>
       </modal>
     </navbar>
@@ -244,6 +197,8 @@ export default {
           password: this.password,
         })
         .then((res) => {
+          let token = res.data.token;
+          localStorage.setItem("token", token);
           console.log("axios", res);
         })
         .catch(() => {
@@ -253,7 +208,7 @@ export default {
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function(response) {
+      window.FB.login(function (response) {
         if (response.authResponse) {
           console.log(response.authResponse);
           // Now you can redirect the user or do an AJAX request to
@@ -265,7 +220,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function() {
+      window.fbAsyncInit = function () {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
