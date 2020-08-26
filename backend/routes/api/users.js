@@ -17,7 +17,11 @@ router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
 
   // Check for the password
-
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
+    });
+  }
   // Check for the confirm password
   if (password !== cpassword) {
     return res.status(400).json({
@@ -155,18 +159,18 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-          { _id: req.user._id },
-          ({ name, username, email, age, phone } = req.body)
-        )
-          .then(() => {
-            console.log("then", req.user);
-            res.status(201).send("done");
-          })
-          .catch((err) => {
-            console.log("catch", req.user);
-            res.status(505).send({ err });
-          })
-       res.status(404).send("NOT FOUND");
+        { _id: req.user._id },
+        ({ name, username, email, age, phone } = req.body)
+      )
+        .then(() => {
+          console.log("then", req.user);
+          res.status(201).send("done");
+        })
+        .catch((err) => {
+          console.log("catch", req.user);
+          res.status(505).send({ err });
+        })
+      : res.status(404).send("NOT FOUND");
   }
 );
 
@@ -176,6 +180,7 @@ const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
+    console.log('file',file)
   },
 });
 const fileFilter = (req, file, cb) => {
@@ -191,7 +196,13 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post("/upload", upload.single("imageFile"), (req, res) => {
+router.post("/upload",
+ passport.authenticate("jwt", {
+  session: false,
+}), upload.single("imageFile"), 
+async (req, res) => {
+  await User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+  console.log('user id',req.user._id)
   res.send({ file: req.file.originalname });
 });
 

@@ -33,15 +33,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("./pages/Login.vue"),
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
-      },
-    },
+    // {
+    //   path: "/login",
+    //   name: "login",
+    //   component: () => import("./pages/Login.vue"),
+    //   props: {
+    //     header: { colorOnScroll: 400 },
+    //     footer: { backgroundColor: "black" },
+    //   },
+    // },
     {
       path: "/signup",
       name: "signup",
