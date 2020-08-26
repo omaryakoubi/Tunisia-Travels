@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="orange">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/header.jpg')"
-      >
-      </parallax>
+      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
 
       <main-navbar />
       <div class="content-center">
@@ -48,14 +44,11 @@
                   <Guests v-on:numberOfGuests="guests" />
                 </vs-alert>
               </div>
-              <router-link to="/MyGeolocation">
-                <button @click="postTravelInformations">Submit</button>
-              </router-link>
-              <!-- <button>NearBy</button> -->
+               
               <br />
             </div>
           </div>
-        </div> -->
+        </div>-->
         <tabs />
       </div>
     </div>
@@ -86,10 +79,7 @@
                   </p>
                 </div>
                 <!-- Second image on the left side of the article -->
-                <div
-                  class="image-container"
-                  style="background-image: url('img/bg3.jpg')"
-                ></div>
+                <div class="image-container" style="background-image: url('img/bg3.jpg')"></div>
               </div>
               <div class="col-md-5">
                 <!-- First image on the right side, above the article -->
@@ -151,7 +141,9 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a href="#">links</a> for people to be able to follow them
+                    <a
+                      href="#"
+                    >links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
@@ -178,7 +170,9 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a href="#">links</a> for people to be able to follow them
+                    <a
+                      href="#"
+                    >links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
@@ -202,7 +196,9 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a href="#">links</a> for people to be able to follow them
+                    <a
+                      href="#"
+                    >links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
@@ -238,38 +234,38 @@ export default {
     [FormGroupInput.name]: FormGroupInput,
     MainNavbar,
     Tabs,
-    DatePicker,
-    AutoComplete,
-    Guests,
+    // DatePicker,
+    // AutoComplete,
+    // Guests,
   },
   data() {
     return {
-      check: [],
-      dest: [],
-      guestsNum: [],
-      active1: true,
+      // check: [],
+      // dest: [],
+      // guestsNum: [],
+      // active1: true,
     };
   },
   methods: {
-    dateOfTravel(value) {
-      this.check.push(value);
-    },
-    placeToTravel(value) {
-      this.dest.push(value);
-    },
-    guests(value) {
-      this.guestsNum.push(value);
-    },
-    postTravelInformations() {
-      let check = this.check[0];
-      let dest = this.dest[0];
-      let guestsNum = this.guestsNum[this.guestsNum.length - 1];
-      this.axios
-        .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
-        .then((res) => {
-          console.log("axios LANDING", res);
-        });
-    },
+    //   dateOfTravel(value) {
+    //     this.check.push(value);
+    //   },
+    //   placeToTravel(value) {
+    //     this.dest.push(value);
+    //   },
+    //   guests(value) {
+    //     this.guestsNum.push(value);
+    //   },
+    // postTravelInformations() {
+    //   let check = this.check[0];
+    //   let dest = this.dest[0];
+    //   let guestsNum = this.guestsNum[this.guestsNum.length - 1];
+    //   this.axios
+    //     .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
+    //     .then((res) => {
+    //       console.log("axios LANDING", res);
+    //     });
+    // },
   },
 };
 </script>

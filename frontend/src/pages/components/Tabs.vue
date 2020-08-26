@@ -11,25 +11,21 @@
         <Guests v-on:numberOfGuests="guests" />
       </div>
     </el-popover>
-
-    <!-- Nav tabs -->
-      <div class="row">
-        <div class="col-sm-4">
-          <AutoComplete v-on:travelDestination="placeToTravel" />
-        </div>
-        <div class="col-sm-4">
-          <DatePicker v-on:dateToParent="dateOfTravel" />
-        </div>
-        <div class="col-sm-4" >
-        <n-button v-popover:popover4 type="neutral">
-          Guest
-        </n-button>
-        </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <AutoComplete v-on:travelDestination="placeToTravel" />
       </div>
-      <!-- <tabs slot="raw-content" tab-content-classes="text-center">
+      <div class="col-sm-4">
+        <DatePicker v-on:dateToParent="dateOfTravel" />
+      </div>
 
-
-      </tabs> -->
+      <div class="col-sm-4">
+        <n-button v-popover:popover4 type="neutral">Guest</n-button>
+      </div>
+    </div>
+    <router-link to="/MyGeolocation">
+      <button @click="postTravelInformations">Submit</button>
+    </router-link>
   </div>
 </template>
 <script>
@@ -71,12 +67,12 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
-      let dest = this.dest[0].locality;
+      let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
         .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
         .then((res) => {
-          console.log("axios", res);
+          console.log("axios LANDING", res);
         });
     },
   },
@@ -86,5 +82,4 @@ export default {
 .tab-content.tab-content-padding {
   padding: 20px;
 }
-
 </style>
