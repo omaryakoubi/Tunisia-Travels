@@ -33,19 +33,55 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    // {
+    //   path: "/login",
+    //   name: "login",
+    //   component: () => import("./pages/Login.vue"),
+    //   props: {
+    //     header: { colorOnScroll: 400 },
+    //     footer: { backgroundColor: "black" },
+    //   },
+    // },
     {
-      path: "/login",
-      name: "login",
-      component: () => import("./pages/Login.vue"),
+      path: "/signup",
+      name: "signup",
+      component: () => import("./pages/Signup.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
       },
     },
     {
-      path: "/signup",
-      name: "signup",
-      component: () => import("./pages/Signup.vue"),
+      path: "/MyGeolocation",
+      name: "MyGeolocation",
+      component: () => import("./pages/MyGeolocation.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      }
+    },
+    {
+      path: "/reset",
+      name: "reset",
+      component: () => import("./pages/ResetPassword.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/BecomeAhost",
+      name: "BecomeAhost",
+      component: () => import("./pages/BecomeAhost.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/payment",
+      name: "payment",
+      component: () => import("./pages/OnlinePayment.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -60,3 +96,5 @@ export default new Router({
     }
   },
 });
+
+

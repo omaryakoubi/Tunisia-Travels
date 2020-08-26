@@ -17,7 +17,11 @@ router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
 
   // Check for the password
-
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
+    });
+  }
   // Check for the confirm password
   if (password !== cpassword) {
     return res.status(400).json({
@@ -155,17 +159,17 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-          { _id: req.user._id },
-          ({ name, username, email, age, phone } = req.body)
-        )
-          .then(() => {
-            console.log("then", req.user);
-            res.status(201).send("done");
-          })
-          .catch((err) => {
-            console.log("catch", req.user);
-            res.status(505).send({ err });
-          })
+        { _id: req.user._id },
+        ({ name, username, email, age, phone } = req.body)
+      )
+        .then(() => {
+          console.log("then", req.user);
+          res.status(201).send("done");
+        })
+        .catch((err) => {
+          console.log("catch", req.user);
+          res.status(505).send({ err });
+        })
       : res.status(404).send("NOT FOUND");
   }
 );

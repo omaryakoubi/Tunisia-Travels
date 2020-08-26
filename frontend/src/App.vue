@@ -5,11 +5,13 @@
       <router-view />
     </div>
     <router-view name="footer" />
+    <!-- <tabs/> -->
   </div>
 </template>
 <script>
+// import Tabs from "./pages/components/Tabs.vue";
 export default {
   name: "App",
-  components: {},
+  // components: { Tabs },
 };
 </script>

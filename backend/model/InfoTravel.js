@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const InfoTravelSchema = new Schema({
-    check: { type: Number, required: true },
-    dest: { type: String, required: true },
-    guestsNum: { type: Array, required: true },
+    check: { type: Number },
+    dest: { type: Object },
+    guestsNum: { type: Array },
 })
 
 const InfoTravel = mongoose.model('InfoTravel', InfoTravelSchema)
