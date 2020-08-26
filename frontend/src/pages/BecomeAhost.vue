@@ -39,10 +39,12 @@
     </div>
     <br />
     <br />
+    {{houseName}}
+    {{start}}
     <div v-show="!show">
       <vs-input label-placeholder="Name of The house" v-model="houseName" />
       <label>Availability from</label>
-      <vs-input type="date"></vs-input>
+      <vs-input type="date" @change="getStartDay"></vs-input>
       <label>Availability from</label>
       <vs-input type="date"></vs-input>
       <vs-button flat :active="active == 0" @click="fn2">Submit</vs-button>
@@ -69,6 +71,7 @@ export default {
     adress: "",
     state: "",
     houseName: "",
+    start: [],
   }),
   methods: {
     fn() {
@@ -78,6 +81,9 @@ export default {
     },
     fn2() {
       alert("submit");
+    },
+    getStartDay(value) {
+      this.start.push(value);
     },
   },
 };
