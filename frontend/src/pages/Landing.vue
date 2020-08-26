@@ -225,7 +225,7 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import MainNavbar from "./MainNavbar.vue";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 import Tabs from "./components/Tabs";
-
+import axios from 'axios'
 export default {
   name: "landing",
   bodyClass: "landing-page",

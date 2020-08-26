@@ -5,6 +5,7 @@ Vue.use(Router);
 
 export default new Router({
   linkExactActiveClass: "active",
+  mode: "history",
   routes: [
     // {
     //   path: '/',
@@ -58,7 +59,7 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
-      }
+      },
     },
     {
       path: "/reset",
@@ -96,5 +97,3 @@ export default new Router({
     }
   },
 });
-
-
