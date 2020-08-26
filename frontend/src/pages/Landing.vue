@@ -1,7 +1,32 @@
 <template>
   <div>
-    <div>
+    <div class="page-header clear-filter" filter-color="orange">
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      >
+      </parallax>
+
       <main-navbar />
+      <div class="content-center">
+        <h1 class="title">Welcome to Tunisia Travels</h1>
+        <h3 class="title">Choose your travel destination and Book</h3>
+        <!-- <div>
+          <br />
+          <br />
+          <br />
+          <div class="centerx">
+            <vs-button
+              @click="active1 = !active1"
+              color="primary"
+              type="filled"
+              >{{ !active1 ? "Guests" : "Close" }}</vs-button
+            >
+            <vs-alert :active.sync="active1">
+              <Guests v-on:numberOfGuests="guests" />
+            </vs-alert>
+            <button @click="postTravelInformations">Submit</button>
+            <br />
     </div>
     <div>
       <div class="page-header page-header-small">
@@ -30,8 +55,11 @@
               <br />
             </div>
           </div>
-        </div>
+        </div> -->
+        <tabs />
       </div>
+    </div>
+    <div style="background-image:url('img/bg7.jpg')">
       <div class="section section-about-us">
         <div class="container">
           <div class="row">
@@ -58,7 +86,10 @@
                   </p>
                 </div>
                 <!-- Second image on the left side of the article -->
-                <div class="image-container" style="background-image: url('img/bg3.jpg')"></div>
+                <div
+                  class="image-container"
+                  style="background-image: url('img/bg3.jpg')"
+                ></div>
               </div>
               <div class="col-md-5">
                 <!-- First image on the right side, above the article -->
@@ -72,29 +103,30 @@
                 </h3>
                 <p>
                   The Arctic Ocean freezes every winter and much of the sea-ice
-                  then thaws every summer, and that process will continue whatever
-                  happens with climate change. Even if the Arctic continues to be
-                  one of the fastest-warming regions of the world, it will always
-                  be plunged into bitterly cold polar dark every winter. And
-                  year-by-year, for all kinds of natural reasons, there’s huge
-                  variety of the state of the ice.
+                  then thaws every summer, and that process will continue
+                  whatever happens with climate change. Even if the Arctic
+                  continues to be one of the fastest-warming regions of the
+                  world, it will always be plunged into bitterly cold polar dark
+                  every winter. And year-by-year, for all kinds of natural
+                  reasons, there’s huge variety of the state of the ice.
                 </p>
                 <p>
                   For a start, it does not automatically follow that a record
                   amount of ice will melt this summer. More important for
                   determining the size of the annual thaw is the state of the
                   weather as the midnight sun approaches and temperatures rise.
-                  But over the more than 30 years of satellite records, scientists
-                  have observed a clear pattern of decline, decade-by-decade.
+                  But over the more than 30 years of satellite records,
+                  scientists have observed a clear pattern of decline,
+                  decade-by-decade.
                 </p>
                 <p>
                   The Arctic Ocean freezes every winter and much of the sea-ice
-                  then thaws every summer, and that process will continue whatever
-                  happens with climate change. Even if the Arctic continues to be
-                  one of the fastest-warming regions of the world, it will always
-                  be plunged into bitterly cold polar dark every winter. And
-                  year-by-year, for all kinds of natural reasons, there’s huge
-                  variety of the state of the ice.
+                  then thaws every summer, and that process will continue
+                  whatever happens with climate change. Even if the Arctic
+                  continues to be one of the fastest-warming regions of the
+                  world, it will always be plunged into bitterly cold polar dark
+                  every winter. And year-by-year, for all kinds of natural
+                  reasons, there’s huge variety of the state of the ice.
                 </p>
               </div>
             </div>
@@ -116,13 +148,11 @@
                   <h4 class="title">Romina Hadid</h4>
                   <p class="category text-primary">Model</p>
                   <p class="description">
-                    You can write here details about one of your team members. You
-                    can give more details about what they do. Feel free to add
-                    some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow
-                    them outside the site.
+                    You can write here details about one of your team members.
+                    You can give more details about what they do. Feel free to
+                    add some
+                    <a href="#">links</a> for people to be able to follow them
+                    outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
                     <i class="fab fa-twitter"></i>
@@ -145,13 +175,11 @@
                   <h4 class="title">Ryan Tompson</h4>
                   <p class="category text-primary">Designer</p>
                   <p class="description">
-                    You can write here details about one of your team members. You
-                    can give more details about what they do. Feel free to add
-                    some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow
-                    them outside the site.
+                    You can write here details about one of your team members.
+                    You can give more details about what they do. Feel free to
+                    add some
+                    <a href="#">links</a> for people to be able to follow them
+                    outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
                     <i class="fab fa-twitter"></i>
@@ -171,13 +199,11 @@
                   <h4 class="title">Eva Jenner</h4>
                   <p class="category text-primary">Fashion</p>
                   <p class="description">
-                    You can write here details about one of your team members. You
-                    can give more details about what they do. Feel free to add
-                    some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow
-                    them outside the site.
+                    You can write here details about one of your team members.
+                    You can give more details about what they do. Feel free to
+                    add some
+                    <a href="#">links</a> for people to be able to follow them
+                    outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
                     <i class="fab fa-google-plus"></i>
@@ -201,10 +227,8 @@
 import Button from "../components/Button.vue";
 import FormGroupInput from "../components/formGroupInput.vue";
 import MainNavbar from "./MainNavbar.vue";
-import DatePicker from "./DatePicker.vue";
-import AutoComplete from "./AutoComplete.vue";
-import Guests from "./Guests.vue";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
+import Tabs from "./components/Tabs";
 
 export default {
   name: "landing",
@@ -213,6 +237,7 @@ export default {
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
     MainNavbar,
+    Tabs,
     DatePicker,
     AutoComplete,
     Guests,
@@ -248,3 +273,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.content-center {
+  z-index: 0;
+}
+</style>

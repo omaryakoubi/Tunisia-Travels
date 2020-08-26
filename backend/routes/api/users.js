@@ -17,7 +17,11 @@ router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
 
   // Check for the password
-
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
+    });
+  }
   // Check for the confirm password
   if (password !== cpassword) {
     return res.status(400).json({
@@ -190,6 +194,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+
 
 router.post("/upload", upload.single("imageFile"), (req, res) => {
   res.send({ file: req.file.originalname });
