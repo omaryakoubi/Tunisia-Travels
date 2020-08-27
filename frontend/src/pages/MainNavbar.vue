@@ -281,7 +281,20 @@ export default {
         });
     },
   },
+
+  destroyed() {
+    axios
+      .get("http://localhost:5000/auth/google")
+      .then((req, res) => {
+        console.log(res);
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
+
 </script>
 <style scoped>
 .menu-btn {

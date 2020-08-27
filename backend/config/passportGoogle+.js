@@ -15,7 +15,8 @@ passport.serializeUser((user, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL: "/auth/google/redirect",
+      // callbackURL: "/auth/google/redirect",
+      callbackURL: "https://localhost:8080/",
       clientID: googleKeys.google.clientID,
       clientSecret: googleKeys.google.clientSecret,
     },
