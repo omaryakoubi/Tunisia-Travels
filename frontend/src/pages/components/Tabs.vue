@@ -29,8 +29,7 @@
   </div>
 </template>
 <script>
-// import Card from "../components/Card";
-// import Tabs from "../components/Tabs2";
+
 import AutoComplete from "../AutoComplete";
 import DatePicker from "../DatePicker.vue";
 import Guests from "../Guests.vue";
@@ -39,8 +38,7 @@ import Button from "../../components/Button";
 
 export default {
   components: {
-    // Card,
-    // Tabs,
+   
     Guests,
     AutoComplete,
     DatePicker,

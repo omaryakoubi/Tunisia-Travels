@@ -25,6 +25,7 @@
             <i class="now-ui-icons education_paper"></i> Account
           </nav-link>
           <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
@@ -38,7 +39,12 @@
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/landing">
             <i class="now-ui-icons education_paper"></i> Currency
           </nav-link>
@@ -53,7 +59,20 @@
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-
+        <div class="social-line">
+          <a
+            @click="logInWithFacebook"
+            class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-facebook-square"></i>
+          </a>
+          <a
+            href="http://localhost:5000/auth/google"
+            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-google-plus"></i>
+          </a>
+        </div>
         <fg-input
           type="text"
           placeholder="Username..."
@@ -68,29 +87,25 @@
           v-model="password"
         ></fg-input>
 
-        <div class="text-center">
-          <a @click="login" class="btn btn-primary btn-round btn-lg">Login</a>
+        <div class=" text-center">
+          <a @click="login" class="btn btn-danger btn-round btn-lg ">Login</a>
         </div>
-        <div class="social-line">
-          <a
-            @click="logInWithFacebook"
-            class="btn btn-default btn-facebook btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-facebook-square"></i>
-          </a>
-          <a
-            href="http://localhost:5000/auth/google"
-            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-google-plus"></i>
-          </a>
-        </div>
+
         <div class="footer">
           <div class="pull-left" type="danger">
-            <router-link to="/reset" class="link">Forget Password?</router-link>
+            <a
+              @click="
+                (modals.reset = true),
+                  (modals.login = false),
+                  (modals.signup = false)
+              "
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <n-button type="success" size="lg" link>Create account?</n-button>
+            <a @click="(modals.login = false), (modals.signup = true)">
+              Create new account?
+            </a>
           </div>
         </div>
       </modal>
@@ -146,9 +161,40 @@
           ></fg-input>
         </template>
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block">SignUp</a>
-          <a @click="modals.login = true, modals.signup = false" link>You already have an account?</a>
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block"
+            >SignUp</a
+          >
+          <a
+            @click="
+              (modals.login = true),
+                (modals.signup = false),
+                (modals.reset = false)
+            "
+          >
+            You already have an account?
+          </a>
         </template>
+      </modal>
+      <!-- Reset Modal -->
+      <modal :show.sync="modals.reset" headerClasses="justify-content-center">
+        <template slot="header">
+          <h2 slot="header" class="title title-up">Reset Password</h2>
+        </template>
+        <div id="form">
+          <fg-input
+            type="text"
+            placeholder="Adress-Mail"
+            addon-left-icon="now-ui-icons users_circle-08"
+            v-model="adressMail"
+          >
+          </fg-input>
+          <p v-if="toggle">Check your email</p>
+          <div class=" text-center">
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg "
+              >Send</a
+            >
+          </div>
+        </div>
       </modal>
     </navbar>
   </div>
@@ -186,6 +232,7 @@ export default {
       modals: {
         login: false,
         signup: false,
+        reset: false,
       },
       name: "",
       username: "",
@@ -194,6 +241,9 @@ export default {
       cpassword: "",
       age: "",
       phone: "",
+      adressMail: "",
+      toggle: false,
+      auth: false,
       hide: true
     };
   },
@@ -211,8 +261,14 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
-          console.log("axios", res);    
+
+          console.log("axios", res);
+          this.$router.push("/").catch(() => {});
+          this.modals.login = false;
+          this.auth = true;
+
           this.hideAndShow()         
+
         })
         .catch(() => {
           alert("Wrong password or username");
@@ -221,7 +277,7 @@ export default {
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
+      window.FB.login(function(response) {
         if (response.authResponse) {
           console.log(response.authResponse);
           // Now you can redirect the user or do an AJAX request to
@@ -233,7 +289,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
@@ -264,13 +320,34 @@ export default {
           phone: this.phone,
         })
         .then((res) => {
+          this.modals.signup = false;
+          this.modals.login = true;
           console.log("axios", res);
+        })
+        .catch(() => {
+          alert("Something Wrong");
         });
     },
+    resetPassword() {
+      this.toggle = true;
+      axios
+        .post("http://localhost:5000/api/users/reset", {
+          email: this.adressMail,
+        })
+        .then(() => {
+          this.modals.reset = false;
+          res.send("success");
+        })
+        .catch((err) => {
+          res.status(500).send(err);
+        });
+    },
+
     logout() {
       localStorage.removeItem('token')
       this.hideAndShow()
     }
+
   },
 };
 </script>
