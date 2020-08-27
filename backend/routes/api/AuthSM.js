@@ -10,7 +10,7 @@ module.exports = router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  console.log("here", req.user.googleId);
-  // res.redirect("https://localhost:8080/");
-  res.send(req.user.googleId);
+  res.redirect("https://localhost:8080/");
+  //TO FIX FRIDAY
+  // res.send(req.user.googleId);
 });

@@ -17,21 +17,43 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/BecomeAhost">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
-          <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn" link>
+          <n-button
+            @click="modals.login = true"
+            type="neutral"
+            size="small"
+            class="menu-btn"
+            link
+          >
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
           <br />
-          <n-button @click="modals.signup = true" type="neutral" size="small" class="menu-btn" link>
+          <n-button
+            @click="modals.signup = true"
+            type="neutral"
+            size="small"
+            class="menu-btn"
+            link
+          >
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/landing">
             <i class="now-ui-icons education_paper"></i> Currency
           </nav-link>
@@ -139,8 +161,12 @@
           ></fg-input>
         </template>
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block">SignUp</a>
-          <a @click="modals.login = true, modals.signup = false" link>You already have an account?</a>
+          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block"
+            >SignUp</a
+          >
+          <a @click="(modals.login = true), (modals.signup = false)" link
+            >You already have an account?</a
+          >
         </template>
       </modal>
     </navbar>
@@ -208,7 +234,7 @@ export default {
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
+      window.FB.login(function(response) {
         if (response.authResponse) {
           console.log(response.authResponse);
           // Now you can redirect the user or do an AJAX request to
@@ -220,7 +246,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
