@@ -1,25 +1,18 @@
 <template>
-  <!-- Display a payment form -->
   <center>
     <form id="payment-form">
-      <input
-        type="email"
-        id="email"
-        placeholder="Email address"
-        v-model="email"
-      />
-      <div id="card-element"><!--Stripe.js injects the Card Element--></div>
-      <button
-        @click="test"
-        id="submit"
-        class="btn btn-primary btn-round btn-lg btn-block"
-      >
+      <input type="email" id="email" placeholder="Email address" v-model="email" />
+      <div id="card-element"></div>
+      <button @click="test" id="submit" class="btn btn-primary btn-round btn-lg btn-block">
         <div class="spinner hidden" id="spinner"></div>
         <span id="button-text">Pay</span>
       </button>
 
       <p id="card-error" role="alert"></p>
-      <p class="result-message hidden">Payment <a>SUCCEEDED</a> Thank You!</p>
+      <p class="result-message hidden">
+        Payment
+        <a>SUCCEEDED</a> Thank You!
+      </p>
     </form>
   </center>
 </template>
@@ -61,17 +54,17 @@ export default {
         },
         body: JSON.stringify(purchase),
       })
-        .then(function(result) {
+        .then(function (result) {
           return result.json();
         })
-        .then(function(data) {
+        .then(function (data) {
           secret = data.clientSecret;
         });
       this.secret = secret;
       // Calls stripe.confirmCardPayment
       // If the card requires authentication Stripe shows a pop-up modal to
       // prompt the user to enter authentication details without leaving your page.
-      var payWithCard = function(stripe, card, clientSecret) {
+      var payWithCard = function (stripe, card, clientSecret) {
         loading(true);
         stripe
           .confirmCardPayment(clientSecret, {
@@ -80,7 +73,7 @@ export default {
               card: card,
             },
           })
-          .then(function(result) {
+          .then(function (result) {
             if (result.error) {
               // Show error to your customer
               showError(result.error.message);
@@ -94,7 +87,7 @@ export default {
       /* ------- UI helpers ------- */
 
       // Shows a success message when the payment is complete
-      var orderComplete = function(paymentIntentId) {
+      var orderComplete = function (paymentIntentId) {
         loading(false);
         document.querySelector(".result-message a");
         // .setAttribute(
@@ -106,17 +99,17 @@ export default {
       };
 
       // Show the customer the error from Stripe if their card fails to charge
-      var showError = function(errorMsgText) {
+      var showError = function (errorMsgText) {
         loading(false);
         var errorMsg = document.querySelector("#card-error");
         errorMsg.textContent = errorMsgText;
-        setTimeout(function() {
+        setTimeout(function () {
           errorMsg.textContent = "";
         }, 4000);
       };
 
       // Show a spinner on payment submission
-      var loading = function(isLoading) {
+      var loading = function (isLoading) {
         if (isLoading) {
           // Disable the button and show a spinner
           document.querySelector("button").disabled = true;
@@ -159,7 +152,7 @@ export default {
     // Stripe injects an iframe into the DOM
     card.mount("#card-element");
 
-    card.on("change", function(event) {
+    card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
       document.querySelector("button").disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error
