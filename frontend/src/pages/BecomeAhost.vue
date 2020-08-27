@@ -1,69 +1,71 @@
   <template>
-  <div>
-    <vs-pagination progress v-model="page" :length="3" />
-    <br />
+  <form enctype="multipart/form-data">
+    <div>
+      <vs-pagination progress v-model="page" :length="3" />
+      <br />
 
-    <div id="center">
-      <div v-show="div1">
-        <vs-input label-placeholder="Governorate" v-model="Governorate" id="content" />
+      <div id="center">
+        <div v-show="div1">
+          <vs-input label-placeholder="Governorate" v-model="governorate" id="content" />
+          <br />
+          <vs-input label-placeholder="City" v-model="city" id="content" />
+          <br />
+          <vs-input label-placeholder="Street Adress" v-model="adress" id="content" />
+          <br />
+          <br />
+          <vs-select placeholder="Guests" v-model="guests" id="content">
+            <vs-option label="1" value="1">1</vs-option>
+            <vs-option label="2" value="2">2</vs-option>
+            <vs-option label="3" value="3">3</vs-option>
+            <vs-option label="4" value="4">4 +</vs-option>
+          </vs-select>
+          <br />
+          <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
+            <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
+            <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
+            <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
+          </vs-select>
+          <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+          <vs-button id="content2" flat :active="active == 0" @click="toPage2">Get Started</vs-button>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div v-show="div2" id="p2">
+        <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
         <br />
-        <vs-input label-placeholder="City" v-model="city" id="content" />
         <br />
-        <vs-input label-placeholder="Street Adress" v-model="adress" id="content" />
+        <label id="content">Availability from</label>
+        <vs-input type="date" v-model="start" id="content"></vs-input>
         <br />
         <br />
-        <vs-select placeholder="Guests" v-model="guests" id="content">
-          <vs-option label="1" value="1">1</vs-option>
-          <vs-option label="2" value="2">2</vs-option>
-          <vs-option label="3" value="3">3</vs-option>
-          <vs-option label="4" value="4">4 +</vs-option>
-        </vs-select>
+        <label id="content">Availability to</label>
+        <vs-input type="date" v-model="end" id="content"></vs-input>
         <br />
-        <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
-          <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
-          <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
-          <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
-        </vs-select>
-        <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
-        <vs-button id="content2" flat :active="active == 0" @click="fn">Get Started</vs-button>
+        <br />
+        <label id="content">Upload Photos of your house</label>
+        <vs-input id="content" type="file"></vs-input>
+        <br />
+        <vs-button id="content3" flat :active="active == 0" @click="toPage3">Next</vs-button>
+      </div>
+      <br />
+      <br />
+      <div v-show="div3" id="p3">
+        <label id="content">Upload Your CIN</label>
+        <vs-input id="content" type="file"></vs-input>
+        <br />
+        <br />
+        <label id="content">Upload Your Passport</label>
+        <vs-input id="content" type="file"></vs-input>
+        <br />
+        <br />
+        <label id="content">Upload Your MELKYA</label>
+        <vs-input id="content" type="file"></vs-input>
+        <br />
+        <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
-    <br />
-    <br />
-    <div v-show="div2" id="p2">
-      <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
-      <br />
-      <br />
-      <label id="content">Availability from</label>
-      <vs-input type="date" v-model="start" id="content"></vs-input>
-      <br />
-      <br />
-      <label id="content">Availability to</label>
-      <vs-input type="date" v-model="end" id="content"></vs-input>
-      <br />
-      <br />
-      <label id="content">Upload Photos of your house</label>
-      <vs-input id="content" type="file"></vs-input>
-      <br />
-      <vs-button id="content3" flat :active="active == 0" @click="fn2">Next</vs-button>
-    </div>
-    <br />
-    <br />
-    <div v-show="div3" id="p3">
-      <label id="content">Upload Your CIN</label>
-      <vs-input id="content" type="file"></vs-input>
-      <br />
-      <br />
-      <label id="content">Upload Your Passport</label>
-      <vs-input id="content" type="file"></vs-input>
-      <br />
-      <br />
-      <label id="content">Upload Your MELKYA</label>
-      <vs-input id="content" type="file"></vs-input>
-      <br />
-      <vs-button id="content2" flat :active="active == 0" @click="submit">Submit To Admin</vs-button>
-    </div>
-  </div>
+  </form>
 </template>
   <script>
 import DatePicker from "./DatePicker";
@@ -73,36 +75,49 @@ import { vsButton, vsSelect, vsPopup } from "vuesax";
 export default {
   name: "BecomeAhost",
   data: () => ({
-    page: 1,
+    governorate: "",
     city: "",
-    active: true,
+    adress: "",
     guests: 0,
     typeOfPlace: "",
     optionPet: false,
-    adress: "",
-    Governorate: "",
     houseName: "",
     start: "",
     end: "",
+    page: 1,
+    active: true,
     div1: true,
     div2: false,
     div3: false,
   }),
   methods: {
-    fn() {
+    toPage2() {
       this.page++;
       this.div1 = false;
       this.div2 = true;
       this.div3 = false;
     },
-    fn2() {
+    toPage3() {
       this.page++;
       this.div1 = false;
       this.div2 = false;
       this.div3 = true;
     },
-    submit() {
-      console.log("submitted");
+    postToDB() {
+      let obj = {};
+      obj.governorate = this.governorate;
+      obj.city = this.city;
+      obj.adress = this.adress;
+      obj.guests = this.guests;
+      obj.typeOfPlace = this.typeOfPlace;
+      obj.optionPet = this.optionPet;
+      obj.houseName = this.houseName;
+      obj.start = this.start;
+      obj.end = this.end;
+      console.log(obj);
+      this.axios.post("http://localhost:5000/houses", obj).then((house) => {
+        console.log(house);
+      });
     },
   },
 };

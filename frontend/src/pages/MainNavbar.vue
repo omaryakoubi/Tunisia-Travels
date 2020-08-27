@@ -163,17 +163,14 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <div id="signUp">
-            <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
-            <br />
-            <a
-              @click="
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+          <a
+            @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-            >You already have an account?</a>
-          </div>
+          >You already have an account?</a>
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -338,6 +335,7 @@ export default {
         });
     },
     logout() {
+      this.token = "";
       window.localStorage.removeItem("token");
       this.hideAndShow();
     },
@@ -347,15 +345,5 @@ export default {
 <style scoped>
 .menu-btn {
   color: black !important;
-}
-
-.link {
-  text-align: center;
-}
-#signUp {
-  margin: auto;
-}
-.safe {
-  display: table-cell;
 }
 </style>

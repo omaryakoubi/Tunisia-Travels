@@ -35,10 +35,16 @@ export default {
       return time.getTime() < Date.now();
     },
     getDate(event) {
-      let start = new Date(this.date[0]).getTime();
-      let end = new Date(this.date[1]).getTime();
-      let duration = (end - start) / (1000 * 60 * 60 * 24);
-      this.$emit("dateToParent", duration);
+      let start = this.date[0];
+      let end = this.date[1];
+      let duration =
+        (new Date(this.date[0]).getTime() - new Date(this.date[1]).getTime()) /
+        (1000 * 60 * 60 * 24);
+      let date = {};
+      date.start = start;
+      date.end = end;
+      date.duration = duration;
+      this.$emit("dateToParent", date);
     },
   },
 };

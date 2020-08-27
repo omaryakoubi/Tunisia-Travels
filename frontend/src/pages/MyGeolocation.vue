@@ -2,27 +2,29 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <h2>Stays in House Name</h2>
-        <h3>Checkin Date -- Chekout date</h3>
-        <h3>Price per night</h3>
-        <p>Information Travel</p>
+        <h2>There is N House in {{coordinates.locality}}</h2>
+        <h3>Available : From {{coordinates.start}} To {{coordinates.end}}</h3>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
         <vs-card>
           <template #title>
-            <h3>Love House</h3>
+            <h3>"House NAME"</h3>
+            <h3>"House TYPE"</h3>
           </template>
           <template #img>
             <img src="../assets/images/ferrr.png" alt />
           </template>
           <template #text>
-            <p>A beautiful place to say</p>
+            <p>"COMMENT FROM HOST ABOUT HIS HOUSE AND DETAILS"</p>
           </template>
           <template #interactions>
+            <vs-button danger icon>
+              <i class="bx">Contact"NAME"</i>
+            </vs-button>
             <vs-button class="btn-chat" shadow primary>
-              <span class="span">Contact</span>
+              <span class="span">"PRICE PER NIGHT"</span>
             </vs-button>
           </template>
         </vs-card>
@@ -53,13 +55,32 @@ export default {
       coordinates: {
         lat: 0,
         lng: 0,
+        locality: "",
+        start: "",
+        end: "",
       },
     };
   },
   mounted() {
     this.axios.get("http://localhost:5000/travelinfo").then((data) => {
+      console.log("dataHou", data.data[data.data.length - 1]);
       this.coordinates.lat = data.data[data.data.length - 1].dest.latitude;
       this.coordinates.lng = data.data[data.data.length - 1].dest.longitude;
+      this.coordinates.locality = data.data[data.data.length - 1].dest.locality;
+      this.coordinates.start = data.data[data.data.length - 1].check.start;
+      this.coordinates.end = data.data[data.data.length - 1].check.end;
+    });
+    this.axios.get("http://localhost:5000/houses").then((data) => {
+      // console.log("LOCALITY", data.data[0].governorate);
+      // console.log("Start", data.data[0].start);
+      // console.log("End", data.data[0].end);
+      // console.log("Houses Array", data.data[0]);
+      // console.log("House Name", data.data[0].houseName);
+      // console.log("House Type", data.data[0].typeOfPlace);
+      // console.log("IMAGE", data.data[0]); SAFA WORKING ON MULTER
+      //console.log("ABOUT HOUSE" ,data.data[0]) ADD COMMENT WHEN HOSTING
+      //console.log("HOST NAME" ,data.data[0]) ADD NAME WHEN HOSTING
+      //console.log("PRICE PER NIGHT" , data.data[0])
     });
   },
 };

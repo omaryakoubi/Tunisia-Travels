@@ -65,6 +65,7 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
+      console.log("check", check);
       let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
@@ -76,13 +77,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .tab-content.tab-content-padding {
   padding: 20px;
 }
 .col-sm-4 {
   margin: 0px !important;
-  border-radius: -2000px !important;
 }
 .el-input__inner {
   border-radius: 25px !important;
