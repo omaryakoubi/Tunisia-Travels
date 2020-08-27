@@ -340,6 +340,7 @@ export default {
         });
     },
     logout() {
+      this.token="";
       window.localStorage.removeItem("token");
       this.hideAndShow();
     },
@@ -351,7 +352,5 @@ export default {
   color: black !important;
 }
 
-.link {
-  text-align: center;
-}
+
 </style>

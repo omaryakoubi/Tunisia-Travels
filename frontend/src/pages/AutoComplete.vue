@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="xdee">
     <vue-google-autocomplete
       :country="['TN']"
       types="(cities)"
@@ -35,7 +35,10 @@ export default {
 };
 </script>
 <style  scoped>
-#destination {
+.form-control {
   height: 42px !important;
+}
+.xdee{
+  border-radius: 25px !important;
 }
 </style>

@@ -76,13 +76,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .tab-content.tab-content-padding {
   padding: 20px;
 }
 .col-sm-4 {
   margin: 0px !important;
-  border-radius: -2000px !important;
 }
 .el-input__inner {
   border-radius: 25px !important;

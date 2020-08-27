@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="orange">
-      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
 
       <main-navbar />
       <div class="content-center">
@@ -38,7 +41,10 @@
                     <small>-NOAA</small>
                   </p>
                 </div>
-                <div class="image-container" style="background-image: url('img/bg3.jpg')"></div>
+                <div
+                  class="image-container"
+                  style="background-image: url('img/bg3.jpg')"
+                ></div>
               </div>
               <div class="col-md-5">
                 <div
@@ -99,9 +105,7 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow them
+                    <a href="#">links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
@@ -128,9 +132,7 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow them
+                    <a href="#">links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
@@ -154,9 +156,7 @@
                     You can write here details about one of your team members.
                     You can give more details about what they do. Feel free to
                     add some
-                    <a
-                      href="#"
-                    >links</a> for people to be able to follow them
+                    <a href="#">links</a> for people to be able to follow them
                     outside the site.
                   </p>
                   <a href="#pablo" class="btn btn-primary btn-icon btn-round">
