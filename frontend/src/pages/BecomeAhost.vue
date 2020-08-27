@@ -128,6 +128,6 @@ export default {
   margin-top: -90px;
 }
 #p3 {
-  margin-top: -60px;
+  margin-top: -61px;
 }
 </style>
