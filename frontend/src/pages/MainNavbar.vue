@@ -49,7 +49,17 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-         
+           <n-button
+          v-if="auth"
+          
+            type="neutral"
+            size="small"
+            class="menu-btn"
+            link
+          >
+            <i class="ui-1_simple-remove users_circle-08"></i>
+            Logout
+          </n-button>
         </drop-down>
         <drop-down
           tag="li"
@@ -345,7 +355,11 @@ export default {
           res.status(500).send(err);
         });
     },
-    
+    logout(){
+      localStorage.removeItem("token", token)
+      this.auth=false
+      this.$router.push('/').catch(()=>{})
+    }
   },
 };
 </script>
