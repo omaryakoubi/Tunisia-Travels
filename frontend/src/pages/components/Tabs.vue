@@ -96,7 +96,7 @@ export default {
   inline-size: 222px !important;
   color: grey;
 }
-.menu-btn[data-v-5bf3a84d] {  
+.menu-btn[data-v-5bf3a84d] {
   place-content: center;
   width: 150px;
 }
