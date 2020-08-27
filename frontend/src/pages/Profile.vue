@@ -1,30 +1,11 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-      ></parallax>
+      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
       <div class="container">
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
         </div>
-        <!-- modal to upload a new picture and button to start it -->
-        <!-- <n-button
-          type="primary"
-          style="background: transparent"
-          @click.native="modals.classic = true"
-        >Upload photo</n-button>
-        <modal :show.sync="modals.classic" headerClasses="justify-content-center">
-          <h4 slot="header" class="title title-up">Modal title</h4>
-          <div class="photo-container">
-            <img src="img/ryan.jpg" alt />
-          </div>
-          <template slot="footer">
-            <input type="file" style="background: transparent" />
-          </template>
-        </modal>  -->
-
         <form enctype="multipart/form-data">
           <div class="fields">
             <label>Upload</label>
@@ -37,18 +18,13 @@
             <h5></h5>
           </div>
         </form>
-        <!-- modal ends here -->
-
-        <!-- user info -->
         <h3 class="title">{{ form.username }}</h3>
         <p class="category"></p>
       </div>
     </div>
     <div class="section">
       <div class="container">
-        <p id="edit" @click="enableEdit" style=" text-decoration: underline">
-          Edit
-        </p>
+        <p id="edit" @click="enableEdit" style=" text-decoration: underline">Edit</p>
         <h3 class="title">About me</h3>
         <fg-input
           class="disable"
@@ -82,19 +58,12 @@
         <div>
           <a style="text-decoration: underline">Change Password</a>
         </div>
-        <p
-          @click="disableEdit"
-          style="text-decoration: underline; inline-text: center"
-        >
-          Save Changes
-        </p>
+        <p @click="disableEdit" style="text-decoration: underline; inline-text: center">Save Changes</p>
       </div>
     </div>
-    <!-- user info ends here -->
   </div>
 </template>
 <script>
-
 import FormGroupInput from "../components/formGroupInput.vue";
 import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
@@ -141,9 +110,6 @@ export default {
       this.edit = true;
       this.updateProfile();
     },
-
-    //update profile
-
     async updateProfile(name) {
       console.log("here at the top");
       try {
@@ -162,8 +128,6 @@ export default {
       }
     },
 
-    // upload image
-
     onSelect() {
       const file = this.$refs.file.files[0];
       this.file = file;
@@ -171,13 +135,17 @@ export default {
     },
     async onSubmit() {
       try {
+        const formData = new FormData();
+        formData.append("file", this.file);
         const newFile = this.file.name;
-        console.log("c", newFile);
-        await axios.post("http://localhost:5000/api/users/upload", newFile);
-        this.message = "Uploaded !";
+
+        await axios.post("http://localhost:5000/api/users/upload", formData);
+        this.message = "uploaded";
+        this.file = "";
+        console.log("loaded");
       } catch (err) {
+        this.message = "not uploaded";
         console.log(err);
-        this.message = "something went wrong";
       }
     },
     uploadImage() {
@@ -188,7 +156,7 @@ export default {
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
@@ -197,7 +165,7 @@ export default {
         .get("http://localhost:5000/api/users/profile")
         .then((res) => {
           let response = res.data.user;
-            (this.form._id = response._id),
+          (this.form._id = response._id),
             (this.form.username = response.username),
             (this.form.name = response.name),
             (this.form.username = response.username),
@@ -206,7 +174,9 @@ export default {
             (this.form.phone = response.phone);
           console.log(response);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }
   },
 };
