@@ -2,6 +2,7 @@ const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const NodemailerConfig = require("../../config/NodemailerConfig");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../../model/User.js");
 
 module.exports = router.post("/reset", (req, res) => {

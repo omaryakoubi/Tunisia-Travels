@@ -32,6 +32,10 @@ const UserSchema = new Schema({
     },
     file: {
         type: String
+    },
+    resetLink : {
+        data : String,
+        default : ''
     }
 })
 module.exports = User = mongoose.model('users', UserSchema)
