@@ -59,14 +59,6 @@
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/landing">
-            <i class="now-ui-icons education_paper"></i> Currency
-          </nav-link>
-          <nav-link to="/login">
-            <i class="now-ui-icons users_circle-08"></i> Languages
-          </nav-link>
-        </drop-down>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
