@@ -17,38 +17,49 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item" >
-          <nav-link to="/BecomeAhost" class="shown">
+        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+          <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
-          <nav-link to="/profile"  class="hidden" :hidden="hide">
+          <nav-link to="/profile" class="hidden" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Account
           </nav-link>
-          <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+          <n-button
+            @click="modals.login = true"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="!hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
           <br />
-          <n-button @click="modals.signup = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+          <n-button
+            @click="modals.signup = true"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="!hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
+          <n-button
+            @click="logout"
+            type="neutral"
+            size="small"
+            class="menu-btn hidden"
+            link
+            :hidden="hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/landing">
-            <i class="now-ui-icons education_paper"></i> Currency
-          </nav-link>
-          <nav-link to="/login">
-            <i class="now-ui-icons users_circle-08"></i> Languages
-          </nav-link>
-        </drop-down>
       </template>
-
-      <!-- Login Modal -->
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
@@ -94,7 +105,6 @@
           </div>
         </div>
       </modal>
-      <!-- Singup Modal -->
       <modal :show.sync="modals.signup" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Signup</h2>
@@ -112,14 +122,12 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="username"
           ></fg-input>
-
           <fg-input
             type="email"
             placeholder="Email..."
             addon-left-icon="now-ui-icons ui-1_email-85"
             v-model="email"
           ></fg-input>
-
           <fg-input
             type="password"
             placeholder="Password . . ."
@@ -194,13 +202,13 @@ export default {
       cpassword: "",
       age: "",
       phone: "",
-      hide: true
+      hide: true,
     };
   },
   methods: {
     hideAndShow() {
-      this.hide = !this.hide
-      console.log('0',this.hide)
+      this.hide = !this.hide;
+      console.log("0", this.hide);
     },
     login() {
       axios
@@ -211,8 +219,8 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
-          console.log("axios", res);    
-          this.hideAndShow()         
+          console.log("axios", res);
+          this.hideAndShow();
         })
         .catch(() => {
           alert("Wrong password or username");
@@ -268,9 +276,9 @@ export default {
         });
     },
     logout() {
-      localStorage.removeItem('token')
-      this.hideAndShow()
-    }
+      localStorage.removeItem("token");
+      this.hideAndShow();
+    },
   },
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div>
-      <ul
-        class="nav"
-        role="tablist"
-        v-bind="$attrs"
-        :class="[
+    <ul
+      class="nav"
+      role="tablist"
+      v-bind="$attrs"
+      :class="[
           tabTypeClass,
           { 'nav-pills-icons': icons },
           { 'nav-pills': pills },
@@ -13,108 +13,108 @@
           { 'justify-content-center': centered },
           tabNavClasses
         ]"
+    >
+      <li
+        v-for="tab in tabs"
+        class="nav-item active"
+        data-toggle="tab"
+        role="tablist"
+        aria-expanded="true"
+        :key="tab.id"
       >
-        <li
-          v-for="tab in tabs"
-          class="nav-item active"
+        <a
           data-toggle="tab"
           role="tablist"
-          aria-expanded="true"
-          :key="tab.id"
+          :href="`#${tab.id}`"
+          @click.prevent="activateTab(tab)"
+          :aria-expanded="tab.active"
+          class="nav-link"
+          :class="{ active: tab.active, disabled: tab.disabled }"
         >
-          <a
-            data-toggle="tab"
-            role="tablist"
-            :href="`#${tab.id}`"
-            @click.prevent="activateTab(tab)"
-            :aria-expanded="tab.active"
-            class="nav-link"
-            :class="{ active: tab.active, disabled: tab.disabled }"
-          >
-            <tab-item-content :tab="tab"> </tab-item-content>
-          </a>
-        </li>
-      </ul>
-    
-      <slot></slot>
+          <tab-item-content :tab="tab"></tab-item-content>
+        </a>
+      </li>
+    </ul>
+
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'tabs',
+  name: "tabs",
   inheritAttrs: false,
   components: {
     TabItemContent: {
-      props: ['tab'],
+      props: ["tab"],
       render(h) {
-        return h('div', [this.tab.$slots.label || this.tab.label]);
-      }
-    }
+        return h("div", [this.tab.$slots.label || this.tab.label]);
+      },
+    },
   },
   provide() {
     return {
       addTab: this.addTab,
-      removeTab: this.removeTab
+      removeTab: this.removeTab,
     };
   },
   props: {
     type: {
       type: String,
-      default: 'success',
-      validator: value => {
+      default: "success",
+      validator: (value) => {
         let acceptedValues = [
-          'primary',
-          'info',
-          'success',
-          'warning',
-          'danger',
-          'default',
-          'neutral'
+          "primary",
+          "info",
+          "success",
+          "warning",
+          "danger",
+          "default",
+          "neutral",
         ];
         return acceptedValues.indexOf(value) !== -1;
-      }
+      },
     },
     activeTab: {
       type: String,
-      default: ''
+      default: "",
     },
     tabNavWrapperClasses: {
       type: [String, Object],
-      default: ''
+      default: "",
     },
     tabNavClasses: {
       type: [String, Object],
-      default: ''
+      default: "",
     },
     tabContentClasses: {
       type: [String, Object],
-      default: ''
+      default: "",
     },
     vertical: Boolean,
     noContentSpace: Boolean,
     icons: Boolean,
     centered: Boolean,
     value: String,
-    pills: Boolean
+    pills: Boolean,
   },
   data() {
     return {
-      tabs: []
+      tabs: [],
     };
   },
   computed: {
     tabTypeClass() {
-      let baseClass = this.pills ? 'pills' : 'tabs';
+      let baseClass = this.pills ? "pills" : "tabs";
       if (this.type) {
         return `nav-${baseClass}-${this.type}`;
       }
-      return '';
-    }
+      return "";
+    },
   },
   methods: {
     findAndActivateTab(label) {
-      let tabToActivate = this.tabs.find(t => t.label === label);
+      let tabToActivate = this.tabs.find((t) => t.label === label);
       if (tabToActivate) {
         this.activateTab(tabToActivate);
       }
@@ -128,10 +128,10 @@ export default {
       }
       this.deactivateTabs();
       tab.active = true;
-      this.$emit('input', tab.label || tab.id);
+      this.$emit("input", tab.label || tab.id);
     },
     deactivateTabs() {
-      this.tabs.forEach(tab => {
+      this.tabs.forEach((tab) => {
         tab.active = false;
       });
     },
@@ -151,7 +151,7 @@ export default {
       if (index > -1) {
         tabs.splice(index, 1);
       }
-    }
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -163,14 +163,14 @@ export default {
   watch: {
     value(newVal) {
       this.findAndActivateTab(newVal);
-    }
-  }
+    },
+  },
 };
 </script>
 <style >
-.nav{
-  /* border-radius: 20px; */
+.nav {
+  border-radius: 20px;
   align-items: center;
-  /* margin-right: auto; */
+  margin-right: auto;
 }
-</style>
+</style> 

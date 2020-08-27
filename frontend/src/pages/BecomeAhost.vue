@@ -109,30 +109,18 @@ export default {
 </script>
 <style  scoped>
 #center {
-  /* align-self: center !important; */
-  /* border: 1px solid red; */
-  /* text-align: center; */
   margin-top: 150px;
   align-content: center !important;
 }
 #content {
-  /* align-self: center !important; */
-  /* border: 1px solid green; */
-  /* text-align: center; */
   align-content: center !important;
   margin-left: 650px;
 }
 #content2 {
-  /* align-self: center !important; */
-  /* border: 1px solid green; */
-  /* text-align: center; */
   align-content: center !important;
   margin-left: 690px;
 }
 #content3 {
-  /* align-self: center !important; */
-  /* border: 1px solid green; */
-  /* text-align: center; */
   align-content: center !important;
   margin-left: 720px;
 }
