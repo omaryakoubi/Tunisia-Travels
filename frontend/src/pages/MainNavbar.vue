@@ -17,39 +17,27 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down
-          tag="li"
-          title
-          icon="now-ui-icons location_world"
-          class="nav-item"
-        >
-          <nav-link to="/BecomeAhost">
+        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item" >
+          <nav-link to="/BecomeAhost" class="shown">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
-          <n-button
-          v-if="!auth"
-            @click="modals.login = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
+          <nav-link to="/profile"  class="hidden" :hidden="hide">
+            <i class="now-ui-icons education_paper"></i> Account
+          </nav-link>
+          <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
           <br />
-          <n-button
-          v-if="!auth"
-            @click="modals.signup = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
+          <n-button @click="modals.signup = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-         
+           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
+            <i class="now-ui-icons users_circle-08"></i>
+            Logout
+          </n-button>
         </drop-down>
         <drop-down
           tag="li"
@@ -256,9 +244,14 @@ export default {
       adressMail: "",
       toggle: false,
       auth: false,
+      hide: true
     };
   },
   methods: {
+    hideAndShow() {
+      this.hide = !this.hide
+      console.log('0',this.hide)
+    },
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
@@ -268,10 +261,14 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
+
           console.log("axios", res);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
+
+          this.hideAndShow()         
+
         })
         .catch(() => {
           alert("Wrong password or username");
@@ -345,7 +342,12 @@ export default {
           res.status(500).send(err);
         });
     },
-    
+
+    logout() {
+      localStorage.removeItem('token')
+      this.hideAndShow()
+    }
+
   },
 };
 </script>
