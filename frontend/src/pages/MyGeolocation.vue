@@ -66,7 +66,6 @@ export default {
 </script>
 <style scoped>
 .vue-map-container {
-  /* width: 640px !important; */
   height: 900px !important;
   float: right !important;
 }
