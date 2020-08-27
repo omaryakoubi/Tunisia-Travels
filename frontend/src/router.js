@@ -6,15 +6,6 @@ Vue.use(Router);
 export default new Router({
   linkExactActiveClass: "active",
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: () => import('./pages/Home.vue'),
-    //   props: {
-    //     header: { colorOnScroll: 400 },
-    //     footer: { backgroundColor: 'black' }
-    //   }
-    // },
     {
       path: "/",
       name: "index",
@@ -34,18 +25,28 @@ export default new Router({
       },
     },
     {
-      path: "/login",
-      name: "login",
-      component: () => import("./pages/Login.vue"),
+      path: "/MyGeolocation",
+      name: "MyGeolocation",
+      component: () => import("./pages/MyGeolocation.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      }
+    },
+ 
+    {
+      path: "/BecomeAhost",
+      name: "BecomeAhost",
+      component: () => import("./pages/BecomeAhost.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
       },
     },
     {
-      path: "/signup",
-      name: "signup",
-      component: () => import("./pages/Signup.vue"),
+      path: "/payment",
+      name: "payment",
+      component: () => import("./pages/OnlinePayment.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -60,3 +61,5 @@ export default new Router({
     }
   },
 });
+
+
