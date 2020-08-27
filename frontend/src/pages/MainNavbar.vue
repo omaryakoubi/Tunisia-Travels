@@ -23,18 +23,11 @@
           icon="now-ui-icons location_world"
           class="nav-item"
         >
+          <nav-link to="/BecomeAhost">
+            <i class="now-ui-icons education_paper"></i> Become a Host
+          </nav-link>
           <n-button
-            @click="modals.signup = true"
-            type="neutral"
-            size="small"
-            class="menu-btn"
-            link
-          >
-            <i class="now-ui-icons education_paper "></i> Become a Host
-          </n-button>
-          <br />
-
-          <n-button
+          v-if="!auth"
             @click="modals.login = true"
             type="neutral"
             size="small"
@@ -46,6 +39,7 @@
           </n-button>
           <br />
           <n-button
+          v-if="!auth"
             @click="modals.signup = true"
             type="neutral"
             size="small"
@@ -55,6 +49,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
+         
         </drop-down>
         <drop-down
           tag="li"
@@ -76,30 +71,10 @@
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-
-        <fg-input
-          type="text"
-          placeholder="Username..."
-          addon-left-icon="now-ui-icons users_single-02"
-          v-model="username"
-        >
-        </fg-input>
-
-        <fg-input
-          type="password"
-          placeholder="Password..."
-          addon-left-icon="now-ui-icons ui-1_lock-circle-open"
-          v-model="password"
-        >
-        </fg-input>
-
-        <div class=" text-center">
-          <a @click="login" class="btn btn-primary btn-round btn-lg ">Login</a>
-        </div>
         <div class="social-line">
           <a
             @click="logInWithFacebook"
-            class="btn btn-default btn-facebook btn-icon btn-lg btn-round"
+            class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
           >
             <i class="fab fa-facebook-square"></i>
           </a>
@@ -110,16 +85,39 @@
             <i class="fab fa-google-plus"></i>
           </a>
         </div>
+        <fg-input
+          type="text"
+          placeholder="Username..."
+          addon-left-icon="now-ui-icons users_single-02"
+          v-model="username"
+        ></fg-input>
+
+        <fg-input
+          type="password"
+          placeholder="Password..."
+          addon-left-icon="now-ui-icons ui-1_lock-circle-open"
+          v-model="password"
+        ></fg-input>
+
+        <div class=" text-center">
+          <a @click="login" class="btn btn-danger btn-round btn-lg ">Login</a>
+        </div>
+
         <div class="footer">
           <div class="pull-left" type="danger">
-            <n-button type="danger" size="lg" link>
-              Forget Password?
-            </n-button>
+            <a
+              @click="
+                (modals.reset = true),
+                  (modals.login = false),
+                  (modals.signup = false)
+              "
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <n-button type="success" size="lg" link>
-              Create account?
-            </n-button>
+            <a @click="(modals.login = false), (modals.signup = true)">
+              Create new account?
+            </a>
           </div>
         </div>
       </modal>
@@ -134,61 +132,81 @@
             type="text"
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="name"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             placeholder="Username . . ."
             type="text"
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="username"
-          >
-          </fg-input>
+          ></fg-input>
 
           <fg-input
             type="email"
             placeholder="Email..."
             addon-left-icon="now-ui-icons ui-1_email-85"
             v-model="email"
-          >
-          </fg-input>
+          ></fg-input>
 
           <fg-input
             type="password"
             placeholder="Password . . ."
             addon-left-icon="now-ui-icons ui-1_lock-circle-open"
             v-model="password"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="password"
             placeholder="Confirm Password . . ."
             addon-left-icon="now-ui-icons ui-1_lock-circle-open"
             v-model="cpassword"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="number"
             placeholder="Age..."
             addon-left-icon="now-ui-icons media-2_sound-wave"
             v-model="age"
-          >
-          </fg-input>
+          ></fg-input>
           <fg-input
             type="text"
             placeholder="Phone..."
             addon-left-icon="now-ui-icons tech_mobile"
             v-model="phone"
-          >
-          </fg-input>
+          ></fg-input>
         </template>
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block"
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block"
             >SignUp</a
           >
-          <a @click="modals.login = true, modals.signup = false"  link>
+          <a
+            @click="
+              (modals.login = true),
+                (modals.signup = false),
+                (modals.reset = false)
+            "
+          >
             You already have an account?
           </a>
         </template>
+      </modal>
+      <!-- Reset Modal -->
+      <modal :show.sync="modals.reset" headerClasses="justify-content-center">
+        <template slot="header">
+          <h2 slot="header" class="title title-up">Reset Password</h2>
+        </template>
+        <div id="form">
+          <fg-input
+            type="text"
+            placeholder="Adress-Mail"
+            addon-left-icon="now-ui-icons users_circle-08"
+            v-model="adressMail"
+          >
+          </fg-input>
+          <p v-if="toggle">Check your email</p>
+          <div class=" text-center">
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg "
+              >Send</a
+            >
+          </div>
+        </div>
       </modal>
     </navbar>
   </div>
@@ -226,6 +244,7 @@ export default {
       modals: {
         login: false,
         signup: false,
+        reset: false,
       },
       name: "",
       username: "",
@@ -234,6 +253,9 @@ export default {
       cpassword: "",
       age: "",
       phone: "",
+      adressMail: "",
+      toggle: false,
+      auth: false,
     };
   },
   methods: {
@@ -244,7 +266,12 @@ export default {
           password: this.password,
         })
         .then((res) => {
+          let token = res.data.token;
+          localStorage.setItem("token", token);
           console.log("axios", res);
+          this.$router.push("/").catch(() => {});
+          this.modals.login = false;
+          this.auth = true;
         })
         .catch(() => {
           alert("Wrong password or username");
@@ -296,9 +323,29 @@ export default {
           phone: this.phone,
         })
         .then((res) => {
+          this.modals.signup = false;
+          this.modals.login = true;
           console.log("axios", res);
+        })
+        .catch(() => {
+          alert("Something Wrong");
         });
     },
+    resetPassword() {
+      this.toggle = true;
+      axios
+        .post("http://localhost:5000/api/users/reset", {
+          email: this.adressMail,
+        })
+        .then(() => {
+          this.modals.reset = false;
+          res.send("success");
+        })
+        .catch((err) => {
+          res.status(500).send(err);
+        });
+    },
+    
   },
 };
 </script>
