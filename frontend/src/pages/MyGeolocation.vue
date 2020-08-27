@@ -6,10 +6,10 @@
         <h3>Checkin Date -- Chekout date</h3>
         <h3>Price per night</h3>
         <p>Information Travel</p>
-        <n-button type="primary" round simple>Price</n-button>
+        <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
-        <n-button type="primary" round simple>Type of place</n-button>
+        <n-button type="primary" round simple>Type of place</n-button>-->
         <vs-card>
           <template #title>
             <h3>Love House</h3>

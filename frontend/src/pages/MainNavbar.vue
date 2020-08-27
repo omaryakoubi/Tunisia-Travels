@@ -36,6 +36,7 @@
             Login
           </n-button>
           <br />
+
           <n-button
             @click="modals.signup = true"
             type="neutral"
@@ -47,6 +48,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
+
           <n-button
             @click="logout"
             type="neutral"
@@ -64,7 +66,7 @@
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-        <div class="social-line">
+        <div id="social-line">
           <a
             @click="logInWithFacebook"
             class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
@@ -159,15 +161,19 @@
             v-model="phone"
           ></fg-input>
         </template>
+
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block">SignUp</a>
-          <a
-            @click="
+          <div id="signUp">
+            <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+            <br />
+            <a
+              @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a>
+          </div>
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -345,5 +351,11 @@ export default {
 
 .link {
   text-align: center;
+}
+#signUp {
+  margin: auto;
+}
+.safe {
+  display: table-cell;
 }
 </style>

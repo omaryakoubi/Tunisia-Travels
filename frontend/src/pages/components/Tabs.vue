@@ -89,13 +89,12 @@ export default {
 }
 .btn-neutral {
   border-radius: 25px !important;
-  /* margin-right: 133px !important; */
   margin-top: 1px !important;
 }
 .btn:not(:disabled):not(.disabled) {
-  /* inline-size: 222px !important; */
+  inline-size: 222px !important;
   color: grey;
-  /* margin-left: -50px; */
+  margin-left: -50px;
 }
 .menu-btn[data-v-5bf3a84d] {
   place-content: center;
@@ -108,7 +107,7 @@ export default {
   margin: 4px;
 }
 #destination[data-v-55287aa8] {
-  height: 42px !important;
-  margin-left: -73px;
+  height: 39px !important;
+  margin-left: 2px;
 }
 </style>

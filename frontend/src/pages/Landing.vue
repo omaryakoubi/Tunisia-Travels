@@ -204,6 +204,6 @@ export default {
   z-index: 0;
 }
 #xfix {
-  border-radius: 25px;
+  /* border-radius: 25px; */
 }
 </style>
