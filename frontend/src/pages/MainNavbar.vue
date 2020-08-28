@@ -36,6 +36,7 @@
             Login
           </n-button>
           <br />
+
           <n-button
             @click="modals.signup = true"
             type="neutral"
@@ -47,6 +48,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
+
           <n-button
             @click="logout"
             type="neutral"
@@ -59,20 +61,12 @@
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/landing">
-            <i class="now-ui-icons education_paper"></i> Currency
-          </nav-link>
-          <nav-link to="/login">
-            <i class="now-ui-icons users_circle-08"></i> Languages
-          </nav-link>
-        </drop-down>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-        <div class="social-line">
+        <div id="social-line">
           <a
             @click="logInWithFacebook"
             class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
@@ -167,8 +161,9 @@
             v-model="phone"
           ></fg-input>
         </template>
+
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block">SignUp</a>
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
           <a
             @click="
               (modals.login = true),
@@ -277,8 +272,6 @@ export default {
       window.FB.login(function (response) {
         if (response.authResponse) {
           console.log(response.authResponse);
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
         } else {
           alert("User cancelled login or did not fully authorize.");
         }
@@ -340,7 +333,7 @@ export default {
         });
     },
     logout() {
-      this.token="";
+      this.token = "";
       window.localStorage.removeItem("token");
       this.hideAndShow();
     },
@@ -351,6 +344,4 @@ export default {
 .menu-btn {
   color: black !important;
 }
-
-
 </style>
