@@ -7,7 +7,6 @@ const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 
-
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
@@ -55,7 +54,11 @@ require("./config/passport")(passport);
 // Bring in the Database Config
 const db = require("./config/keys").mongoURI;
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then((db) => {
     console.log("Database connected successfully");
   })
@@ -80,7 +83,6 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
-
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>
