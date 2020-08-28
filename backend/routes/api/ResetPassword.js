@@ -57,7 +57,7 @@ module.exports = router.post("/reset", (req, res) => {
       } else {
         const token = crypto.randomBytes(20).toString("hex");
 
-        User.update({
+        User.updateMany({
           resetPasswordToken: token,
           resetPasswordExpires: Date.now + 3600000,
         });
@@ -84,7 +84,8 @@ module.exports = router.post("/reset", (req, res) => {
           if (err) {
             res.err(err);
           } else {
-            res.send(`Email sent : ${info.response}`);
+            console.log("this is the responese", res);
+            res.status(200).json("recovery email sent");
           }
         });
       }

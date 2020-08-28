@@ -26,6 +26,7 @@
 
 <script>
 import FormGroupInput from "../components/formGroupInput.vue";
+import axios from 'axios';
 export default {
   name: "ResetPasswordForm",
   data() {
@@ -37,7 +38,12 @@ export default {
   components: {
     [FormGroupInput.name]: FormGroupInput,
   },
+  
+  mounted() {
+      axios.get('')
+  }
 };
+
 </script>
 
 <style scoped>
