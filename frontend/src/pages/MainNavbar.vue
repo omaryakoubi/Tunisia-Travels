@@ -48,15 +48,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-
-          <n-button
-            @click="logout"
-            type="neutral"
-            size="small"
-            class="menu-btn hidden"
-            link
-            :hidden="hide"
-          >
+           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
@@ -333,10 +325,9 @@ export default {
         });
     },
     logout() {
-      this.token = "";
-      window.localStorage.removeItem("token");
-      this.hideAndShow();
-    },
+      localStorage.removeItem('token')
+      this.hideAndShow()  
+    }
   },
 };
 </script>

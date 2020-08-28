@@ -53,6 +53,11 @@ export default new Router({
       },
     },
     {
+      path: "/selectedHouse",
+      name: "SelectedHouse",
+      component: () => import("./pages/SelectedHouse.vue"),
+
+    },{
       path: "/admin",
       name: "admin",
       component: () => import("./pages/admin/homeAdmin.vue"),

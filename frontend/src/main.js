@@ -2,7 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import axios from "axios";
 import Vuesax from "vuesax";
-import "vuesax/dist/vuesax.css";
 import "material-icons/iconfont/material-icons.css";
 import VueRouter from "vue-router";
 import VueGeolocation from 'vue-browser-geolocation'

@@ -7,6 +7,8 @@ const key = require("../../config/keys").secret;
 const multer = require("multer");
 const User = require("../../model/User.js");
 const path = require("path");
+const fs = require("fs");
+const cloudinary = require("../../cloudinary.config");
 
 /**
  * @route POST api/users/signup
@@ -159,28 +161,28 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-        { _id: req.user._id },
-        ({ name, username, email, age, phone } = req.body)
-      )
-        .then(() => {
-          console.log("then", req.user);
-          res.status(201).send("done");
-        })
-        .catch((err) => {
-          console.log("catch", req.user);
-          res.status(505).send({ err });
-        })
+          { _id: req.user._id },
+          ({ name, username, email, age, phone, file } = req.body)
+        )
+          .then(() => {
+            console.log("then", req.user);
+            res.status(201).send(req.user);
+          })
+          .catch((err) => {
+            console.log("catch", req.user);
+            res.status(505).send({ err });
+          })
       : res.status(404).send("NOT FOUND");
   }
 );
 
-//upload image Multer
+//upload image
 
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-    console.log('file',file)
+    cb(null, Date.now() + file.originalname);
+    console.log("file", file);
   },
 });
 const fileFilter = (req, file, cb) => {
@@ -195,15 +197,34 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+router.post(
+  "/upload",
+  //  passport.authenticate("jwt", {
+  //   session: false,
+  // }),
+  upload.array("imageFile"),
+  async (req, res) => {
+    console.log("req", req.files);
+    const uploader = async (path) =>
+      await cloudinary.uploads(path, "imageFile");
+    const urls = [];
+    const files = req.files;
+    for (let key in files) {
+      const path = files[key].path;
+      const newPath = await uploader(path);
+      console.log("path", newPath);
+      urls.push(newPath);
+      fs.unlinkSync(path);
+      res.status(200).json({
+        message: "uploaded",
+        data: urls,
+      });
+    }
 
-router.post("/upload",
- passport.authenticate("jwt", {
-  session: false,
-}), upload.single("imageFile"), 
-async (req, res) => {
-  await User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
-  console.log('user id',req.user._id)
-  res.send({ file: req.file.originalname });
-});
+    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+    //  console.log('user id',req.user._id)
+    //  res.send({ file: req.file.originalname });
+  }
+);
 
 module.exports = router;

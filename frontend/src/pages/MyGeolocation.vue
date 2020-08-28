@@ -2,8 +2,10 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <h2>There is N House in {{coordinates.locality}}</h2>
-        <h4>Available : From {{coordinates.start}} To {{coordinates.end}}</h4>
+        <h2>There is N House in {{ coordinates.locality }}</h2>
+        <h4>
+          Available : From {{ coordinates.start }} To {{ coordinates.end }}
+        </h4>
         <h6>Guests Number : "GUEST NUMBER"</h6>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
@@ -11,25 +13,29 @@
         <n-button type="primary" round simple>Type of place</n-button>-->
         <vs-card>
           <template #title>
-            <h3>{{response.houseName}}</h3>
-            <h5>{{response.typeOfPlace}}</h5>
+            <h3>{{ response.houseName }}</h3>
+            <h5>{{ response.typeOfPlace }}</h5>
           </template>
           <template #img>
-            <img src="../assets/images/ferrr.png" alt />
+            <img
+              src="../assets/images/ferrr.png"
+              alt
+              @click="$router.push('/SelectedHouse')"
+            />
           </template>
           <template #text>
-            <p>{{response.description}}</p>
+            <p>{{ response.description }}</p>
           </template>
           <template #interactions>
             <vs-button danger icon>
               <i class="bx">
-                {{response.hostName}}
+                {{ response.hostName }}
                 <br />
-                {{response.hostPhone}}
+                {{ response.hostPhone }}
               </i>
             </vs-button>
             <vs-button class="btn-chat" shadow primary>
-              <span class="span">{{response.price}} euro/night</span>
+              <span class="span">{{ response.price }} euro/night</span>
             </vs-button>
           </template>
         </vs-card>
@@ -42,7 +48,11 @@
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
-          <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
+          <GmapMarker
+            :position="coordinates"
+            :clickable="true"
+            :draggable="true"
+          />
         </GmapMap>
       </vs-col>
     </vs-row>
@@ -107,5 +117,4 @@ export default {
 .vs-col--w-12 {
   width: 50% !important;
 }
-</style>  
-
+</style>
