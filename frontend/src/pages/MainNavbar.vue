@@ -17,19 +17,34 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item" >
-          <nav-link to="/BecomeAhost" class="shown">
+        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+          <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
-          <nav-link to="/profile"  class="hidden" :hidden="hide">
+          <nav-link to="/profile" class="hidden" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Account
           </nav-link>
-          <n-button @click="modals.login = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+          <n-button
+            @click="modals.login = true"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="!hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             Login
           </n-button>
           <br />
-          <n-button @click="modals.signup = true" type="neutral" size="small" class="menu-btn shown" link  :hidden="!hide">
+
+          <n-button
+            @click="modals.signup = true"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="!hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
@@ -38,22 +53,25 @@
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/landing">
-            <i class="now-ui-icons education_paper"></i> Currency
-          </nav-link>
-          <nav-link to="/login">
-            <i class="now-ui-icons users_circle-08"></i> Languages
-          </nav-link>
-        </drop-down>
       </template>
-
-      <!-- Login Modal -->
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-
+        <div id="social-line">
+          <a
+            @click="logInWithFacebook"
+            class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-facebook-square"></i>
+          </a>
+          <a
+            href="http://localhost:5000/auth/google"
+            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
+          >
+            <i class="fab fa-google-plus"></i>
+          </a>
+        </div>
         <fg-input
           type="text"
           placeholder="Username..."
@@ -69,32 +87,24 @@
         ></fg-input>
 
         <div class="text-center">
-          <a @click="login" class="btn btn-primary btn-round btn-lg">Login</a>
+          <a @click="login" class="btn btn-danger btn-round btn-lg">Login</a>
         </div>
-        <div class="social-line">
-          <a
-            @click="logInWithFacebook"
-            class="btn btn-default btn-facebook btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-facebook-square"></i>
-          </a>
-          <a
-            href="http://localhost:5000/auth/google"
-            class="btn btn-neutral btn-google btn-icon btn-lg btn-round"
-          >
-            <i class="fab fa-google-plus"></i>
-          </a>
-        </div>
+
         <div class="footer">
           <div class="pull-left" type="danger">
-            <router-link to="/reset" class="link">Forget Password?</router-link>
+            <a
+              @click="
+                (modals.reset = true),
+                  (modals.login = false),
+                  (modals.signup = false)
+              "
+            >Forget Password?</a>
           </div>
           <div class="pull-right">
-            <n-button type="success" size="lg" link>Create account?</n-button>
+            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
           </div>
         </div>
       </modal>
-      <!-- Singup Modal -->
       <modal :show.sync="modals.signup" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Signup</h2>
@@ -112,14 +122,12 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="username"
           ></fg-input>
-
           <fg-input
             type="email"
             placeholder="Email..."
             addon-left-icon="now-ui-icons ui-1_email-85"
             v-model="email"
           ></fg-input>
-
           <fg-input
             type="password"
             placeholder="Password . . ."
@@ -145,10 +153,35 @@
             v-model="phone"
           ></fg-input>
         </template>
+
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-primary btn-round btn-lg btn-block">SignUp</a>
-          <a @click="modals.login = true, modals.signup = false" link>You already have an account?</a>
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+          <a
+            @click="
+              (modals.login = true),
+                (modals.signup = false),
+                (modals.reset = false)
+            "
+          >You already have an account?</a>
         </template>
+      </modal>
+      <!-- Reset Modal -->
+      <modal :show.sync="modals.reset" headerClasses="justify-content-center">
+        <template slot="header">
+          <h2 slot="header" class="title title-up">Reset Password</h2>
+        </template>
+        <div id="form">
+          <fg-input
+            type="text"
+            placeholder="Adress-Mail"
+            addon-left-icon="now-ui-icons users_circle-08"
+            v-model="adressMail"
+          ></fg-input>
+          <p v-if="toggle">Check your email</p>
+          <div class="text-center">
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+          </div>
+        </div>
       </modal>
     </navbar>
   </div>
@@ -186,6 +219,7 @@ export default {
       modals: {
         login: false,
         signup: false,
+        reset: false,
       },
       name: "",
       username: "",
@@ -194,13 +228,16 @@ export default {
       cpassword: "",
       age: "",
       phone: "",
-      hide: true
+      adressMail: "",
+      toggle: false,
+      auth: false,
+      hide: true,
     };
   },
   methods: {
     hideAndShow() {
-      this.hide = !this.hide
-      console.log('0',this.hide)
+      this.hide = !this.hide;
+      console.log("0", this.hide);
     },
     login() {
       axios
@@ -211,8 +248,11 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
-          console.log("axios", res);    
-          this.hideAndShow()         
+          console.log("axios", res);
+          this.$router.push("/").catch(() => {});
+          this.modals.login = false;
+          this.auth = true;
+          this.hideAndShow();
         })
         .catch(() => {
           alert("Wrong password or username");
@@ -224,8 +264,6 @@ export default {
       window.FB.login(function (response) {
         if (response.authResponse) {
           console.log(response.authResponse);
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
         } else {
           alert("User cancelled login or did not fully authorize.");
         }
@@ -264,12 +302,31 @@ export default {
           phone: this.phone,
         })
         .then((res) => {
+          this.modals.signup = false;
+          this.modals.login = true;
           console.log("axios", res);
+        })
+        .catch(() => {
+          alert("Something Wrong");
+        });
+    },
+    resetPassword() {
+      this.toggle = true;
+      axios
+        .post("http://localhost:5000/api/users/reset", {
+          email: this.adressMail,
+        })
+        .then(() => {
+          this.modals.reset = false;
+          res.send("success");
+        })
+        .catch((err) => {
+          res.status(500).send(err);
         });
     },
     logout() {
       localStorage.removeItem('token')
-      this.hideAndShow()
+      this.hideAndShow()  
     }
   },
 };
@@ -277,9 +334,5 @@ export default {
 <style scoped>
 .menu-btn {
   color: black !important;
-}
-
-.link {
-  text-align: center;
 }
 </style>

@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
+const HousesInfos = require("./model/HousesInfos.js")
 
 
 // import passport from 'passport'
@@ -20,11 +21,12 @@ const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const coockieSession = require("cookie-session");
 
+
 // Middleware
 // Form Data Middlware
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
 // Json Body Middleware
@@ -66,6 +68,7 @@ mongoose
 // Bring in the Users route
 const users = require("./routes/api/users");
 const keys = require("./config/keys");
+const multer = require("multer");
 app.use("/api/users", users);
 
 //HOU i will reorganize them later {{SORRY}}
@@ -80,6 +83,18 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
+app.post("/houses", (req, res) => {
+  HousesInfos.create(req.body).then((house) => {
+    res.send(house)
+  })
+})
+
+app.get("/houses", (req, res) => {
+  HousesInfos.find({}).then(houses => {
+    res.send(houses)
+  })
+})
+
 
 
 const port = process.env.PORT || 5000;

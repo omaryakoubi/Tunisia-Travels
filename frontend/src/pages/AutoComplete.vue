@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="xdee">
     <vue-google-autocomplete
       :country="['TN']"
       types="(cities)"
@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     getFromAddress(destination) {
+      console.log("safe",destination.locality);
       this.destination = destination;
       this.$emit("travelDestination", this.destination);
     },
@@ -34,3 +35,11 @@ export default {
   },
 };
 </script>
+<style  scoped>
+.form-control {
+  height: 42px !important;
+}
+.xdee {
+  border-radius: 25px !important;
+}
+</style>

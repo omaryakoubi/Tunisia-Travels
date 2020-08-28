@@ -20,17 +20,17 @@
       </div>
 
       <div class="col-sm-4">
-        <n-button v-popover:popover4 type="neutral">Guest</n-button>
+        <n-button v-popover:popover4 type="neutral">Select guests</n-button>
       </div>
     </div>
+    <br />
+    <br />
     <router-link to="/MyGeolocation">
       <button @click="postTravelInformations">Submit</button>
     </router-link>
   </div>
 </template>
 <script>
-// import Card from "../components/Card";
-// import Tabs from "../components/Tabs2";
 import AutoComplete from "../AutoComplete";
 import DatePicker from "../DatePicker.vue";
 import Guests from "../Guests.vue";
@@ -39,8 +39,6 @@ import Button from "../../components/Button";
 
 export default {
   components: {
-    // Card,
-    // Tabs,
     Guests,
     AutoComplete,
     DatePicker,
@@ -67,6 +65,7 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
+      console.log("check", check);
       let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
@@ -78,8 +77,37 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .tab-content.tab-content-padding {
   padding: 20px;
+}
+.col-sm-4 {
+  margin: 0px !important;
+}
+.el-input__inner {
+  border-radius: 25px !important;
+}
+.btn-neutral {
+  border-radius: 25px !important;
+  margin-top: 1px !important;
+}
+.btn:not(:disabled):not(.disabled) {
+  inline-size: 222px !important;
+  color: grey;
+  margin-left: -50px;
+}
+.menu-btn[data-v-5bf3a84d] {
+  place-content: center;
+  width: 150px;
+}
+.dropdown .dropdown-menu {
+  width: 13px !important;
+}
+.btn btn-neutral el-popover__reference {
+  margin: 4px;
+}
+#destination[data-v-55287aa8] {
+  height: 39px !important;
+  margin-left: 2px;
 }
 </style>

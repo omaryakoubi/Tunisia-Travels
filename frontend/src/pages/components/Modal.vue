@@ -17,7 +17,11 @@
         class="modal-dialog"
         :class="[{ 'modal-notice': type === 'notice' }, modalClasses]"
       >
-        <div class="modal-content" id="bg-login">
+        <div
+          class="modal-content"
+          id="bg-login"
+          style="background-image: url('img/login.jpg')"
+        >
           <slot name="base-content">
             <div class="modal-header" :class="headerClasses">
               <slot name="close-button">
@@ -101,11 +105,5 @@ export default {
 <style>
 .modal.show {
   background-color: rgba(0, 0, 0, 0.3);
-
-}
-
-.modal-content {
-  background-color: black;
-
 }
 </style>
