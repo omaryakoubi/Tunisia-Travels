@@ -2,10 +2,12 @@
   <form enctype="multipart/form-data">
     <div>
       <vs-pagination progress v-model="page" :length="3" />
-      <br />
-
       <div id="center">
         <div v-show="div1">
+          <vs-input label-placeholder="Host Name" v-model="hostName" id="content" />
+          <br />
+          <vs-input label-placeholder="Host Phone" v-model="hostPhone" id="content" />
+          <br />
           <vs-input label-placeholder="Governorate" v-model="governorate" id="content" />
           <br />
           <vs-input label-placeholder="City" v-model="city" id="content" />
@@ -13,7 +15,7 @@
           <vs-input label-placeholder="Street Adress" v-model="adress" id="content" />
           <br />
           <br />
-          <vs-select placeholder="Guests" v-model="guests" id="content">
+          <vs-select placeholder="Guests allowed" v-model="guests" id="content">
             <vs-option label="1" value="1">1</vs-option>
             <vs-option label="2" value="2">2</vs-option>
             <vs-option label="3" value="3">3</vs-option>
@@ -34,7 +36,13 @@
       <div v-show="div2" id="p2">
         <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
         <br />
+        <vs-input label-placeholder="Describe your house" v-model="description" id="content" />
         <br />
+        <vs-input v-model="price" placeholder="Price per Night" id="content">
+          <template #icon>
+            <span class="material-icons">euro</span>
+          </template>
+        </vs-input>
         <label id="content">Availability from</label>
         <vs-input type="date" v-model="start" id="content"></vs-input>
         <br />
@@ -75,6 +83,8 @@ import { vsButton, vsSelect, vsPopup } from "vuesax";
 export default {
   name: "BecomeAhost",
   data: () => ({
+    hostName: "",
+    hostPhone: "",
     governorate: "",
     city: "",
     adress: "",
@@ -82,6 +92,8 @@ export default {
     typeOfPlace: "",
     optionPet: false,
     houseName: "",
+    description: "",
+    price: "",
     start: "",
     end: "",
     page: 1,
@@ -105,6 +117,8 @@ export default {
     },
     postToDB() {
       let obj = {};
+      obj.hostName = this.hostName;
+      obj.hostPhone = this.hostPhone;
       obj.governorate = this.governorate;
       obj.city = this.city;
       obj.adress = this.adress;
@@ -114,6 +128,8 @@ export default {
       obj.houseName = this.houseName;
       obj.start = this.start;
       obj.end = this.end;
+      obj.description = this.description;
+      obj.price = this.price;
       console.log(obj);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log(house);
