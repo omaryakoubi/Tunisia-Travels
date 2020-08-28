@@ -19,8 +19,10 @@
         <Guests />
          <div class="center">
       <vs-button
+       @click="$router.push('/payment')"
         block>
-        <i class='bx bxs-paint-roll' ></i>Book
+        <i class='bx bxs-paint-roll' 
+       ></i>Book
       </vs-button>
     </div>
       </div>

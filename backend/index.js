@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
+const HousesInfos = require("./model/HousesInfos.js")
 
 
 // import passport from 'passport'
@@ -82,6 +83,18 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
+app.post("/houses", (req, res) => {
+  HousesInfos.create(req.body).then((house) => {
+    res.send(house)
+  })
+})
+
+app.get("/houses", (req, res) => {
+  HousesInfos.find({}).then(houses => {
+    res.send(houses)
+  })
+})
+
 
 
 const port = process.env.PORT || 5000;

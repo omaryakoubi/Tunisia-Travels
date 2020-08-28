@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-      ></parallax>
+      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
       <div class="container">
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
@@ -43,17 +40,12 @@
             <h5></h5>
           </div>
         </form>
-        <!-- modal ends here -->
-
-        <!-- user info -->
         <h3 class="title">{{ form.username }}</h3>
       </div>
     </div>
     <div class="section">
       <div class="container">
-        <p id="edit" @click="enableEdit" style=" text-decoration: underline">
-          Edit
-        </p>
+        <p id="edit" @click="enableEdit" style=" text-decoration: underline">Edit</p>
         <h3 class="title">About me</h3>
         <fg-input
           class="disable"
@@ -87,15 +79,9 @@
         <div>
           <a style="text-decoration: underline">Change Password</a>
         </div>
-        <p
-          @click="disableEdit"
-          style="text-decoration: underline; inline-text: center"
-        >
-          Save Changes
-        </p>
+        <p @click="disableEdit" style="text-decoration: underline; inline-text: center">Save Changes</p>
       </div>
     </div>
-    <!-- user info ends here -->
   </div>
 </template>
 <script>
@@ -170,8 +156,6 @@ export default {
       }
     },
 
-    // upload image
-
     onSelect() {
       this.file = this.$refs.file.files[0];
     },
@@ -198,7 +182,7 @@ export default {
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
