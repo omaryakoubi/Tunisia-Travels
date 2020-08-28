@@ -272,8 +272,6 @@ export default {
       window.FB.login(function (response) {
         if (response.authResponse) {
           console.log(response.authResponse);
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
         } else {
           alert("User cancelled login or did not fully authorize.");
         }

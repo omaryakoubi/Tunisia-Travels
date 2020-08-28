@@ -86,11 +86,7 @@ export default {
     this.axios.get("http://localhost:5000/houses").then((data) => {
       // console.log("myHouses", data.data);
       for (let i = 0; i < data.data.length; i++) {
-        console.log("GOVERNORATE HOUSES", typeof data.data[i].governorate);
-        console.log("LOCALITY", typeof this.coordinates.locality);
         if (data.data[i].governorate == this.coordinates.locality) {
-          console.log("GOVERNORATE HOUSES", data.data[i].governorate);
-          console.log("LOCALITY", this.coordinates.locality);
           this.response.hostPhone = data.data[i].hostPhone;
           this.response.description = data.data[i].description;
           this.response.hostName = data.data[i].hostName;
