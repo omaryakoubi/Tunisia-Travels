@@ -20,11 +20,12 @@ const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const coockieSession = require("cookie-session");
 
+
 // Middleware
 // Form Data Middlware
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: true,
   })
 );
 // Json Body Middleware
@@ -66,6 +67,7 @@ mongoose
 // Bring in the Users route
 const users = require("./routes/api/users");
 const keys = require("./config/keys");
+const multer = require("multer");
 app.use("/api/users", users);
 
 //HOU i will reorganize them later {{SORRY}}

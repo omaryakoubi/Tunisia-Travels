@@ -33,7 +33,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
+           <n-button @click.prevent="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
@@ -269,7 +269,7 @@ export default {
     },
     logout() {
       localStorage.removeItem('token')
-      this.hideAndShow()
+      this.hideAndShow()  
     }
   },
 };

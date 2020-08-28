@@ -9,6 +9,12 @@
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
         </div>
+
+        <!-- 
+  <div class="centerx">
+    <vs-upload automatic action="http://localhost:5000/api/users/upload"/>
+  </div> -->
+
         <!-- modal to upload a new picture and button to start it -->
         <!-- <n-button
           type="primary"
@@ -41,7 +47,6 @@
 
         <!-- user info -->
         <h3 class="title">{{ form.username }}</h3>
-        <p class="category"></p>
       </div>
     </div>
     <div class="section">
@@ -94,7 +99,6 @@
   </div>
 </template>
 <script>
-
 import FormGroupInput from "../components/formGroupInput.vue";
 import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
@@ -141,6 +145,9 @@ export default {
       this.edit = true;
       this.updateProfile();
     },
+    //  successUpload(){
+    //   this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
+    // },
 
     //update profile
 
@@ -155,8 +162,9 @@ export default {
           email: this.form.email,
           age: this.form.age,
           phone: this.form.phone,
+          file: this.form.file,
         });
-        console.log("inside the request");
+        console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
@@ -165,32 +173,29 @@ export default {
     // upload image
 
     onSelect() {
-      const file = this.$refs.file.files[0];
-      this.file = file;
-      console.log(this.file.name);
+      this.file = this.$refs.file.files[0];
     },
     async onSubmit() {
       try {
-        const formData = new FormData()
-        formData.append('file', this.file)
-        const newFile = this.file.name;
- 
-        await axios.post("http://localhost:5000/api/users/upload", formData);
-        this.message = "uploaded"
-        this.file = ""
-        console.log('loaded')
+        const formData = new FormData();
+        formData.append("imageFile", this.file);
+        const res = await axios.post(
+          "http://localhost:5000/api/users/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
       } catch (err) {
-        this.message = "not uploaded"
+        this.message = "not uploaded";
         console.log(err);
-
       }
     },
-    uploadImage() {
-      axios
-        .get("/upload")
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    },
+    getImage() {
+      axios.get()
+    }
   },
 
   mounted: function() {
@@ -202,19 +207,19 @@ export default {
         .get("http://localhost:5000/api/users/profile")
         .then((res) => {
           let response = res.data.user;
-            (this.form._id = response._id),
+          (this.form._id = response._id),
             (this.form.username = response.username),
             (this.form.name = response.name),
             (this.form.username = response.username),
             (this.form.email = response.email),
             (this.form.age = response.age),
             (this.form.phone = response.phone);
+          this.form.file = response.file;
           console.log(response);
         })
         .catch((err) => {
-        console.log(err);
-        })
-        
+          console.log(err);
+        });
     }
   },
 };

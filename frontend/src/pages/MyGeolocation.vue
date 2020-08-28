@@ -15,7 +15,7 @@
             <h3>Love House</h3>
           </template>
           <template #img>
-            <img src="../assets/images/ferrr.png" alt />
+            <img src="../assets/images/ferrr.png" alt @click="$router.push('/selectedHouse')"/>
           </template>
           <template #text>
             <p>A beautiful place to say</p>

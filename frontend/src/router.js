@@ -87,6 +87,15 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    {
+      path: "/selectedHouse",
+      name: "SelectedHouse",
+      component: () => import("./pages/SelectedHouse.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
