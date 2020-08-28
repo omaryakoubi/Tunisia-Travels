@@ -46,7 +46,7 @@ export default new Router({
     },
 
     {
-      path: "/resetform",
+      path: "/resetform/:token",
       name: "resetform",
       component: () => import("./pages/ResetPasswordForm.vue"),
       props: {
