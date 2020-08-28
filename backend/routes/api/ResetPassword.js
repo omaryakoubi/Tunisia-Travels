@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
+const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const NodemailerConfig = require("../../config/NodemailerConfig");
 const User = require("../../model/User.js");
@@ -38,14 +39,25 @@ module.exports = router.post("/reset", async (req, res) => {
   }
 });
 
-// router.post(
-//   "/resetform",
-//   { token: req.body.resetPasswordToken },
-//   async (req, res) => {
-//     try {
-//       const user = await User.find({ token: req.body.token });
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   }
-// );
+router.post("/reset/:token", async (req, res) => {
+  try {
+    const user = await User.findOne({ resetPasswordToken: req.params.token });
+    if (!user) throw new Error("Invalid Token ! ");
+    if (user.resetPasswordExpires < Date.now()) {
+      user.resetPasswordToken = "";
+      user.resetPasswordExpires = 0;
+      await user.save();
+      throw new Error("Token Expired !");
+    }
+    user.resetPasswordToken = "";
+    user.resetPasswordExpires = 0;
+    user.password = await bcrypt.hash(
+      req.body.confirmedPassword,
+      await bcrypt.genSalt(10)
+    );
+    await user.save();
+    return res.send("New Password Setted");
+  } catch (e) {
+    console.error(e);
+  }
+});

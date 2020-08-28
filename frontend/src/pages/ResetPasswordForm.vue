@@ -47,9 +47,12 @@ export default {
     async emailSubmit() {
       if (this.password === this.confirmedPassword) {
         try {
-          await axios.post("http://localhost:5000/api/users/reset/", {
-            re
-          });
+          await axios.post(
+            `http://localhost:5000/api/users/reset/${this.$route.params.token}`,
+            {
+              confirmedPassword: this.confirmedPassword,
+            }
+          );
           //   (res) => {
           //     console.log("email getted successfully");
           //   };
