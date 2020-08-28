@@ -17,7 +17,7 @@
       >
     </div>
     <p v-if="toggle">
-      Email has been send to {{ adressMail }} Please Check Your Email
+      Email has been send to {{ sadressMail }} Please Check Your Email
     </p>
   </center>
 </template>

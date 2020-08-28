@@ -34,7 +34,7 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
- 
+
     {
       path: "/BecomeAhost",
       name: "BecomeAhost",
@@ -44,6 +44,17 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
+    {
+      path: "/resetform",
+      name: "resetform",
+      component: () => import("./pages/ResetPasswordForm.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
     {
       path: "/payment",
       name: "payment",
