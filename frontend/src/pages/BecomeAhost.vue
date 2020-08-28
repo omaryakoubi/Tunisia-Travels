@@ -8,7 +8,17 @@
           <br />
           <vs-input label-placeholder="Host Phone" v-model="hostPhone" id="content" />
           <br />
-          <vs-input label-placeholder="Governorate" v-model="governorate" id="content" />
+          <!-- <vs-input label-placeholder="Governorate" v-model="governorate" id="content" /> -->
+          <!-- <AutoComplete v-model="governorate" /> -->
+          <vue-google-autocomplete
+            :country="['TN']"
+            types="(cities)"
+            id="governorate"
+            class="form-control"
+            placeholder="Choose a governorate"
+            v-on:placechanged="getFromAddress"
+            v-on:error="handleError"
+          ></vue-google-autocomplete>
           <br />
           <vs-input label-placeholder="City" v-model="city" id="content" />
           <br />
@@ -76,12 +86,15 @@
   </form>
 </template>
   <script>
+import VueGoogleAutocomplete from "vue-google-autocomplete";
+import AutoComplete from "./AutoComplete.vue";
 import DatePicker from "./DatePicker";
 import Vuesax from "vuesax";
 import "vuesax/dist/vuesax.css";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 export default {
   name: "BecomeAhost",
+  components: { VueGoogleAutocomplete },
   data: () => ({
     hostName: "",
     hostPhone: "",
@@ -103,6 +116,12 @@ export default {
     div3: false,
   }),
   methods: {
+    getFromAddress(governorate) {
+      this.governorate = governorate.locality;
+    },
+    handleError(error) {
+      alert(error);
+    },
     toPage2() {
       this.page++;
       this.div1 = false;

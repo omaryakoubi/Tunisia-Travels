@@ -3,7 +3,8 @@
     <vs-row>
       <vs-col vs-lg="8">
         <h2>There is N House in {{coordinates.locality}}</h2>
-        <h3>Available : From {{coordinates.start}} To {{coordinates.end}}</h3>
+        <h4>Available : From {{coordinates.start}} To {{coordinates.end}}</h4>
+        <h6>Guests Number : "GUEST NUMBER"</h6>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
@@ -11,7 +12,7 @@
         <vs-card>
           <template #title>
             <h3>{{response.houseName}}</h3>
-            <h3>{{response.typeOfPlace}}</h3>
+            <h5>{{response.typeOfPlace}}</h5>
           </template>
           <template #img>
             <img src="../assets/images/ferrr.png" alt />
@@ -21,10 +22,14 @@
           </template>
           <template #interactions>
             <vs-button danger icon>
-              <i class="bx">{{response.hostName}} :{{response.hostPhone}}</i>
+              <i class="bx">
+                {{response.hostName}}
+                <br />
+                {{response.hostPhone}}
+              </i>
             </vs-button>
             <vs-button class="btn-chat" shadow primary>
-              <span class="span">Price : {{response.price}}/night</span>
+              <span class="span">{{response.price}} euro/night</span>
             </vs-button>
           </template>
         </vs-card>
@@ -67,6 +72,7 @@ export default {
         hostName: "",
         hostPhone: "",
       },
+      numberOfHouses: "",
     };
   },
   mounted() {
@@ -78,14 +84,21 @@ export default {
       this.coordinates.end = data.data[data.data.length - 1].check.end;
     });
     this.axios.get("http://localhost:5000/houses").then((data) => {
-      console.log("all data for a house response ", data.data);
-      // console.log("IMAGE", data.data[0]); SAFA WORKING ON MULTER
-      this.response.hostPhone = data.data[0].hostPhone;
-      this.response.description = data.data[0].description;
-      this.response.hostName = data.data[0].hostName;
-      this.response.price = data.data[0].price;
-      this.response.houseName = data.data[0].houseName;
-      this.response.typeOfPlace = data.data[0].typeOfPlace;
+      // console.log("myHouses", data.data);
+      for (let i = 0; i < data.data.length; i++) {
+        console.log("GOVERNORATE HOUSES", typeof data.data[i].governorate);
+        console.log("LOCALITY", typeof this.coordinates.locality);
+        if (data.data[i].governorate == this.coordinates.locality) {
+          console.log("GOVERNORATE HOUSES", data.data[i].governorate);
+          console.log("LOCALITY", this.coordinates.locality);
+          this.response.hostPhone = data.data[i].hostPhone;
+          this.response.description = data.data[i].description;
+          this.response.hostName = data.data[i].hostName;
+          this.response.price = data.data[i].price;
+          this.response.houseName = data.data[i].houseName;
+          this.response.typeOfPlace = data.data[i].typeOfPlace;
+        }
+      }
     });
   },
 };

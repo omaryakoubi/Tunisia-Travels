@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     getFromAddress(destination) {
+      console.log("safe",destination.locality);
       this.destination = destination;
       this.$emit("travelDestination", this.destination);
     },
@@ -38,7 +39,7 @@ export default {
 .form-control {
   height: 42px !important;
 }
-.xdee{
+.xdee {
   border-radius: 25px !important;
 }
 </style>
