@@ -14,15 +14,23 @@
             :country="['TN']"
             types="(cities)"
             id="governorate"
-            class="form-control"
+            class="content vs-input"
             placeholder="Choose a governorate"
             v-on:placechanged="getFromAddress"
             v-on:error="handleError"
           ></vue-google-autocomplete>
           <br />
+          <br />
           <vs-input label-placeholder="City" v-model="city" id="content" />
           <br />
-          <vs-input label-placeholder="Street Adress" v-model="adress" id="content" />
+          <!-- <vs-input label-placeholder="Street Adress" v-model="adress" id="content" /> -->
+          <vue-google-autocomplete
+            :country="['TN']"
+            id="adress"
+            class="content vs-input"
+            v-on:placechanged="getStreetAdress"
+            placeholder="Choose an adress"
+          ></vue-google-autocomplete>
           <br />
           <br />
           <vs-select placeholder="Guests allowed" v-model="guests" id="content">
@@ -116,8 +124,15 @@ export default {
     div3: false,
   }),
   methods: {
-    getFromAddress(governorate) {
+    getFromAddress(governorate, placeResultData, id) {
+      console.log(governorate);
       this.governorate = governorate.locality;
+    },
+    getStreetAdress(adress, placeResultData, id) {
+      console.log("placeResultData", placeResultData);
+      console.log("id", id);
+      // console.log(adress.route);
+      // console.log(adress.street_number);
     },
     handleError(error) {
       alert(error);
@@ -158,6 +173,11 @@ export default {
 };
 </script>
 <style  scoped>
+.content {
+  align-content: center !important;
+  margin-left: 650px;
+  border-radius: 14px;
+}
 #center {
   margin-top: 150px;
   align-content: center !important;
