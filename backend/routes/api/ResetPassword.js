@@ -28,7 +28,7 @@ module.exports = router.post("/reset", async (req, res) => {
       to: req.body.email,
       subject: "Reset Password Successed!",
       text: `You can access your account using this code please dont share you privacy will be violated.
-               here : https://localhost:8080/resetform/${user.resetPasswordToken}`,
+             here : https://localhost:8080/resetform/${user.resetPasswordToken}`,
     };
     console.log("Sending Email");
     await transporter.sendMail(mailOptions);
