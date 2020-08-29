@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const InfoTravelSchema = new Schema({
-    check: { type: Number },
+    check: { type: Object },
     dest: { type: Object },
     guestsNum: { type: Array },
 })

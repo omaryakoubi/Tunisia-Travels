@@ -203,7 +203,4 @@ export default {
 .content-center {
   z-index: 0;
 }
-#xfix {
-  border-radius: 25px;
-}
 </style>

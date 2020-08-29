@@ -7,6 +7,8 @@ const key = require("../../config/keys").secret;
 const multer = require("multer");
 const User = require("../../model/User.js");
 const path = require("path");
+const fs = require("fs");
+const cloudinary = require("../../cloudinary.config");
 
 /**
  * @route POST api/users/signup
@@ -162,11 +164,11 @@ router.put(
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
           { _id: req.user._id },
-          ({ name, username, email, age, phone } = req.body)
+          ({ name, username, email, age, phone, file } = req.body)
         )
           .then(() => {
             console.log("then", req.user);
-            res.status(201).send("done");
+            res.status(201).send(req.user);
           })
           .catch((err) => {
             console.log("catch", req.user);
@@ -176,12 +178,12 @@ router.put(
   }
 );
 
-//upload image Multer
+//upload image
 
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + file.originalname);
     console.log("file", file);
   },
 });
@@ -197,17 +199,33 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
-
 router.post(
   "/upload",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  upload.single("imageFile"),
+  //  passport.authenticate("jwt", {
+  //   session: false,
+  // }),
+  upload.array("imageFile"),
   async (req, res) => {
-    await User.findByIdAndUpdate(req.user._id, { file: req.file.originalname });
-    console.log("user id", req.user._id);
-    res.send({ file: req.file.originalname });
+    console.log("req", req.files);
+    const uploader = async (path) =>
+      await cloudinary.uploads(path, "imageFile");
+    const urls = [];
+    const files = req.files;
+    for (let key in files) {
+      const path = files[key].path;
+      const newPath = await uploader(path);
+      console.log("path", newPath);
+      urls.push(newPath);
+      fs.unlinkSync(path);
+      res.status(200).json({
+        message: "uploaded",
+        data: urls,
+      });
+    }
+
+    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+    //  console.log('user id',req.user._id)
+    //  res.send({ file: req.file.originalname });
   }
 );
 
