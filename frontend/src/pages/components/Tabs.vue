@@ -65,14 +65,11 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
-      console.log("check", check);
       let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
         .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
-        .then((res) => {
-          console.log("axios LANDING", res);
-        });
+        .then((res) => {});
     },
   },
 };

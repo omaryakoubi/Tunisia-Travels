@@ -2,14 +2,14 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h2>There is N House in {{ coordinates.locality }}</h2>
-        <h4>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h4>
-        <h6>Guests Number : "GUEST NUMBER"</h6>
-        <vs-card vs-lg="4" v-for="(one,index) in arr" :key="index">
-          <!-- <n-button type="primary" round simple>Price</n-button>
+        <h5>There is {{numberOfHouses}} House in {{ coordinates.locality }}</h5>
+        <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
+        <h5>Guests Number :{{coordinates.guestsNum[0]+coordinates.guestsNum[1]+coordinates.guestsNum[2]}}</h5>
+        <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
-          <n-button type="primary" round simple>Type of place</n-button>-->
+        <n-button type="primary" round simple>Type of place</n-button>-->
+        <vs-card vs-lg="4" v-for="(one,index) in arr" :key="index">
           <template #title>
             <h3>{{ one.houseName }}</h3>
             <h5>{{ one.typeOfPlace }}</h5>
@@ -64,6 +64,7 @@ export default {
         locality: "",
         start: "",
         end: "",
+        guestsNum: [],
       },
       response: {
         houseName: "",
@@ -73,7 +74,7 @@ export default {
         hostName: "",
         hostPhone: "",
       },
-      numberOfHouses: "",
+      numberOfHouses: 0,
       arr: [],
     };
   },
@@ -84,11 +85,20 @@ export default {
       this.coordinates.locality = data.data[data.data.length - 1].dest.locality;
       this.coordinates.start = data.data[data.data.length - 1].check.start;
       this.coordinates.end = data.data[data.data.length - 1].check.end;
+      this.coordinates.guestsNum.push(
+        data.data[data.data.length - 1].guestsNum[0],
+        data.data[data.data.length - 1].guestsNum[1],
+        data.data[data.data.length - 1].guestsNum[2]
+      );
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
-      // console.log("myHouses", data.data);
       for (let i = 0; i < data.data.length; i++) {
-        if (data.data[i].governorate == this.coordinates.locality) {
+        if (
+          data.data[i].governorate == this.coordinates.locality ||
+          this.coordinates.locality.includes(data.data[i].governorate) ||
+          data.data[i].governorate.includes(this.coordinates.locality)
+        ) {
+          this.numberOfHouses++;
           this.arr.push(data.data[i]);
         }
       }
