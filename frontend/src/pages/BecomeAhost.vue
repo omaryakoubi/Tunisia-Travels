@@ -82,15 +82,21 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
-        <label id="content">Upload Photos of your house</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your CIN</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your Passport</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your MELKYA</label>
-        <vs-input id="content" type="file"></vs-input>
-        <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
+        <form enctype="multipart/form-data">
+          <label id="content">Upload Photos of your house</label>
+          <input type="file" ref="file1" @change="onSelect" />
+
+          <label id="content">Upload Your CIN</label>
+          <input id="content" type="file" ref="file2" @change="onSelect2" />
+
+          <label id="content">Upload Your Passport</label>
+          <input id="content" type="file" ref="file3" @change="onSelect3" />
+
+          <label id="content">Upload Your MELKYA</label>
+          <input id="content" type="file" ref="file4" @change="onSelect4" />
+
+          <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
+        </form>
       </div>
     </div>
   </form>
@@ -113,6 +119,7 @@ export default {
     adress: "",
     guests: 0,
     typeOfPlace: "",
+    file: "",
     optionPet: false,
     houseName: "",
     description: "",
@@ -135,6 +142,23 @@ export default {
     },
   }),
   methods: {
+    onSelect() {
+      this.file = this.$refs.file1.files[0];
+      console.log("fired");
+      console.log(this.file);
+    },
+    onSelect2() {
+      this.file2 = this.$refs.file2.files[0];
+      console.log("2", this.file2);
+    },
+    onSelect3() {
+      this.file3 = this.$refs.file3.files[0];
+      console.log("3", this.file3);
+    },
+    onSelect4() {
+      this.file4 = this.$refs.file4.files[0];
+      console.log("4", this.file4);
+    },
     getStreetAdress(adress, placeResultData, id) {
       this.houseCoordinates.locality = adress.locality;
       this.houseCoordinates.lat = adress.latitude;
