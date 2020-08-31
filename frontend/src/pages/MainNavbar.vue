@@ -53,14 +53,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-          <n-button
-            @click="logout"
-            type="neutral"
-            size="small"
-            class="menu-btn hidden"
-            link
-            :hidden="hide"
-          >
+           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
@@ -170,11 +163,7 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <a
-            @click="signup"
-            class="btn btn-danger btn-round btn-lg btn-block safe"
-            >SignUp</a
-          >
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
           <a
             @click="
               (modals.login = true),
@@ -347,9 +336,9 @@ export default {
         });
     },
     logout() {
-      localStorage.removeItem("token");
-      this.hideAndShow();
-    },
+      localStorage.removeItem('token')
+      this.hideAndShow()  
+    }
   },
 };
 </script>

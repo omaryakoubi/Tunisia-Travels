@@ -121,7 +121,7 @@ router.post("/login", (req, res) => {
             expiresIn: 604800,
           },
           (err, token) => {
-            res.status(200).json({
+            res.status(200).json({ 
               success: true,
               token: `Bearer ${token}`,
               msg: "You are now logged in",
@@ -213,7 +213,7 @@ router.post(
     for (let key in files) {
       const path = files[key].path;
       const newPath = await uploader(path);
-      console.log("path", newPath);
+     // console.log("path", newPath);
       urls.push(newPath);
       fs.unlinkSync(path);
       res.status(200).json({
@@ -222,9 +222,7 @@ router.post(
       });
     }
 
-    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
-    //  console.log('user id',req.user._id)
-    //  res.send({ file: req.file.originalname });
+   
   }
 );
 // /**
@@ -266,6 +264,11 @@ router.post(
 //       : res.status(404).send("NOT FOUND");
 //   }
 // );
+
+
+    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+    //  console.log('user id',req.user._id)
+    //  res.send({ file: req.file.originalname });
 
 
 module.exports = router;

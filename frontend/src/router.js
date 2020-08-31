@@ -57,8 +57,7 @@ export default new Router({
       name: "SelectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
 
-    },
-    {
+    },{
       path: "/admin",
       name: "admin",
       meta:{requiresAuth: true},
