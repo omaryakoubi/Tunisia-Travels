@@ -17,7 +17,12 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
@@ -36,6 +41,7 @@
             Login
           </n-button>
           <br />
+
           <n-button
             @click="modals.signup = true"
             type="neutral"
@@ -59,20 +65,12 @@
             Logout
           </n-button>
         </drop-down>
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/landing">
-            <i class="now-ui-icons education_paper"></i> Currency
-          </nav-link>
-          <nav-link to="/login">
-            <i class="now-ui-icons users_circle-08"></i> Languages
-          </nav-link>
-        </drop-down>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
           <h2 slot="header" class="title title-up">Login</h2>
         </template>
-        <div class="social-line">
+        <div id="social-line">
           <a
             @click="logInWithFacebook"
             class="btn btn-neutral btn-facebook btn-icon btn-lg btn-round"
@@ -112,10 +110,13 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-            >Forget Password?</a>
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
+            <a @click="(modals.login = false), (modals.signup = true)"
+              >Create new account?</a
+            >
           </div>
         </div>
       </modal>
@@ -167,15 +168,21 @@
             v-model="phone"
           ></fg-input>
         </template>
+
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block">SignUp</a>
+          <a
+            @click="signup"
+            class="btn btn-danger btn-round btn-lg btn-block safe"
+            >SignUp</a
+          >
           <a
             @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a
+          >
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -192,7 +199,9 @@
           ></fg-input>
           <p v-if="toggle">Check your email</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
+              >Send</a
+            >
           </div>
         </div>
       </modal>
@@ -269,16 +278,14 @@ export default {
         })
         .catch(() => {
           alert("Wrong password or username");
-        });
+        })
     },
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
+      window.FB.login(function(response) {
         if (response.authResponse) {
           console.log(response.authResponse);
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
         } else {
           alert("User cancelled login or did not fully authorize.");
         }
@@ -286,7 +293,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
@@ -340,8 +347,7 @@ export default {
         });
     },
     logout() {
-      this.token="";
-      window.localStorage.removeItem("token");
+      localStorage.removeItem("token");
       this.hideAndShow();
     },
   },
@@ -351,6 +357,4 @@ export default {
 .menu-btn {
   color: black !important;
 }
-
-
 </style>

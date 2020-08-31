@@ -6,6 +6,9 @@
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
         </div>
+
+      
+
         <form enctype="multipart/form-data">
           <div class="fields">
             <label>Upload</label>
@@ -19,7 +22,6 @@
           </div>
         </form>
         <h3 class="title">{{ form.username }}</h3>
-        <p class="category"></p>
       </div>
     </div>
     <div class="section">
@@ -110,6 +112,12 @@ export default {
       this.edit = true;
       this.updateProfile();
     },
+    //  successUpload(){
+    //   this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
+    // },
+
+    //update profile
+
     async updateProfile(name) {
       console.log("here at the top");
       try {
@@ -121,39 +129,38 @@ export default {
           email: this.form.email,
           age: this.form.age,
           phone: this.form.phone,
+          file: this.form.file,
         });
-        console.log("inside the request");
+        console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
     },
 
     onSelect() {
-      const file = this.$refs.file.files[0];
-      this.file = file;
-      console.log(this.file.name);
+      this.file = this.$refs.file.files[0];
     },
     async onSubmit() {
       try {
         const formData = new FormData();
-        formData.append("file", this.file);
-        const newFile = this.file.name;
-
-        await axios.post("http://localhost:5000/api/users/upload", formData);
-        this.message = "uploaded";
-        this.file = "";
-        console.log("loaded");
+        formData.append("imageFile", this.file);
+        const res = await axios.post(
+          "http://localhost:5000/api/users/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
       } catch (err) {
         this.message = "not uploaded";
         console.log(err);
       }
     },
-    uploadImage() {
-      axios
-        .get("/upload")
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    },
+    getImage() {
+      axios.get()
+    }
   },
 
   mounted: function () {
@@ -172,6 +179,7 @@ export default {
             (this.form.email = response.email),
             (this.form.age = response.age),
             (this.form.phone = response.phone);
+          this.form.file = response.file;
           console.log(response);
         })
         .catch((err) => {
