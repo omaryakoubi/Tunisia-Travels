@@ -7,6 +7,7 @@ const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 const HousesInfos = require("./model/HousesInfos.js")
+// const AdminInfos = require ("./model/admin.js")
 
 
 // import passport from 'passport'
@@ -88,6 +89,12 @@ app.post("/houses", (req, res) => {
     res.send(house)
   })
 })
+
+// app.get("/admin", (req, res)=>{
+//   AdminInfos.find({}).then((item) =>{
+//     res.send(item)
+//   })
+// })
 
 app.get("/houses", (req, res) => {
   HousesInfos.find({}).then(houses => {
