@@ -6,6 +6,7 @@ const passport = require("passport");
 const key = require("../../config/keys").secret;
 const multer = require("multer");
 const User = require("../../model/User.js");
+const Admin = require('../../model/admin.js')
 const path = require("path");
 const fs = require("fs");
 const cloudinary = require("../../cloudinary.config");
@@ -204,6 +205,7 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
+    console.log("req", req.files);
     const uploader = async (path) =>
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
@@ -220,10 +222,53 @@ router.post(
       });
     }
 
+   
+  }
+);
+// /**
+//  * @route POST api/admin/profile
+//  * @desc Return the User's Data
+//  * @access Public
+//  */
+// router.get(
+//   "/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return res.json({
+//       user: req.user,
+//     });
+//   }
+// );
+// //update Admin profile
+// router.put(
+//   "/update/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return req.params.id === req.user._id.toString()
+//       ? Admin.findOneAndUpdate(
+//           { _id: req.user._id },
+//           ({ name, username, email, age, phone,city, country, zip, file } = req.body)
+//         )
+//           .then(() => {
+//             console.log("then", req.user);
+//             res.status(201).send(req.user);
+//           })
+//           .catch((err) => {
+//             console.log("catch", req.user);
+//             res.status(505).send({ err });
+//           })
+//       : res.status(404).send("NOT FOUND");
+//   }
+// );
+
+
     //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
     //  console.log('user id',req.user._id)
     //  res.send({ file: req.file.originalname });
-  }
-);
+
 
 module.exports = router;
