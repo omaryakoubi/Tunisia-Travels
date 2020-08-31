@@ -283,7 +283,7 @@ export default {
     async getInfoFromFacebook() {
       window.FB.api(
         `/me`,
-        { fields: "last_name", access_token: window.FB.getAccessToken() },
+        { fields: "name", access_token: window.FB.getAccessToken() },
         function(response) {
           console.log("Success ");
           console.log(response);
