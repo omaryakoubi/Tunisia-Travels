@@ -211,7 +211,6 @@ router.post(
     for (let key in files) {
       const path = files[key].path;
       const newPath = await uploader(path);
-     // console.log("path", newPath);
       urls.push(newPath);
       fs.unlinkSync(path);
       res.status(200).json({
@@ -219,10 +218,6 @@ router.post(
         data: urls,
       });
     }
-
-    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
-    //  console.log('user id',req.user._id)
-    //  res.send({ file: req.file.originalname });
   }
 );
 
