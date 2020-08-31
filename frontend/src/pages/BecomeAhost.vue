@@ -56,6 +56,13 @@
           v-on:placechanged="getStreetAdress"
           placeholder="Choose an adress"
         ></vue-google-autocomplete>
+        <vs-button
+          id="content3"
+          flat
+          :active="active == 0"
+          @click="getMyPosition"
+        >Or Detect My Position</vs-button>
+        <vs-button id="content3" flat :active="active == 0" @click="toPage4">Next</vs-button>
         <GmapMap
           ref="map"
           :center="houseCoordinates"
@@ -70,13 +77,6 @@
             :icon="{ url: require('../../src/assets/images/google-maps-google-map-maker-computer-icons-house-png-favpng-e46wqcvLcMYam3a7sGYU3K5ws.jpg')}"
           />
         </GmapMap>
-        <vs-button
-          id="content3"
-          flat
-          :active="active == 0"
-          @click="getMyPosition"
-        >Detect My Position</vs-button>
-        <vs-button id="content3" flat :active="active == 0" @click="toPage4">Next</vs-button>
       </div>
       <br />
       <br />
@@ -181,7 +181,6 @@ export default {
             .then((res) => {
               this.houseCoordinates.locality =
                 res.data.results[0].components.state;
-              alert(this.houseCoordinates.locality);
             });
         },
         (error) => {

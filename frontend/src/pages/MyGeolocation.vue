@@ -82,7 +82,7 @@ export default {
     await axios.get("http://localhost:5000/travelinfo").then((data) => {
       this.coordinates.lat = data.data[data.data.length - 1].dest.latitude;
       this.coordinates.lng = data.data[data.data.length - 1].dest.longitude;
-      this.coordinates.locality = data.data[data.data.length - 1].dest.locality;  
+      this.coordinates.locality = data.data[data.data.length - 1].dest.locality;
       this.coordinates.start = data.data[data.data.length - 1].check.start;
       this.coordinates.end = data.data[data.data.length - 1].check.end;
       this.coordinates.guestsNum.push(
