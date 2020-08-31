@@ -120,7 +120,7 @@ router.post("/login", (req, res) => {
             expiresIn: 604800,
           },
           (err, token) => {
-            res.status(200).json({
+            res.status(200).json({ 
               success: true,
               token: `Bearer ${token}`,
               msg: "You are now logged in",
@@ -204,7 +204,6 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
-    console.log("req", req.files);
     const uploader = async (path) =>
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
@@ -212,7 +211,7 @@ router.post(
     for (let key in files) {
       const path = files[key].path;
       const newPath = await uploader(path);
-      console.log("path", newPath);
+     // console.log("path", newPath);
       urls.push(newPath);
       fs.unlinkSync(path);
       res.status(200).json({
