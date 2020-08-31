@@ -286,7 +286,7 @@ export default {
         { fields: "name", access_token: window.FB.getAccessToken() },
         function(response) {
           console.log("Success ");
-          console.log(response);
+          console.log("omar", response);
         }
       );
     },
