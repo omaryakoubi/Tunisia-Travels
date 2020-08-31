@@ -8,8 +8,6 @@ const GoogleUserSchema = new Schema({
   },
   email: String,
 
-  password: String,
-  cpassword: String,
 
   googleId: {
     type: String,

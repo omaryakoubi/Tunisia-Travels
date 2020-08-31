@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
-const HousesInfos = require("./model/HousesInfos.js")
+const HousesInfos = require("./model/HousesInfos.js");
 
 // import passport from 'passport'
 // Intitialize the app
@@ -19,7 +19,7 @@ const AuthSMRoutes = require("./routes/api/AuthSM");
 const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const coockieSession = require("cookie-session");
-
+const Review = require("./routes/api/Reviews");
 
 // Middleware
 // Form Data Middlware
@@ -46,6 +46,7 @@ app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
+app.use("/api/review", Review);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 
@@ -88,16 +89,15 @@ app.get("/travelinfo", (req, res) => {
 });
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
-    res.send(house)
-  })
-})
+    res.send(house);
+  });
+});
 
 app.get("/houses", (req, res) => {
-  HousesInfos.find({}).then(houses => {
-    res.send(houses)
-  })
-})
-
+  HousesInfos.find({}).then((houses) => {
+    res.send(houses);
+  });
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

@@ -17,7 +17,12 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
@@ -48,7 +53,14 @@
             <i class="now-ui-icons users_circle-08"></i>
             SignUp
           </n-button>
-           <n-button @click="logout" type="neutral" size="small" class="menu-btn hidden" link :hidden="hide">
+          <n-button
+            @click="logout"
+            type="neutral"
+            size="small"
+            class="menu-btn hidden"
+            link
+            :hidden="hide"
+          >
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
@@ -98,10 +110,13 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-            >Forget Password?</a>
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
+            <a @click="(modals.login = false), (modals.signup = true)"
+              >Create new account?</a
+            >
           </div>
         </div>
       </modal>
@@ -155,14 +170,19 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+          <a
+            @click="signup"
+            class="btn btn-danger btn-round btn-lg btn-block safe"
+            >SignUp</a
+          >
           <a
             @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a
+          >
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -179,7 +199,9 @@
           ></fg-input>
           <p v-if="toggle">Check your email</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
+              >Send</a
+            >
           </div>
         </div>
       </modal>
@@ -258,24 +280,49 @@ export default {
           alert("Wrong password or username");
         });
     },
-    async logInWithFacebook() {
-      await this.loadFacebookSDK(document, "script", "facebook-jssdk");
-      await this.initFacebook();
-      window.FB.login(function(response) {
-        if (response.authResponse) {
-          console.log(response.authResponse);
-        } else {
-          alert("User cancelled login or did not fully authorize.");
+    async getInfoFromFacebook() {
+      window.FB.api(
+        `/me`,
+        { fields: "last_name", access_token: window.FB.getAccessToken() },
+        function(response) {
+          console.log("Success ");
+          console.log(response);
         }
-      });
+      );
+    },
+    async logUserIn() {
+      window.FB.login(
+        function(response) {
+          if (response.authResponse) {
+            console.log(response.authResponse);
+            console.log(window.FB.getAccessToken());
+            console.log(window.FB.getAuthResponse());
+            window.FB.getLoginStatus(function(ressponse) {
+              console.log(ressponse);
+            });
+            console.log(window.FB.getUserID());
+          } else {
+            alert("User cancelled login or did not fully authorize.");
+          }
+        },
+        { scope: "public_profile,email" }
+      );
       return false;
+    },
+    async logInWithFacebook() {
+      try {
+        await this.logUserIn();
+        setTimeout(async () => await this.getInfoFromFacebook(), 2000);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async initFacebook() {
       window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
-          version: "v13.0",
+          version: "v8.0",
         });
       };
     },
@@ -325,11 +372,14 @@ export default {
         });
     },
     logout() {
-      localStorage.removeItem('token')
-      this.hideAndShow()  
-    }
+      localStorage.removeItem("token");
+      this.hideAndShow();
+    },
   },
-
+  async mounted() {
+    await this.loadFacebookSDK(document, "script", "facebook-jssdk");
+    await this.initFacebook();
+  },
   destroyed() {
     axios
       .get("http://localhost:5000/auth/google")

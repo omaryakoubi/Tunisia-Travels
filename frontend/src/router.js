@@ -68,11 +68,21 @@ export default new Router({
       path: "/selectedHouse",
       name: "SelectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
-
-    },{
+    },
+    {
       path: "/admin",
       name: "admin",
       component: () => import("./pages/admin/homeAdmin.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/omar",
+      name: "omar",
+      component: () => import("./pages/Forum.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
