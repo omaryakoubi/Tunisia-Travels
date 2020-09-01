@@ -289,7 +289,6 @@ export default {
         { fields: "name", access_token: window.FB.getAccessToken() },
         async function(data) {
           console.log("before", data);
-          // localStorage.setItem("FacebookId", data.id);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -395,7 +394,7 @@ export default {
           res.status(500).send(err);
         });
     },
-    
+
     logout() {
       localStorage.clear();
       this.hideAndShow();
@@ -406,6 +405,7 @@ export default {
     try {
       const token = this.$route.query.googleId;
       localStorage.setItem("token", token);
+      this.hideAndShow();
       this.$router.push("/");
     } catch (error) {
       console.log(error);
