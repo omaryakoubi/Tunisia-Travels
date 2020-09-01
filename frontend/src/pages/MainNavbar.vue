@@ -261,12 +261,8 @@ export default {
 
   methods: {
     hideAndShow() {
-      if (localStorage.length >= 1) {
-        this.hide = !this.hide;
-        console.log("0", this.hide);
-      } else {
-        console.log("sfeeee");
-      }
+      this.hide = !this.hide;
+      console.log("0", this.hide);
     },
     login() {
       axios
@@ -315,6 +311,7 @@ export default {
               "accessToken",
               response.authResponse.accessToken
             );
+
             console.log("3morrr", response.authResponse.accessToken);
 
             // console.log(window.FB.getAccessToken());
@@ -335,6 +332,7 @@ export default {
       try {
         await this.logUserIn();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
+        await this.hideAndShow();
       } catch (error) {
         console.log(error);
       }
@@ -397,8 +395,9 @@ export default {
           res.status(500).send(err);
         });
     },
+    
     logout() {
-      localStorage.removeItem("token");
+      localStorage.clear();
       this.hideAndShow();
     },
   },
@@ -427,6 +426,7 @@ export default {
       .get("http://localhost:5000/auth/google")
 
       .then((req, res) => {
+        this.hideAndShow();
         console.log(res);
       })
 
