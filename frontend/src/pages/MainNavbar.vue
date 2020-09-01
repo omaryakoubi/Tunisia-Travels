@@ -227,6 +227,7 @@ export default {
     transparent: Boolean,
     colorOnScroll: Number,
   },
+
   components: {
     DropDown,
     Modal,
@@ -236,6 +237,7 @@ export default {
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
   },
+
   data() {
     return {
       modals: {
@@ -256,10 +258,15 @@ export default {
       hide: true,
     };
   },
+
   methods: {
     hideAndShow() {
-      this.hide = !this.hide;
-      console.log("0", this.hide);
+      if (localStorage.length >= 1) {
+        this.hide = !this.hide;
+        console.log("0", this.hide);
+      } else {
+        console.log("sfeeee");
+      }
     },
     login() {
       axios
@@ -286,7 +293,7 @@ export default {
         { fields: "name", access_token: window.FB.getAccessToken() },
         async function(data) {
           console.log("before", data);
-          localStorage.setItem("id", data.id);
+          // localStorage.setItem("FacebookId", data.id);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -298,13 +305,20 @@ export default {
         }
       );
     },
+
     async logUserIn() {
       window.FB.login(
         function(response) {
           if (response.authResponse) {
-            console.log(response.authResponse);
-            console.log(window.FB.getAccessToken());
-            console.log(window.FB.getAuthResponse());
+            console.log("safe", response.authResponse);
+            localStorage.setItem(
+              "accessToken",
+              response.authResponse.accessToken
+            );
+            console.log("3morrr", response.authResponse.accessToken);
+
+            // console.log(window.FB.getAccessToken());
+            // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function(ressponse) {
               console.log(ressponse);
             });
@@ -325,6 +339,7 @@ export default {
         console.log(error);
       }
     },
+
     async initFacebook() {
       window.fbAsyncInit = function() {
         window.FB.init({
@@ -334,6 +349,7 @@ export default {
         });
       };
     },
+
     async loadFacebookSDK(d, s, id) {
       var js,
         fjs = d.getElementsByTagName(s)[0];
@@ -366,6 +382,7 @@ export default {
           alert("Something Wrong");
         });
     },
+
     resetPassword() {
       this.toggle = true;
       axios
@@ -388,10 +405,8 @@ export default {
 
   async created() {
     try {
-      const googleId = this.$route.query.googleId;
-
-      localStorage.setItem("googleId", googleId);
-
+      const token = this.$route.query.googleId;
+      localStorage.setItem("token", token);
       this.$router.push("/");
     } catch (error) {
       console.log(error);
