@@ -38,11 +38,18 @@
         <GmapMap
           ref="map"
           :center="coordinates"
-          :zoom="15"
+          :zoom="13"
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
-          <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
+          <GmapMarker
+            :key="index"
+            v-for="(m,index) in markers "
+            :position="m"
+            :clickable="true"
+            :draggable="true"
+            @mouseover="display"
+          />
         </GmapMap>
       </vs-col>
     </vs-row>
@@ -66,6 +73,7 @@ export default {
         end: "",
         guestsNum: [],
       },
+      markers: [],
       response: {
         houseName: "",
         typeOfPlace: "",
@@ -90,6 +98,7 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
+      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -100,10 +109,16 @@ export default {
         ) {
           this.numberOfHouses++;
           this.arr.push(data.data[i]);
+          this.markers.push(data.data[i].marker);
         }
       }
     });
     this.ready = true;
+  },
+  methods: {
+    display() {
+      alert("heeeee");
+    },
   },
 };
 </script>

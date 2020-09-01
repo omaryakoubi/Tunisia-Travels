@@ -205,7 +205,7 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
-    console.log("req", req.files);
+   // console.log("req", req.files);
     const uploader = async (path) =>
       await cloudinary.uploads(path, "imageFile");
     const urls = [];

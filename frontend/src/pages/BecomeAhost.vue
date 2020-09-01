@@ -47,8 +47,6 @@
           placeholder="Choose a governorate"
           v-on:error="handleError"
         ></vue-google-autocomplete>
-        <!-- <vs-input label-placeholder="City" v-model="city" id="content" /> -->
-        <!-- <vs-input label-placeholder="Street Adress" v-model="adress" id="content" /> -->
         <vue-google-autocomplete
           :country="['TN']"
           id="adress"
@@ -82,21 +80,7 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
-        <form enctype="multipart/form-data">
-          <label id="content">Upload Photos of your house</label>
-          <input type="file" ref="file1" @change="onSelect" />
-
-          <label id="content">Upload Your CIN</label>
-          <input id="content" type="file" ref="file2" @change="onSelect2" />
-
-          <label id="content">Upload Your Passport</label>
-          <input id="content" type="file" ref="file3" @change="onSelect3" />
-
-          <label id="content">Upload Your MELKYA</label>
-          <input id="content" type="file" ref="file4" @change="onSelect4" />
-
-          <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
-        </form>
+        <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
   </form>
@@ -119,7 +103,6 @@ export default {
     adress: "",
     guests: 0,
     typeOfPlace: "",
-    file: "",
     optionPet: false,
     houseName: "",
     description: "",
@@ -142,23 +125,6 @@ export default {
     },
   }),
   methods: {
-    onSelect() {
-      this.file = this.$refs.file1.files[0];
-      console.log("fired");
-      console.log(this.file);
-    },
-    onSelect2() {
-      this.file2 = this.$refs.file2.files[0];
-      console.log("2", this.file2);
-    },
-    onSelect3() {
-      this.file3 = this.$refs.file3.files[0];
-      console.log("3", this.file3);
-    },
-    onSelect4() {
-      this.file4 = this.$refs.file4.files[0];
-      console.log("4", this.file4);
-    },
     getStreetAdress(adress, placeResultData, id) {
       this.houseCoordinates.locality = adress.locality;
       this.houseCoordinates.lat = adress.latitude;
@@ -192,7 +158,8 @@ export default {
     getMyPosition() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // console.log("here", position.coords);
+          console.log("GET MY POSITION LATITUDE", position.coords.latitude);
+          console.log("GET MY POSITION Longitude", position.coords.longitude);
           this.houseCoordinates.lat = position.coords.latitude;
           this.houseCoordinates.lng = position.coords.longitude;
           let lat = position.coords.latitude;
@@ -203,6 +170,14 @@ export default {
               `${url}q=${lat}%2C%20${long}&key=6d49bc35522047ef8dbb6e5b60acc0c3&language=fr&pretty=1`
             )
             .then((res) => {
+              console.log(
+                "resp API LAT",
+                res.data.results[0].annotations.DMS.lat
+              );
+              console.log(
+                "resp API LNG",
+                res.data.results[0].annotations.DMS.lng
+              );
               this.houseCoordinates.locality =
                 res.data.results[0].components.state;
             });
@@ -229,7 +204,7 @@ export default {
       obj.description = this.description;
       obj.price = this.price;
       obj.marker = this.houseCoordinates;
-      console.log(obj);
+      console.log("to  DB", obj.marker);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log("hedhi", house);
       });

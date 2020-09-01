@@ -7,6 +7,7 @@ const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 const HousesInfos = require("./model/HousesInfos.js")
+const HousesImages = require("./model/HousesImages.js")
 // const AdminInfos = require ("./model/admin.js")
 
 
@@ -50,7 +51,6 @@ app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
-
 // Use the passport Middleware
 // app.use(passport.initialize());
 // Bring in the passport Strategy
@@ -70,6 +70,7 @@ mongoose
 const users = require("./routes/api/users");
 const keys = require("./config/keys");
 const multer = require("multer");
+const User = require("./model/User");
 app.use("/api/users", users);
 
 //HOU i will reorganize them later {{SORRY}}
@@ -84,6 +85,9 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
     res.send(house)
@@ -95,6 +99,32 @@ app.post("/houses", (req, res) => {
 //     res.send(item)
 //   })
 // })
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+})
+let upload = multer({ storage: storage })
+
+app.post("/multiple", upload.array("files"), (req, res) => {
+  let arr = req.files
+  let images = []
+  arr.forEach(houseImage => {
+    console.log(houseImage.filename)
+    images.push(houseImage.filename)
+  })
+  HousesImages.create({ images }).then(data => {
+    res.send(data)
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
+
 
 app.get("/houses", (req, res) => {
   HousesInfos.find({}).then(houses => {
