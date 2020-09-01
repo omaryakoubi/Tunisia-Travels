@@ -7,11 +7,11 @@ const User = require("../../model/User.js");
 
 module.exports = router.post("/reset", async (req, res) => {
   try {
-    if (req.body.email === "") throw new Error("email required !");
+    if (req.body.email === "") throw new Error("Email required !");
     const user = await User.findOne({ email: req.body.email });
     if (user === null) {
-      console.error("email is not in the data-base");
-      throw new Error("email not in the data-base");
+      console.error("Email is not in the data-base");
+      throw new Error("Email not in the data-base");
     }
     user.resetPasswordToken = crypto.randomBytes(20).toString("hex");
     user.resetPasswordExpires = Date.now() + 3600000;

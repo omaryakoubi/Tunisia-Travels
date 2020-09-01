@@ -7,17 +7,20 @@ const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 const HousesInfos = require("./model/HousesInfos.js");
+const morgan = require("morgan");
 
 // import passport from 'passport'
 // Intitialize the app
 const app = express();
 
 //OMAR
+app.use(morgan("combined"));
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
 const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
+const FacebookUser = require("./routes/api/FacebookUser");
 const coockieSession = require("cookie-session");
 const Review = require("./routes/api/Reviews");
 
@@ -47,6 +50,7 @@ app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
 app.use("/api/review", Review);
+app.use("/api/facebook-auth", FacebookUser);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 

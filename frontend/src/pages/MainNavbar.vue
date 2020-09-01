@@ -284,9 +284,17 @@ export default {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        function(response) {
+        async function(data) {
           console.log("Success ");
-          console.log("omar", response);
+          console.log("before", data);
+          await axios.post("http://localhost:5000/api/facebook-auth/user", {
+            data: data,
+          });
+          try {
+            console.log("after", data);
+          } catch (error) {
+            console.log(error);
+          }
         }
       );
     },
@@ -337,6 +345,7 @@ export default {
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
     },
+
     signup() {
       axios
         .post("http://localhost:5000/api/users/signup", {
@@ -383,6 +392,7 @@ export default {
   destroyed() {
     axios
       .get("http://localhost:5000/auth/google")
+
       .then((req, res) => {
         console.log(res);
       })
