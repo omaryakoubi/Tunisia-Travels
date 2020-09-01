@@ -285,8 +285,8 @@ export default {
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
         async function(data) {
-          console.log("Success ");
           console.log("before", data);
+          localStorage.setItem("id", data.id);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
