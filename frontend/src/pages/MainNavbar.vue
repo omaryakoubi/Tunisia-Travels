@@ -385,10 +385,28 @@ export default {
       this.hideAndShow();
     },
   },
-  async mounted() {
-    await this.loadFacebookSDK(document, "script", "facebook-jssdk");
-    await this.initFacebook();
+
+  async created() {
+    try {
+      const googleId = this.$route.query.googleId;
+
+      localStorage.setItem("googleId", googleId);
+
+      this.$router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   },
+
+  async mounted() {
+    try {
+      await this.loadFacebookSDK(document, "script", "facebook-jssdk");
+      await this.initFacebook();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   destroyed() {
     axios
       .get("http://localhost:5000/auth/google")
