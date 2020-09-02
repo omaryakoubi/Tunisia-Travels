@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const stripeKeyBack = require("../../config/stripeKeysBack");
 const stripe = require("stripe")(stripeKeyBack.secretKey);
 const NodemailerConfig = require("../../config/NodemailerConfig");
+const InfoTravel = require("../../model/InfoTravel");
 
 module.exports = router.post("/create-payment-intent", async (req, res) => {
   try {
@@ -35,7 +36,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-        res.err(err);
+        res.send(err);
       } else {
         res.send(`Email sent : ${info.response}`);
       }

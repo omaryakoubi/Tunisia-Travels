@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/bg5.jpg')"
+      ></parallax>
       <div class="container">
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
@@ -45,7 +48,9 @@
     </div>
     <div class="section">
       <div class="container">
-        <p id="edit" @click="enableEdit" style=" text-decoration: underline">Edit</p>
+        <p id="edit" @click="enableEdit" style=" text-decoration: underline">
+          Edit
+        </p>
         <h3 class="title">About me</h3>
         <fg-input
           class="disable"
@@ -79,7 +84,12 @@
         <div>
           <a style="text-decoration: underline">Change Password</a>
         </div>
-        <p @click="disableEdit" style="text-decoration: underline; inline-text: center">Save Changes</p>
+        <p
+          @click="disableEdit"
+          style="text-decoration: underline; inline-text: center"
+        >
+          Save Changes
+        </p>
       </div>
     </div>
   </div>
@@ -171,18 +181,18 @@ export default {
               "Content-Type": "multipart/form-data",
             },
           }
-        )
+        );
+        let response = res.data.data;
+        this.form.file = res.data.data[res.data.data.length - 1].url;
+        console.log(res)
       } catch (err) {
         this.message = "not uploaded";
         console.log(err);
       }
     },
-    getImage() {
-      axios.get()
-    }
   },
 
-  mounted: function () {
+  mounted: function() {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
@@ -198,7 +208,7 @@ export default {
             (this.form.email = response.email),
             (this.form.age = response.age),
             (this.form.phone = response.phone);
-          this.form.file = response.file;
+            (this.form.file = response.file);
           console.log(response);
         })
         .catch((err) => {

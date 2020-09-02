@@ -292,7 +292,7 @@ export default {
         })
         .catch(() => {
           alert("Wrong password or username");
-        });
+        })
     },
     async getInfoFromFacebook() {
       window.FB.api(

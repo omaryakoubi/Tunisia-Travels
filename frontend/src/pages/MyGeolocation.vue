@@ -1,20 +1,28 @@
 <template>
-  <div>
+  <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h2>There is N House in {{ coordinates.locality }}</h2>
-        <h4>
+        <h5>
+          There is {{ numberOfHouses }} House in {{ coordinates.locality }}
+        </h5>
+        <h5>
           Available : From {{ coordinates.start }} To {{ coordinates.end }}
-        </h4>
-        <h6>Guests Number : "GUEST NUMBER"</h6>
+        </h5>
+        <h5>
+          Guests Number :{{
+            coordinates.guestsNum[0] +
+              coordinates.guestsNum[1] +
+              coordinates.guestsNum[2]
+          }}
+        </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
-        <vs-card>
+        <vs-card vs-lg="4" v-for="(one, index) in arr" :key="index">
           <template #title>
-            <h3>{{ response.houseName }}</h3>
-            <h5>{{ response.typeOfPlace }}</h5>
+            <h3>{{ one.houseName }}</h3>
+            <h5>{{ one.typeOfPlace }}</h5>
           </template>
           <template #img>
             <img
@@ -24,18 +32,18 @@
             />
           </template>
           <template #text>
-            <p>{{ response.description }}</p>
+            <p>{{ one.description }}</p>
           </template>
           <template #interactions>
             <vs-button danger icon>
               <i class="bx">
-                {{ response.hostName }}
+                {{ one.hostName }}
                 <br />
-                {{ response.hostPhone }}
+                {{ one.hostPhone }}
               </i>
             </vs-button>
             <vs-button class="btn-chat" shadow primary>
-              <span class="span">{{ response.price }} euro/night</span>
+              <span class="span">{{ one.price }} euro/night</span>
             </vs-button>
           </template>
         </vs-card>
@@ -58,21 +66,25 @@
     </vs-row>
   </div>
 </template>
+
 <script>
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
+import axios from "axios";
 
 export default {
   name: "MyGeolocation",
   components: { GmapMarker, [Button.name]: Button },
   data() {
     return {
+      ready: false,
       coordinates: {
         lat: 0,
         lng: 0,
         locality: "",
         start: "",
         end: "",
+        guestsNum: [],
       },
       response: {
         houseName: "",
@@ -82,30 +94,37 @@ export default {
         hostName: "",
         hostPhone: "",
       },
-      numberOfHouses: "",
+      numberOfHouses: 0,
+      arr: [],
     };
   },
-  mounted() {
-    this.axios.get("http://localhost:5000/travelinfo").then((data) => {
+
+  async beforeMount() {
+    await axios.get("http://localhost:5000/travelinfo").then((data) => {
       this.coordinates.lat = data.data[data.data.length - 1].dest.latitude;
       this.coordinates.lng = data.data[data.data.length - 1].dest.longitude;
       this.coordinates.locality = data.data[data.data.length - 1].dest.locality;
       this.coordinates.start = data.data[data.data.length - 1].check.start;
       this.coordinates.end = data.data[data.data.length - 1].check.end;
+      this.coordinates.guestsNum.push(
+        data.data[data.data.length - 1].guestsNum[0],
+        data.data[data.data.length - 1].guestsNum[1],
+        data.data[data.data.length - 1].guestsNum[2]
+      );
     });
-    this.axios.get("http://localhost:5000/houses").then((data) => {
-      // console.log("myHouses", data.data);
+    await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
-        if (data.data[i].governorate == this.coordinates.locality) {
-          this.response.hostPhone = data.data[i].hostPhone;
-          this.response.description = data.data[i].description;
-          this.response.hostName = data.data[i].hostName;
-          this.response.price = data.data[i].price;
-          this.response.houseName = data.data[i].houseName;
-          this.response.typeOfPlace = data.data[i].typeOfPlace;
+        if (
+          data.data[i].governorate == this.coordinates.locality ||
+          this.coordinates.locality.includes(data.data[i].governorate) ||
+          data.data[i].governorate.includes(this.coordinates.locality)
+        ) {
+          this.numberOfHouses++;
+          this.arr.push(data.data[i]);
         }
       }
     });
+    this.ready = true;
   },
 };
 </script>

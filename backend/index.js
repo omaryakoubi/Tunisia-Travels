@@ -22,7 +22,6 @@ const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const FacebookUser = require("./routes/api/FacebookUser");
 const coockieSession = require("cookie-session");
-const Review = require("./routes/api/Reviews");
 
 // Middleware
 // Form Data Middlware
@@ -49,7 +48,6 @@ app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
-app.use("/api/review", Review);
 app.use("/api/facebook-auth", FacebookUser);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
@@ -91,11 +89,18 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
+
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
     res.send(house);
   });
 });
+
+// app.get("/admin", (req, res)=>{
+//   AdminInfos.find({}).then((item) =>{
+//     res.send(item)
+//   })
+// })
 
 app.get("/houses", (req, res) => {
   HousesInfos.find({}).then((houses) => {
