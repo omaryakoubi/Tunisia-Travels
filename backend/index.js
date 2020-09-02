@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
-const HousesInfos = require("./model/HousesInfos.js")
-
+const HousesInfos = require("./model/HousesInfos.js");
+// const AdminInfos = require ("./model/admin.js")
 
 // import passport from 'passport'
 // Intitialize the app
@@ -20,7 +20,6 @@ const AuthSMRoutes = require("./routes/api/AuthSM");
 const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const coockieSession = require("cookie-session");
-
 
 // Middleware
 // Form Data Middlware
@@ -57,7 +56,11 @@ require("./config/passport")(passport);
 // Bring in the Database Config
 const db = require("./config/keys").mongoURI;
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then((db) => {
     console.log("Database connected successfully");
   })
@@ -85,17 +88,27 @@ app.get("/travelinfo", (req, res) => {
 });
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
-    res.send(house)
-  })
-})
+    res.send(house);
+  });
+});
+
+// app.get("/admin", (req, res)=>{
+//   AdminInfos.find({}).then((item) =>{
+//     res.send(item)
+//   })
+// })
 
 app.get("/houses", (req, res) => {
-  HousesInfos.find({}).then(houses => {
-    res.send(houses)
-  })
-})
-
-
+  HousesInfos.find({}).then((houses) => {
+    res.send(houses);
+  });
+});
+app.get("/houseSelected/:id", (req, res) => {
+  HousesInfos.findById(req.params.id)
+  .then((house) => {
+    res.send(house)
+  }).catch(err => console.log(err))
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

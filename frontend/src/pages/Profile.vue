@@ -182,8 +182,11 @@ export default {
             },
           }
         );
-        let response = res.data.data;
-        this.form.file = res.data.data[res.data.data.length - 1].url;
+        if(this.form.file !== res.data.data[res.data.data.length - 1].url) {
+          // this.form.file = ''
+          this.form.file = res.data.data[res.data.data.length - 1].url;
+        }
+        
         console.log(res)
       } catch (err) {
         this.message = "not uploaded";

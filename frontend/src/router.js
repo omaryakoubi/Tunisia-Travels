@@ -53,13 +53,14 @@ export default new Router({
       },
     },
     {
-      path: "/selectedHouse",
-      name: "SelectedHouse",
+      path: "/selectedHouse/:id",
+      name: "selectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
 
     },{
       path: "/admin",
       name: "admin",
+      meta:{requiresAuth: true},
       component: () => import("./pages/admin/homeAdmin.vue"),
       props: {
         header: { colorOnScroll: 400 },
