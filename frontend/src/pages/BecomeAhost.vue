@@ -1,4 +1,4 @@
-  <template>
+<template>
   <form enctype="multipart/form-data">
     <div>
       <vs-pagination progress v-model="page" :length="4" />
@@ -72,7 +72,7 @@
             :position="houseCoordinates"
             :clickable="true"
             :draggable="true"
-            :icon="{ url: require('../../src/assets/images/google-maps-google-map-maker-computer-icons-house-png-favpng-e46wqcvLcMYam3a7sGYU3K5ws.jpg')}"
+            :icon="{ url: require('../../src/assets/images/gmap2.png') }"
           />
         </GmapMap>
       </div>
@@ -80,29 +80,30 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
-        <div v-for="(image,index) in imagesResp" :key="index" id="images">
+        <div v-for="(image, index) in imagesResp" :key="index">
           <img :src="`${image.url}`" />
         </div>
         <form enctype="multipart/form-data">
           <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
-          <div v-for="(file,index) in files" :key="index" class="level">
+          <div v-for="(file, index) in files" :key="index" class="level">
             <div class="level-left">
-              <div class="level-item">{{file.name}}</div>
+              <div class="level-item">{{ file.name }}</div>
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a @click.prevent="files.splice(index,1)" class="delete">Delete</a>
+                <a @click.prevent.prevent="files.splice(index, 1)" class="delete">Delete</a>
               </div>
             </div>
           </div>
-          <button @click.prevent="sendFile">Upload Files</button>
+          <button @click.prevent.prevent="sendFile">Upload Files</button>
         </form>
-        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>
+        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>=======
+        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>>>>>>>> 50de6a93bfdad4adb9a01c612cbeef85ed92fc25
       </div>
     </div>
   </form>
 </template>
-  <script>
+<script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import AutoComplete from "./AutoComplete.vue";
 import DatePicker from "./DatePicker";
@@ -247,7 +248,7 @@ export default {
   },
 };
 </script>
-<style  scoped>
+<style scoped>
 .content {
   align-content: center !important;
   margin-left: 650px;

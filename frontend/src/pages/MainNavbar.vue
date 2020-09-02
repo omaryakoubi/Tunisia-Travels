@@ -426,5 +426,5 @@ export default {
 <style scoped>
 .menu-btn {
   color: black !important;
-}
+  }
 </style>
