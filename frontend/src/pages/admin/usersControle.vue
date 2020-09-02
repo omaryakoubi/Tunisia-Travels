@@ -53,32 +53,6 @@
                   </n-button>
                 </td>
               </tr>
-
-              <tr>
-                <td>
-                  Minerva Hooper
-                </td>
-
-                <td>
-                  Curaçao
-                </td>
-
-                <td>
-                  Sinaai-Waas
-                </td>
-                <td>
-                  Sinaai-Waas
-                </td>
-
-                <td >
-                  <n-button type="success" link>
-                    <i class="fa fa-check"></i>
-                  </n-button>
-                  <n-button type="danger" link>
-                    <i class="fa fa-times"></i>
-                  </n-button>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -92,6 +66,7 @@ export default {
   components: {
     [Button.name]: Button,
   },
+  
 };
 </script>
 <style scoped>

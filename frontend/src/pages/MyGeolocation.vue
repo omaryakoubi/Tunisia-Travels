@@ -2,20 +2,26 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h5>There is {{numberOfHouses}} House in {{ coordinates.locality }}</h5>
+        <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
         <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
-        <h5>Guests Number :{{coordinates.guestsNum[0]+coordinates.guestsNum[1]+coordinates.guestsNum[2]}}</h5>
+        <h5>
+          Guests Number :{{
+          coordinates.guestsNum[0] +
+          coordinates.guestsNum[1] +
+          coordinates.guestsNum[2]
+          }}
+        </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
-        <vs-card vs-lg="4" v-for="(one,index) in arr" :key="index">
+        <vs-card vs-lg="4" v-for="(one, index) in arr" :key="index">
           <template #title>
             <h3>{{ one.houseName }}</h3>
             <h5>{{ one.typeOfPlace }}</h5>
           </template>
           <template #img>
-            <img src="../assets/images/ferrr.png" alt @click="$router.push('/SelectedHouse')" />
+            <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
           </template>
           <template #text>
             <p>{{ one.description }}</p>
@@ -38,11 +44,18 @@
         <GmapMap
           ref="map"
           :center="coordinates"
-          :zoom="15"
+          :zoom="13"
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
-          <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
+          <GmapMarker
+            :key="index"
+            v-for="(m,index) in markers "
+            :position="m"
+            :clickable="true"
+            :draggable="true"
+            @mouseover="display"
+          />
         </GmapMap>
       </vs-col>
     </vs-row>
@@ -66,6 +79,7 @@ export default {
         end: "",
         guestsNum: [],
       },
+      markers: [],
       response: {
         houseName: "",
         typeOfPlace: "",
@@ -76,7 +90,16 @@ export default {
       },
       numberOfHouses: 0,
       arr: [],
+      id: "",
     };
+  },
+  methods: {
+    redirectfunc(id) {
+      this.$router.push(`/selectedHouse/${id}`);
+    },
+    display() {
+      alert("heeeee");
+    },
   },
   async beforeMount() {
     await axios.get("http://localhost:5000/travelinfo").then((data) => {
@@ -90,6 +113,7 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
+      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -100,6 +124,7 @@ export default {
         ) {
           this.numberOfHouses++;
           this.arr.push(data.data[i]);
+          this.markers.push(data.data[i].marker);
         }
       }
     });
