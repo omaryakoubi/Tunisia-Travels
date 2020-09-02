@@ -22,7 +22,7 @@ const UserSchema = new Schema({
         type:String,
         required: true
     },
-    password:{
+    password: {
         type: String,
         required: true
     },
@@ -32,6 +32,9 @@ const UserSchema = new Schema({
     },
     file: {
         type: String
+    },
+    bio: {
+        type:String
     }
 })
 module.exports = User = mongoose.model('users', UserSchema)

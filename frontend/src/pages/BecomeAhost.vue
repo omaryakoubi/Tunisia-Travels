@@ -74,7 +74,7 @@
             :position="houseCoordinates"
             :clickable="true"
             :draggable="true"
-            :icon="{ url: require('../../src/assets/images/google-maps-google-map-maker-computer-icons-house-png-favpng-e46wqcvLcMYam3a7sGYU3K5ws.jpg')}"
+            :icon="{ url: require('../../src/assets/images/gmap2.png')}"
           />
         </GmapMap>
       </div>

@@ -113,6 +113,7 @@ router.post("/login", (req, res) => {
           email: user.email,
           phone: user.phone,
           age: user.age,
+          bio: user.bio
         };
         jwt.sign(
           payload,
@@ -163,7 +164,7 @@ router.put(
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
           { _id: req.user._id },
-          ({ name, username, email, age, phone, file } = req.body)
+          ({ name, username, email, age, phone, file , bio} = req.body)
         )
           .then(() => {
             console.log("then", req.user);

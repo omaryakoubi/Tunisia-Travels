@@ -1,40 +1,66 @@
 <template>
-  <div v-if="ready">
-    <vs-row>
-      <vs-col vs-lg="8">
-        <h5>There is {{numberOfHouses}} House in {{ coordinates.locality }}</h5>
-        <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
-        <h5>Guests Number :{{coordinates.guestsNum[0]+coordinates.guestsNum[1]+coordinates.guestsNum[2]}}</h5>
+  <div class="sear" v-if="ready">
+    <div class="page-header page-header-small ">
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
+      <main-navbar />
+      <div class="content-center">
+        <h1>Tunisia Travels</h1>
+      </div>
+    </div>
+    <vs-row class="cont">
+      <vs-col >
+        <div class="row">
+          <h5>
+            There is {{ numberOfHouses }} House in {{ coordinates.locality }}
+          </h5>
+          <h4>
+            Available : From {{ coordinates.start }} To {{ coordinates.end }}
+          </h4>
+          <h3>
+            Guests Number :{{
+              coordinates.guestsNum[0] +
+                coordinates.guestsNum[1] +
+                coordinates.guestsNum[2]
+            }}
+          </h3>
+        </div>
+        <div class="row">
+          <div class="card-body" v-for="(one, index) in arr" :key="index">
+            <div class="row">
+              <div class="col-md-5">
+                <div >
+                  <img
+                    src="../assets/images/ferrr.png"
+                    alt
+                    @click="$router.push('/SelectedHouse')"
+                  />
+                </div>
+              </div>
+              <div class="container col-md-7">
+                <h3 class="card-title">
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}
+                  </a>
+                </h3>
+                <p class="card-description">
+                  {{ one.description }}
+                </p>
+                <p class="phone">Phone: {{ one.hostPhone }}</p>
+                <span class="span">{{ one.price }} euro/night</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
-        <vs-card vs-lg="4" v-for="(one,index) in arr" :key="index">
-          <template #title>
-            <h3>{{ one.houseName }}</h3>
-            <h5>{{ one.typeOfPlace }}</h5>
-          </template>
-          <template #img>
-            <img src="../assets/images/ferrr.png" alt @click="$router.push('/SelectedHouse')" />
-          </template>
-          <template #text>
-            <p>{{ one.description }}</p>
-          </template>
-          <template #interactions>
-            <vs-button danger icon>
-              <i class="bx">
-                {{ one.hostName }}
-                <br />
-                {{ one.hostPhone }}
-              </i>
-            </vs-button>
-            <vs-button class="btn-chat" shadow primary>
-              <span class="span">{{ one.price }} euro/night</span>
-            </vs-button>
-          </template>
-        </vs-card>
+       
       </vs-col>
-      <vs-col vs-lg="4">
+      <vs-col vs-lg="3">
         <GmapMap
           ref="map"
           :center="coordinates"
@@ -42,7 +68,11 @@
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
-          <GmapMarker :position="coordinates" :clickable="true" :draggable="true" />
+          <GmapMarker
+            :position="coordinates"
+            :clickable="true"
+            :draggable="true"
+          />
         </GmapMap>
       </vs-col>
     </vs-row>
@@ -52,9 +82,11 @@
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
+import MainNavbar from "./MainNavbar";
+
 export default {
   name: "MyGeolocation",
-  components: { GmapMarker, [Button.name]: Button },
+  components: { MainNavbar, GmapMarker, [Button.name]: Button },
   data() {
     return {
       ready: false,
@@ -109,10 +141,44 @@ export default {
 </script>
 <style scoped>
 .vue-map-container {
-  height: 900px !important;
-  float: right !important;
+  /* position: fixed; */
+  height: 100vh !important;
+  /* float: right !important; */
 }
 .vs-col--w-12 {
   width: 50% !important;
 }
+.cont {
+  margin-left: 80px;
+  margin-top: 40px;
+}
+.span {
+  float: right;
+  font-size: 130%;
+  font-weight: bold;
+  margin-bottom: auto;
+}
+.card-body {
+  padding-right: 50px;
+  border-top: solid 1px;
+}
+img{
+  border-radius: 20px !important;
+  width: 150px !important;
+  cursor: pointer;
+  transition: transform .2s;
+} 
+img:hover {
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.container{
+  padding-top:30px;
+  padding-left:0px;
+}
+.page-header {
+  border-bottom-right-radius: 200px;
+  border-bottom-left-radius: 200px;
+  min-height: 30vh;
+}
+
 </style>

@@ -5,18 +5,15 @@
         class="page-header-image"
         style="background-image:url('img/bg5.jpg')"
       ></parallax>
-      <div class="container">
-        <div class="photo-container">
-          <img :src="`${form.file}`" alt />
-        </div>
+      <main-navbar />
 
-        <!-- 
+      <!-- 
   <div class="centerx">
     <vs-upload automatic action="http://localhost:5000/api/users/upload"/>
   </div> -->
 
-        <!-- modal to upload a new picture and button to start it -->
-        <!-- <n-button
+      <!-- modal to upload a new picture and button to start it -->
+      <!-- <n-button
           type="primary"
           style="background: transparent"
           @click.native="modals.classic = true"
@@ -30,66 +27,160 @@
             <input type="file" style="background: transparent" />
           </template>
         </modal>  -->
-
-        <form enctype="multipart/form-data">
-          <div class="fields">
-            <label>Upload</label>
-            <input type="file" ref="file" @change="onSelect" />
-          </div>
-          <div class="fields">
-            <button @click="onSubmit">submit</button>
-          </div>
-          <div class="message">
-            <h5></h5>
-          </div>
-        </form>
-        <h3 class="title">{{ form.username }}</h3>
-      </div>
     </div>
-    <div class="section">
-      <div class="container">
-        <p id="edit" @click="enableEdit" style=" text-decoration: underline">
-          Edit
-        </p>
-        <h3 class="title">About me</h3>
-        <fg-input
-          class="disable"
-          placeholder="Name"
-          v-model="form.name"
-          :value="form.name"
-          style="width:700px; margin:auto; height: 80px"
-          :disabled="edit"
-        ></fg-input>
-        <fg-input
-          class="disable"
-          v-model="form.age"
-          :value="form.age"
-          style="width:700px; margin:auto; height: 80px"
-          :disabled="edit"
-        ></fg-input>
-        <fg-input
-          class="disable"
-          v-model="form.phone"
-          :value="form.phone"
-          style="width:700px; margin:auto; height: 80px"
-          :disabled="edit"
-        ></fg-input>
-        <fg-input
-          class="disable"
-          v-model="form.email"
-          :value="form.email"
-          style="width:700px; margin:auto; height: 80px"
-          :disabled="edit"
-        ></fg-input>
-        <div>
-          <a style="text-decoration: underline">Change Password</a>
+    <div class="col-md-10 ml-auto mr-auto">
+      <div class="row collections">
+        <div class="  col-md-8">
+          <div class="row">
+            <div class="col-md-5 pr-1">
+              <div class="form-group">
+                <label>Post</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  disabled=""
+                  placeholder="Post"
+                  value="User"
+                />
+              </div>
+            </div>
+            <div class="col-md-3 px-1">
+              <div class="form-group">
+                <label>Username</label>
+                <input
+                  v-model="form.username"
+                  :disabled="edit"
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  value="form.username"
+                />
+              </div>
+            </div>
+            <div class="col-md-4 pl-1">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Full Name"
+                  v-model="form.name"
+                  value="form.name"
+                  :disabled="edit"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  v-model="form.email"
+                  value="form.email"
+                  :disabled="edit"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Age</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Age"
+                  v-model="form.age"
+                  value="form.age"
+                  :disabled="edit"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Phone Number"
+                  v-model="form.phone"
+                  value="form.phone"
+                  :disabled="edit"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Address"
+                  v-model="form.address"
+                  value="form.address"
+                  :disabled="edit"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="textarea-container">
+              <textarea
+                class="form-control"
+                name="name"
+                rows="4"
+                v-model="form.bio"
+                placeholder="Type a message..."
+                value="form.bio"
+                :disabled="edit"
+              ></textarea>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div class="row">
+            <div class="col-md-2 pl-1">
+              Edit:
+            </div>
+            <div class="col-md-2 pl-1">
+              <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
+            </div>
+            <div class="col-md-4 pl-1">
+              <a class="btn btn-danger btn-round btn-small safe"
+                >Change Password</a
+              >
+            </div>
+            <div class="col-md-4 pl-1">
+              <a
+                @click="disableEdit"
+                class="btn btn-success btn-round btn-small safe"
+                >Save Changes</a
+              >
+            </div>
+          </div>
+          <br />
         </div>
-        <p
-          @click="disableEdit"
-          style="text-decoration: underline; inline-text: center"
-        >
-          Save Changes
-        </p>
+
+        <div class="cardi col-md-4">
+          <div class="photo-container">
+            <img
+              :src="`${form.file}`"
+              style ="height:100%"
+            />
+          </div>
+          <h3 class="title">{{ form.name }}</h3>
+          <p class="category">User</p>
+          <div class="content">
+              <p>{{ form.bio }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -100,6 +191,7 @@ import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
 import Button from "../components/Button";
 import axios from "axios";
+import MainNavbar from "./MainNavbar";
 
 export default {
   name: "profile",
@@ -109,6 +201,7 @@ export default {
     [Switch.name]: Switch,
     [modal.name]: modal,
     [Button.name]: Button,
+    MainNavbar,
   },
   data() {
     return {
@@ -121,6 +214,7 @@ export default {
         phone: 0,
         file: "",
         message: "",
+        bio: "",
       },
       switches: {
         defaultOn: true,
@@ -159,6 +253,7 @@ export default {
           age: this.form.age,
           phone: this.form.phone,
           file: this.form.file,
+          bio: this.form.bio,
         });
         console.log("HOU", this.form);
       } catch (err) {
@@ -184,7 +279,7 @@ export default {
         );
         let response = res.data.data;
         this.form.file = res.data.data[res.data.data.length - 1].url;
-        console.log(res)
+        console.log(res);
       } catch (err) {
         this.message = "not uploaded";
         console.log(err);
@@ -207,7 +302,8 @@ export default {
             (this.form.username = response.username),
             (this.form.email = response.email),
             (this.form.age = response.age),
-            (this.form.phone = response.phone);
+            (this.form.phone = response.phone),
+            (this.form.bio = response.bio),
             (this.form.file = response.file);
           console.log(response);
         })
@@ -218,4 +314,30 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.cardi {
+  background-color: gainsboro;
+  border-radius: 15px 50px 30px;
+  padding: 10px;
+}
+
+.collections {
+  margin-top: 50px;
+}
+.edit {
+  margin-top: 20px;
+}
+.textarea-container {
+  width: 80%;
+  margin: auto;
+}
+.page-header {
+  border-bottom-right-radius: 500px;
+  border-bottom-left-radius: 500px;
+  height: 20px;
+}
+.content{
+    text-align: center;
+
+}
+</style>

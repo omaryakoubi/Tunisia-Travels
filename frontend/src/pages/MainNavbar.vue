@@ -336,6 +336,7 @@ export default {
         });
     },
     logout() {
+      localStorage.clear()
       localStorage.removeItem('token')
       this.hideAndShow()  
     }
