@@ -80,6 +80,23 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
+        <div v-for="(image,index) in imagesResp" :key="index">
+          <img :src="`${image.url}`" />
+        </div>
+        <form enctype="multipart/form-data">
+          <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
+          <div v-for="(file,index) in files" :key="index" class="level">
+            <div class="level-left">
+              <div class="level-item">{{file.name}}</div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <a @click.prevent="files.splice(index,1)" class="delete">Delete</a>
+              </div>
+            </div>
+          </div>
+          <button @click.prevent="sendFile">Upload Files</button>
+        </form>
         <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
@@ -96,6 +113,10 @@ export default {
   name: "BecomeAhost",
   components: { VueGoogleAutocomplete },
   data: () => ({
+    files: [],
+    message: "",
+    imagesResp: [],
+    nbrOfImages: 0,
     hostName: "",
     hostPhone: "",
     governorate: "",
@@ -125,6 +146,25 @@ export default {
     },
   }),
   methods: {
+    selectFile() {
+      const files = this.$refs.files.files;
+      this.files = [...this.files, ...files];
+      console.log(this.count++);
+    },
+    async sendFile() {
+      const formData = new FormData();
+      this.files.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      await this.axios
+        .post("http://localhost:5000/multiple", formData)
+        .then((data) => {
+          console.log(data.data);
+          this.imagesResp = data.data;
+          this.nbrOfImages = this.imagesResp.length;
+        });
+    },
     getStreetAdress(adress, placeResultData, id) {
       this.houseCoordinates.locality = adress.locality;
       this.houseCoordinates.lat = adress.latitude;
@@ -170,14 +210,6 @@ export default {
               `${url}q=${lat}%2C%20${long}&key=6d49bc35522047ef8dbb6e5b60acc0c3&language=fr&pretty=1`
             )
             .then((res) => {
-              console.log(
-                "resp API LAT",
-                res.data.results[0].annotations.DMS.lat
-              );
-              console.log(
-                "resp API LNG",
-                res.data.results[0].annotations.DMS.lng
-              );
               this.houseCoordinates.locality =
                 res.data.results[0].components.state;
             });
@@ -204,6 +236,9 @@ export default {
       obj.description = this.description;
       obj.price = this.price;
       obj.marker = this.houseCoordinates;
+      obj.images = this.imagesResp;
+      console.log("this.imagesRresp", this.imagesResp);
+      console.log("obj.images", obj.images);
       console.log("to  DB", obj.marker);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log("hedhi", house);

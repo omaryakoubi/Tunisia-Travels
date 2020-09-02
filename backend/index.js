@@ -112,31 +112,15 @@ const storage = multer.diskStorage({
 let upload = multer({ storage: storage })
 
 app.post("/multiple", upload.array("files"), async (req, res) => {
-  // let arr = req.files
-  // let images = []
-  // arr.forEach(houseImage => {
-  //   console.log(houseImage.filename)
-  //   images.push(houseImage.filename)
-  // })$
-  console.log(req.files)
   const uploader = async (path) =>
     await cloudinary.uploads(path, "files");
   const urls = [];
   const arr = req.files;
-  // console.log("arr", arr)
   for (let key in arr) {
     const path = arr[key].path;
     const newPath = await uploader(path);
-    // console.log("path", newPath);
     urls.push(newPath);
-    // console.log("urls", urls)
     fs.unlinkSync(path);
-    // HousesImages.create({ images }).then(data => {
-    //   res.send(data)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
-    // res.status(200).send(urls)
   }
   res.status(200).send(urls)
 })
