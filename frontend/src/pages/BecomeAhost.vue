@@ -18,7 +18,7 @@
             <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
           </vs-select>
           <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
-          <vs-button id="content2" flat :active="active == 0" @click="toPage2">Get Started</vs-button>
+          <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
         </div>
       </div>
       <div v-show="div2" id="p2">
@@ -33,7 +33,7 @@
         <vs-input type="date" v-model="start" id="content"></vs-input>
         <label id="content">Availability to</label>
         <vs-input type="date" v-model="end" id="content"></vs-input>
-        <vs-button id="content3" flat :active="active == 0" @click="toPage3">Next</vs-button>
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage3">Next</vs-button>
       </div>
       <br />
       <br />
@@ -58,9 +58,9 @@
           id="content3"
           flat
           :active="active == 0"
-          @click="getMyPosition"
+          @click.prevent="getMyPosition"
         >Or Detect My Position</vs-button>
-        <vs-button id="content3" flat :active="active == 0" @click="toPage4">Next</vs-button>
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage4">Next</vs-button>
         <GmapMap
           ref="map"
           :center="houseCoordinates"
@@ -80,7 +80,7 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
-        <div v-for="(image,index) in imagesResp" :key="index">
+        <div v-for="(image,index) in imagesResp" :key="index" id="images">
           <img :src="`${image.url}`" />
         </div>
         <form enctype="multipart/form-data">
@@ -97,7 +97,7 @@
           </div>
           <button @click.prevent="sendFile">Upload Files</button>
         </form>
-        <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
+        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
   </form>

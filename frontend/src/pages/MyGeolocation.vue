@@ -2,17 +2,13 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h5>
-          There is {{ numberOfHouses }} House in {{ coordinates.locality }}
-        </h5>
-        <h5>
-          Available : From {{ coordinates.start }} To {{ coordinates.end }}
-        </h5>
+        <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
+        <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
         <h5>
           Guests Number :{{
-            coordinates.guestsNum[0] +
-              coordinates.guestsNum[1] +
-              coordinates.guestsNum[2]
+          coordinates.guestsNum[0] +
+          coordinates.guestsNum[1] +
+          coordinates.guestsNum[2]
           }}
         </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
@@ -25,7 +21,7 @@
             <h5>{{ one.typeOfPlace }}</h5>
           </template>
           <template #img>
-            <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
+            <img :src="`${one.images[0].url}`" @click="redirectfunc(one._id)" alt />
           </template>
           <template #text>
             <p>{{ one.description }}</p>
@@ -132,6 +128,7 @@ export default {
           this.arr.push(data.data[i]);
           this.markers.push(data.data[i].marker);
         }
+        console.log("houhouhouh", data.data[i]);
       }
     });
     this.ready = true;
