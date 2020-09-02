@@ -259,7 +259,7 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
-          console.log("axios", res);
+          console.log("axios", res.data);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
