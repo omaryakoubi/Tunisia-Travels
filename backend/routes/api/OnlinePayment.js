@@ -10,7 +10,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
 
     const calculateOrderAmount = (items) => {
       //WE NEED TO REPLACE THIS WITH THE CALCULATION OF HOW MANY DAYS THE CUSTOMER WILL STAY IN THE HOUSE * THE PRICE.
-      
+
       return 1000;
     };
     const paymentIntent = await stripe.paymentIntents.create({

@@ -264,6 +264,17 @@ export default {
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
+
+    hideAndShowOmar() {
+      if (localStorage.token !== undefined) {
+        this.hide = !this.hide;
+        console.log("omar here");
+      } else {
+        // this.logout();
+        console.log("omar not here");
+      }
+    },
+
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
@@ -331,7 +342,7 @@ export default {
       try {
         await this.logUserIn();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
-        await this.hideAndShow();
+        await this.hideAndShowOmar();
       } catch (error) {
         console.log(error);
       }
@@ -397,16 +408,16 @@ export default {
 
     logout() {
       localStorage.clear();
-      this.hideAndShow();
+      this.hideAndShowOmar();
     },
   },
 
   async created() {
     try {
-      const token = this.$route.query.googleId;
-      localStorage.setItem("token", token);
-      this.hideAndShow();
+      const googleToken = this.$route.query.googleId;
+      localStorage.setItem("googleToken", googleToken);
       this.$router.push("/");
+      this.hideAndShowOmar();
     } catch (error) {
       console.log(error);
     }
