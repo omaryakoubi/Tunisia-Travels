@@ -47,8 +47,6 @@
           placeholder="Choose a governorate"
           v-on:error="handleError"
         ></vue-google-autocomplete>
-        <!-- <vs-input label-placeholder="City" v-model="city" id="content" /> -->
-        <!-- <vs-input label-placeholder="Street Adress" v-model="adress" id="content" /> -->
         <vue-google-autocomplete
           :country="['TN']"
           id="adress"
@@ -82,14 +80,23 @@
       <br />
       <br />
       <div v-show="div4" id="p4">
-        <label id="content">Upload Photos of your house</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your CIN</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your Passport</label>
-        <vs-input id="content" type="file"></vs-input>
-        <label id="content">Upload Your MELKYA</label>
-        <vs-input id="content" type="file"></vs-input>
+        <div v-for="(image,index) in imagesResp" :key="index">
+          <img :src="`${image.url}`" />
+        </div>
+        <form enctype="multipart/form-data">
+          <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
+          <div v-for="(file,index) in files" :key="index" class="level">
+            <div class="level-left">
+              <div class="level-item">{{file.name}}</div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <a @click.prevent="files.splice(index,1)" class="delete">Delete</a>
+              </div>
+            </div>
+          </div>
+          <button @click.prevent="sendFile">Upload Files</button>
+        </form>
         <vs-button id="content2" flat :active="active == 0" @click="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
@@ -106,6 +113,10 @@ export default {
   name: "BecomeAhost",
   components: { VueGoogleAutocomplete },
   data: () => ({
+    files: [],
+    message: "",
+    imagesResp: [],
+    nbrOfImages: 0,
     hostName: "",
     hostPhone: "",
     governorate: "",
@@ -135,6 +146,25 @@ export default {
     },
   }),
   methods: {
+    selectFile() {
+      const files = this.$refs.files.files;
+      this.files = [...this.files, ...files];
+      console.log(this.count++);
+    },
+    async sendFile() {
+      const formData = new FormData();
+      this.files.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      await this.axios
+        .post("http://localhost:5000/multiple", formData)
+        .then((data) => {
+          console.log(data.data);
+          this.imagesResp = data.data;
+          this.nbrOfImages = this.imagesResp.length;
+        });
+    },
     getStreetAdress(adress, placeResultData, id) {
       this.houseCoordinates.locality = adress.locality;
       this.houseCoordinates.lat = adress.latitude;
@@ -168,7 +198,8 @@ export default {
     getMyPosition() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // console.log("here", position.coords);
+          console.log("GET MY POSITION LATITUDE", position.coords.latitude);
+          console.log("GET MY POSITION Longitude", position.coords.longitude);
           this.houseCoordinates.lat = position.coords.latitude;
           this.houseCoordinates.lng = position.coords.longitude;
           let lat = position.coords.latitude;
@@ -205,7 +236,10 @@ export default {
       obj.description = this.description;
       obj.price = this.price;
       obj.marker = this.houseCoordinates;
-      console.log(obj);
+      obj.images = this.imagesResp;
+      console.log("this.imagesRresp", this.imagesResp);
+      console.log("obj.images", obj.images);
+      console.log("to  DB", obj.marker);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log("hedhi", house);
       });

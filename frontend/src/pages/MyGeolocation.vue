@@ -2,17 +2,13 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h5>
-          There is {{ numberOfHouses }} House in {{ coordinates.locality }}
-        </h5>
-        <h5>
-          Available : From {{ coordinates.start }} To {{ coordinates.end }}
-        </h5>
+        <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
+        <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
         <h5>
           Guests Number :{{
-            coordinates.guestsNum[0] +
-              coordinates.guestsNum[1] +
-              coordinates.guestsNum[2]
+          coordinates.guestsNum[0] +
+          coordinates.guestsNum[1] +
+          coordinates.guestsNum[2]
           }}
         </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
@@ -25,14 +21,7 @@
             <h5>{{ one.typeOfPlace }}</h5>
           </template>
           <template #img>
-            <!-- <router-link
-              :to="{
-                name: 'selectedHouse',
-                :params: one._id,
-              }"
-              > -->
             <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
-            <!-- </router-link> -->
           </template>
           <template #text>
             <p>{{ one.description }}</p>
@@ -55,14 +44,17 @@
         <GmapMap
           ref="map"
           :center="coordinates"
-          :zoom="15"
+          :zoom="13"
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
           <GmapMarker
-            :position="coordinates"
+            :key="index"
+            v-for="(m,index) in markers "
+            :position="m"
             :clickable="true"
             :draggable="true"
+            @mouseover="display"
           />
         </GmapMap>
       </vs-col>
@@ -87,6 +79,7 @@ export default {
         end: "",
         guestsNum: [],
       },
+      markers: [],
       response: {
         houseName: "",
         typeOfPlace: "",
@@ -102,7 +95,10 @@ export default {
   },
   methods: {
     redirectfunc(id) {
-      this.$router.push(`/selectedHouse/${id}`)
+      this.$router.push(`/selectedHouse/${id}`);
+    },
+    display() {
+      alert("heeeee");
     },
   },
   async beforeMount() {
@@ -117,6 +113,7 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
+      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -127,6 +124,7 @@ export default {
         ) {
           this.numberOfHouses++;
           this.arr.push(data.data[i]);
+          this.markers.push(data.data[i].marker);
         }
       }
     });
