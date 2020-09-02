@@ -20,13 +20,13 @@ const Housesinfo = require("../../model/HousesInfos")
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
   //Check if it's an admin 
-  if(email.includes('@admin')) {
-   return  Admin.create({ name, username, email, password, cpassword, age, phone }, (req,res) => {
-    res.status(200).json({
-      msg : 'Admin signed up'
+  if (email.includes('@admin')) {
+    return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
+      res.status(200).json({
+        msg: 'Admin signed up'
+      })
+      console.log('yup')
     })
-    console.log('yup')
-  })
   }
   // Check for the password
   if (password.length < 8) {
@@ -82,6 +82,8 @@ router.post("/signup", (req, res) => {
     email,
     phone,
     age,
+    resetPasswordToken: "",
+    resetPasswordExpires: 0,
   });
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {
@@ -111,7 +113,7 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
-    
+
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -131,7 +133,7 @@ router.post("/login", (req, res) => {
             expiresIn: 604800,
           },
           (err, token) => {
-            res.status(200).json({ 
+            res.status(200).json({
               success: true,
               token: `Bearer ${token}`,
               msg: "You are now logged in",
@@ -172,17 +174,17 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-          { _id: req.user._id },
-          ({ name, username, email, age, phone, file } = req.body)
-        )
-          .then(() => {
-            console.log("then", req.user);
-            res.status(201).send(req.user);
-          })
-          .catch((err) => {
-            console.log("catch", req.user);
-            res.status(505).send({ err });
-          })
+        { _id: req.user._id },
+        ({ name, username, email, age, phone, file } = req.body)
+      )
+        .then(() => {
+          console.log("then", req.user);
+          res.status(201).send(req.user);
+        })
+        .catch((err) => {
+          console.log("catch", req.user);
+          res.status(505).send({ err });
+        })
       : res.status(404).send("NOT FOUND");
   }
 );
@@ -215,8 +217,9 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
-    console.log("req", req.files);
+    // console.log("req", req.files);
     const uploader = async (path) =>
+
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
     const files = req.files;
@@ -229,27 +232,27 @@ router.post(
         message: "uploaded",
         data: urls,
       });
-    }   
+    }
   }
 );
 
 //get users number 
 
-router.get('/', (req,res) => {
-   User.find({})
-  .then(result => {
-    res.send(result)
-  })
-  .catch(err => console.log(err))
+router.get('/', (req, res) => {
+  User.find({})
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
 })
- 
+
 // get the number of users that are hosts
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
   Housesinfo.find({})
- .then(result => {
-   res.send(result)
- })
- .catch(err => console.log(err))
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
 })
 
 

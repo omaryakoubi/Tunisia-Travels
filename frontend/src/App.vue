@@ -6,9 +6,12 @@
     </div>
     <router-view name="footer" />
   </div>
+  <!-- <MultipleUpload /> -->
 </template>
 <script>
+// import MultipleUpload from "./pages/MultipleUpload.vue";
 export default {
   name: "App",
+  components: {},
 };
 </script>
