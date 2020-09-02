@@ -16,6 +16,9 @@
         >Login</a
       >
     </div>
+    <p v-if="toggle">
+      Email has been send to {{ sadressMail }} Please Check Your Email
+    </p>
   </center>
 </template>
 
@@ -26,6 +29,7 @@ export default {
   name: "ResetPassword",
   data() {
     return {
+      toggle: false,
       adressMail: "",
     };
   },
@@ -36,6 +40,7 @@ export default {
 
   methods: {
     resetPassword() {
+      this.toggle = true;
       axios
         .post("http://localhost:5000/api/users/reset", {
           email: this.adressMail,

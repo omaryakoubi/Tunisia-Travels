@@ -5,16 +5,8 @@ Vue.use(Router);
 
 export default new Router({
   linkExactActiveClass: "active",
+  mode: "history",
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: () => import('./pages/Home.vue'),
-    //   props: {
-    //     header: { colorOnScroll: 400 },
-    //     footer: { backgroundColor: 'black' }
-    //   }
-    // },
     {
       path: "/",
       name: "index",
@@ -34,18 +26,9 @@ export default new Router({
       },
     },
     {
-      path: "/login",
-      name: "login",
-      component: () => import("./pages/Login.vue"),
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
-      },
-    },
-    {
-      path: "/signup",
-      name: "signup",
-      component: () => import("./pages/Signup.vue"),
+      path: "/MyGeolocation",
+      name: "MyGeolocation",
+      component: () => import("./pages/MyGeolocation.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -53,9 +36,19 @@ export default new Router({
     },
 
     {
-      path: "/reset",
-      name: "reset",
-      component: () => import("./pages/ResetPassword.vue"),
+      path: "/BecomeAhost",
+      name: "BecomeAhost",
+      component: () => import("./pages/BecomeAhost.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/resetform/:token",
+      name: "resetform",
+      component: () => import("./pages/ResetPasswordForm.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -66,6 +59,31 @@ export default new Router({
       path: "/payment",
       name: "payment",
       component: () => import("./pages/OnlinePayment.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/selectedHouse/:id",
+      name: "selectedHouse",
+      component: () => import("./pages/SelectedHouse.vue"),
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      meta:{requiresAuth: true},
+      component: () => import("./pages/admin/homeAdmin.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/omar",
+      name: "omar",
+      component: () => import("./pages/Forum.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

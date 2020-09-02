@@ -4,8 +4,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require("../../config/keys").secret;
-const multer = require('multer')
+const multer = require("multer");
 const User = require("../../model/User.js");
+const Admin = require('../../model/admin.js')
+const path = require("path");
+const fs = require("fs");
+const cloudinary = require("../../cloudinary.config");
+const Housesinfo = require("../../model/HousesInfos")
 
 /**
  * @route POST api/users/signup
@@ -14,13 +19,30 @@ const User = require("../../model/User.js");
  */
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
-
+  //Check if it's an admin 
+  if (email.includes('@admin')) {
+    return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
+      res.status(200).json({
+        msg: 'Admin signed up'
+      })
+      console.log('yup')
+    })
+  }
   // Check for the password
-
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
+    });
+  }
   // Check for the confirm password
   if (password !== cpassword) {
     return res.status(400).json({
       msg: "Password do not match.",
+    });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({
+      msg: "Password length have to be greater then 8",
     });
   }
   // Check for the Age
@@ -60,6 +82,8 @@ router.post("/signup", (req, res) => {
     email,
     phone,
     age,
+    resetPasswordToken: "",
+    resetPasswordExpires: 0,
   });
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {
@@ -89,6 +113,7 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
+
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -147,45 +172,129 @@ router.put(
     session: false,
   }),
   (req, res) => {
-    const { email, age, phone } = req.body;
     return req.params.id === req.user._id.toString()
-      ? User.replaceOne(
-          { _id: req.user._id },
-          { ...req.user._doc, email, age, phone }
-        )
-          .then(() => res.status(201).send("done"))
-          .catch((err) => res.status(505).send({ err }))
+      ? User.findOneAndUpdate(
+        { _id: req.user._id },
+        ({ name, username, email, age, phone, file } = req.body)
+      )
+        .then(() => {
+          console.log("then", req.user);
+          res.status(201).send(req.user);
+        })
+        .catch((err) => {
+          console.log("catch", req.user);
+          res.status(505).send({ err });
+        })
       : res.status(404).send("NOT FOUND");
   }
 );
 
-//upload image Multer
+//upload image
 
 const storage = multer.diskStorage({
-  destination : '../../frontend/src/assets/img',
+  destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
+    cb(null, Date.now() + file.originalname);
+    console.log("file", file);
+  },
+});
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    cb(null, true)
+  if (
+    file.mimetype == "image/jpeg" ||
+    file.mimetype == "image/png" ||
+    file.mimetype == "image/jpg"
+  ) {
+    cb(null, true);
   } else {
-    cb(null, false)
+    cb(null, false);
   }
 };
-const upload = multer({ storage: storage, fileFilter: fileFilter })
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+router.post(
+  "/upload",
+  //  passport.authenticate("jwt", {
+  //   session: false,
+  // }),
+  upload.array("imageFile"),
+  async (req, res) => {
+    // console.log("req", req.files);
+    const uploader = async (path) =>
 
-router.post('/upload', upload.single("imageFile"), (req, res, next) => {
-  add(req, res);
-  try {
-    return res.status(201).json({
-      message: "File uploaded"
-    });
+      await cloudinary.uploads(path, "imageFile");
+    const urls = [];
+    const files = req.files;
+    for (let key in files) {
+      const path = files[key].path;
+      const newPath = await uploader(path);
+      urls.push(newPath);
+      fs.unlinkSync(path);
+      res.status(200).json({
+        message: "uploaded",
+        data: urls,
+      });
+    }
   }
-  catch (error) {
-    console.error(error)
-  }
+);
+
+//get users number 
+
+router.get('/', (req, res) => {
+  User.find({})
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
 })
+
+// get the number of users that are hosts
+router.get('/', (req, res) => {
+  Housesinfo.find({})
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
+})
+
+
+// /**
+//  * @route POST api/admin/profile
+//  * @desc Return the User's Data
+//  * @access Public
+//  */
+// router.get(
+//   "/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return res.json({
+//       user: req.user,
+//     });
+//   }
+// );
+// //update Admin profile
+// router.put(
+//   "/update/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return req.params.id === req.user._id.toString()
+//       ? Admin.findOneAndUpdate(
+//           { _id: req.user._id },
+//           ({ name, username, email, age, phone,city, country, zip, file } = req.body)
+//         )
+//           .then(() => {
+//             console.log("then", req.user);
+//             res.status(201).send(req.user);
+//           })
+//           .catch((err) => {
+//             console.log("catch", req.user);
+//             res.status(505).send({ err });
+//           })
+//       : res.status(404).send("NOT FOUND");
+//   }
+// );
+
 
 module.exports = router;

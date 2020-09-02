@@ -1,26 +1,30 @@
 <template>
-  <!-- Display a payment form -->
   <center>
-    <form id="payment-form">
-      <input
-        type="email"
-        id="email"
-        placeholder="Email address"
-        v-model="email"
-      />
-      <div id="card-element"><!--Stripe.js injects the Card Element--></div>
-      <button
-        @click="test"
-        id="submit"
-        class="btn btn-primary btn-round btn-lg btn-block"
-      >
-        <div class="spinner hidden" id="spinner"></div>
-        <span id="button-text">Pay</span>
-      </button>
+    <div id="main">
+      <form id="payment-form">
+        <input
+          type="email"
+          id="email"
+          placeholder="Email address"
+          v-model="email"
+        />
+        <div id="card-element"></div>
+        <button
+          @click="test"
+          id="submit"
+          class="btn btn-primary btn-round btn-lg btn-block"
+        >
+          <div class="spinner hidden" id="spinner"></div>
+          <span id="button-text">Pay</span>
+        </button>
 
-      <p id="card-error" role="alert"></p>
-      <p class="result-message hidden">Payment <a>SUCCEEDED</a> Thank You!</p>
-    </form>
+        <p id="card-error" role="alert"></p>
+        <p class="result-message hidden">
+          Payment
+          <a>SUCCEEDED</a> Thank You!
+        </p>
+      </form>
+    </div>
   </center>
 </template>
 
