@@ -257,7 +257,7 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import MainNavbar from "./MainNavbar.vue";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 import Tabs from "./components/Tabs";
-
+import axios from 'axios'
 export default {
   name: "landing",
   bodyClass: "landing-page",
@@ -275,7 +275,7 @@ export default {
 </script>
 <style scoped>
 .content-center {
-  z-index: 0;
+  z-index: 2;
 }
 .blockquote {
   width: 500px !important;

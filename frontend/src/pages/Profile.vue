@@ -6,11 +6,15 @@
         style="background-image:url('img/bg5.jpg')"
       ></parallax>
       <main-navbar />
+      <div class="container">
+        <div class="photo-container">
+          <img :src="`${form.file}`" alt />
+        </div>
 
       <!-- 
   <div class="centerx">
     <vs-upload automatic action="http://localhost:5000/api/users/upload"/>
-  </div> -->
+        </div>-->
 
       <!-- modal to upload a new picture and button to start it -->
       <!-- <n-button
@@ -182,6 +186,7 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
@@ -277,8 +282,11 @@ export default {
             },
           }
         );
-        let response = res.data.data;
-        this.form.file = res.data.data[res.data.data.length - 1].url;
+        if (this.form.file !== res.data.data[res.data.data.length - 1].url) {
+          // this.form.file = ''
+          this.form.file = res.data.data[res.data.data.length - 1].url;
+        }
+
         console.log(res);
       } catch (err) {
         this.message = "not uploaded";
@@ -287,7 +295,7 @@ export default {
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {

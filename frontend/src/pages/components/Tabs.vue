@@ -30,7 +30,6 @@
         <i class="fa fa-search"></i> Search
       </n-button>
     </div>
-
   </div>
 </template>
 <script>

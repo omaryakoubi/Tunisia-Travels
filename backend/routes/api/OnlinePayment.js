@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const stripeKeyBack = require("../../config/stripeKeysBack");
 const stripe = require("stripe")(stripeKeyBack.secretKey);
 const NodemailerConfig = require("../../config/NodemailerConfig");
+const InfoTravel = require("../../model/InfoTravel");
 
 module.exports = router.post("/create-payment-intent", async (req, res) => {
   try {
@@ -10,6 +11,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
 
     const calculateOrderAmount = (items) => {
       //WE NEED TO REPLACE THIS WITH THE CALCULATION OF HOW MANY DAYS THE CUSTOMER WILL STAY IN THE HOUSE * THE PRICE.
+
       return 1000;
     };
     const paymentIntent = await stripe.paymentIntents.create({
@@ -34,7 +36,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-        res.err(err);
+        res.send(err);
       } else {
         res.send(`Email sent : ${info.response}`);
       }
@@ -42,7 +44,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
     res.send({
       clientSecret: paymentIntent.client_secret,
     });
-  } catch (e) {
-    res.status(500).send(e);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });

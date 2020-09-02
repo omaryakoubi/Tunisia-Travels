@@ -32,11 +32,11 @@
             <div class="row">
               <div class="col-md-5">
                 <div >
-                  <img
-                    src="../assets/images/ferrr.png"
-                    alt
-                    @click="$router.push('/SelectedHouse')"
-                  />
+                  
+                   <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
+
+
+                  
                 </div>
               </div>
               <div class="container col-md-7">
@@ -64,14 +64,17 @@
         <GmapMap
           ref="map"
           :center="coordinates"
-          :zoom="15"
+          :zoom="13"
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
           <GmapMarker
-            :position="coordinates"
+            :key="index"
+            v-for="(m,index) in markers "
+            :position="m"
             :clickable="true"
             :draggable="true"
+            @mouseover="display"
           />
         </GmapMap>
       </vs-col>
@@ -79,14 +82,13 @@
   </div>
 </template>
 <script>
+import MainNavbar from "./MainNavbar"
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
-import MainNavbar from "./MainNavbar";
-
 export default {
   name: "MyGeolocation",
-  components: { MainNavbar, GmapMarker, [Button.name]: Button },
+  components: { GmapMarker, [Button.name]: Button, MainNavbar },
   data() {
     return {
       ready: false,
@@ -98,6 +100,7 @@ export default {
         end: "",
         guestsNum: [],
       },
+      markers: [],
       response: {
         houseName: "",
         typeOfPlace: "",
@@ -108,7 +111,16 @@ export default {
       },
       numberOfHouses: 0,
       arr: [],
+      id: "",
     };
+  },
+  methods: {
+    redirectfunc(id) {
+      this.$router.push(`/selectedHouse/${id}`);
+    },
+    display() {
+      alert("heeeee");
+    },
   },
   async beforeMount() {
     await axios.get("http://localhost:5000/travelinfo").then((data) => {
@@ -122,6 +134,7 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
+      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -132,6 +145,7 @@ export default {
         ) {
           this.numberOfHouses++;
           this.arr.push(data.data[i]);
+          this.markers.push(data.data[i].marker);
         }
       }
     });
