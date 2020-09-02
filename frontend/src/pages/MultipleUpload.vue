@@ -12,7 +12,9 @@
       </div>
     </div>
     <button @click.prevent="sendFile">Send</button>
-    <!-- <img src="../../../backend/uploads/${$imagesResp[0]}" /> -->
+    <div v-for="(image,index) in imagesResp" :key="index">
+      <img :src="`${image.url}`" />
+    </div>
   </form>
 </template>
 <script>
@@ -22,6 +24,7 @@ export default {
     files: [],
     message: "",
     imagesResp: [],
+    // imageUrl: "",
   }),
   methods: {
     selectFile() {
@@ -37,11 +40,9 @@ export default {
       await this.axios
         .post("http://localhost:5000/multiple", formData)
         .then((data) => {
-          data.data.images.forEach((image) => {
-            this.imagesResp.push(image);
-          });
+          console.log(data.data);
+          this.imagesResp = data.data;
         });
-      console.log(this.imagesResp[0]);
     },
   },
 };

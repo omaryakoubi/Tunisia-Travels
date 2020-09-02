@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
@@ -9,7 +8,9 @@ const InfoTravel = require("./model/InfoTravel.js");
 const HousesInfos = require("./model/HousesInfos.js")
 const HousesImages = require("./model/HousesImages.js")
 // const AdminInfos = require ("./model/admin.js")
-
+const fs = require("fs");
+const cloudinary = require("./cloudinary.config");
+const path = require("path");
 
 // import passport from 'passport'
 // Intitialize the app
@@ -105,25 +106,40 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    cb(null, Date.now() + file.originalname)
   }
 })
 let upload = multer({ storage: storage })
 
-app.post("/multiple", upload.array("files"), (req, res) => {
-  let arr = req.files
-  let images = []
-  arr.forEach(houseImage => {
-    console.log(houseImage.filename)
-    images.push(houseImage.filename)
-  })
-  HousesImages.create({ images }).then(data => {
-    res.send(data)
-  }).catch(err => {
-    console.log(err)
-  })
+app.post("/multiple", upload.array("files"), async (req, res) => {
+  // let arr = req.files
+  // let images = []
+  // arr.forEach(houseImage => {
+  //   console.log(houseImage.filename)
+  //   images.push(houseImage.filename)
+  // })$
+  console.log(req.files)
+  const uploader = async (path) =>
+    await cloudinary.uploads(path, "files");
+  const urls = [];
+  const arr = req.files;
+  // console.log("arr", arr)
+  for (let key in arr) {
+    const path = arr[key].path;
+    const newPath = await uploader(path);
+    // console.log("path", newPath);
+    urls.push(newPath);
+    // console.log("urls", urls)
+    fs.unlinkSync(path);
+    // HousesImages.create({ images }).then(data => {
+    //   res.send(data)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+    // res.status(200).send(urls)
+  }
+  res.status(200).send(urls)
 })
-
 
 
 app.get("/houses", (req, res) => {

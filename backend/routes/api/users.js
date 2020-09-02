@@ -121,7 +121,7 @@ router.post("/login", (req, res) => {
             expiresIn: 604800,
           },
           (err, token) => {
-            res.status(200).json({ 
+            res.status(200).json({
               success: true,
               token: `Bearer ${token}`,
               msg: "You are now logged in",
@@ -162,17 +162,17 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-          { _id: req.user._id },
-          ({ name, username, email, age, phone, file } = req.body)
-        )
-          .then(() => {
-            console.log("then", req.user);
-            res.status(201).send(req.user);
-          })
-          .catch((err) => {
-            console.log("catch", req.user);
-            res.status(505).send({ err });
-          })
+        { _id: req.user._id },
+        ({ name, username, email, age, phone, file } = req.body)
+      )
+        .then(() => {
+          console.log("then", req.user);
+          res.status(201).send(req.user);
+        })
+        .catch((err) => {
+          console.log("catch", req.user);
+          res.status(505).send({ err });
+        })
       : res.status(404).send("NOT FOUND");
   }
 );
@@ -205,15 +205,16 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
-   // console.log("req", req.files);
+    // console.log("req", req.files);
     const uploader = async (path) =>
+
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
     const files = req.files;
     for (let key in files) {
       const path = files[key].path;
       const newPath = await uploader(path);
-     // console.log("path", newPath);
+      // console.log("path", newPath);
       urls.push(newPath);
       fs.unlinkSync(path);
       res.status(200).json({
@@ -222,7 +223,7 @@ router.post(
       });
     }
 
-   
+
   }
 );
 // /**
@@ -266,9 +267,9 @@ router.post(
 // );
 
 
-    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
-    //  console.log('user id',req.user._id)
-    //  res.send({ file: req.file.originalname });
+//  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
+//  console.log('user id',req.user._id)
+//  res.send({ file: req.file.originalname });
 
 
 module.exports = router;
