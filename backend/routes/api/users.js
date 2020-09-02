@@ -82,6 +82,8 @@ router.post("/signup", (req, res) => {
     email,
     phone,
     age,
+    resetPasswordToken: "",
+    resetPasswordExpires: 0,
   });
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {

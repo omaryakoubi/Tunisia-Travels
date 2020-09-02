@@ -16,6 +16,7 @@ passport.use(
   new GoogleStrategy(
     {
       callbackURL: "/auth/google/redirect",
+      // callbackURL: "https://localhost:8080/",
       clientID: googleKeys.google.clientID,
       clientSecret: googleKeys.google.clientSecret,
     },
@@ -25,10 +26,10 @@ passport.use(
 
       GoogleUser.findOne({ googleId: profile.id }).then((currentUser) => {
         if (currentUser) {
-          console.log("user is :", currentUser);
+          // console.log("user is :", currentUser);
           done(null, currentUser);
         } else {
-          console.log("Google User already exist in database");
+          // console.log("Google User already exist in database");
         }
       });
 
@@ -39,7 +40,8 @@ passport.use(
       })
         .save()
         .then((newUser) => {
-          console.log("userCreated" + newUser);
+          console.log("userCreated", newUser.googleId);
+          console.log(req.user.googleId);
           done(null, newUser);
         })
         .catch((err) => {

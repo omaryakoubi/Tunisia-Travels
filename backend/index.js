@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
+const morgan = require("morgan");
 const HousesInfos = require("./model/HousesInfos.js")
 const HousesImages = require("./model/HousesImages.js")
 // const AdminInfos = require ("./model/admin.js")
@@ -17,11 +18,13 @@ const path = require("path");
 const app = express();
 
 //OMAR
+app.use(morgan("combined"));
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
 const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
+const FacebookUser = require("./routes/api/FacebookUser");
 const coockieSession = require("cookie-session");
 
 // Middleware
@@ -49,6 +52,7 @@ app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
+app.use("/api/facebook-auth", FacebookUser);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 // Use the passport Middleware
@@ -89,9 +93,6 @@ app.get("/travelinfo", (req, res) => {
     res.send(item);
   });
 });
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
     res.send(house);
@@ -103,6 +104,7 @@ app.post("/houses", (req, res) => {
 //     res.send(item)
 //   })
 // })
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -129,17 +131,20 @@ app.post("/multiple", upload.array("files"), async (req, res) => {
 })
 
 
+
 app.get("/houses", (req, res) => {
   HousesInfos.find({}).then((houses) => {
     res.send(houses);
   });
 });
+
 app.get("/houseSelected/:id", (req, res) => {
   HousesInfos.findById(req.params.id)
     .then((house) => {
       res.send(house)
     }).catch(err => console.log(err))
 });
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>
