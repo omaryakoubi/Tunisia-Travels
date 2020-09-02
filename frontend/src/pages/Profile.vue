@@ -6,31 +6,9 @@
         style="background-image:url('img/bg5.jpg')"
       ></parallax>
       <main-navbar />
-      <div class="container">
-        <div class="photo-container">
-          <img :src="`${form.file}`" alt />
-        </div>
-
-      <!-- 
-  <div class="centerx">
-    <vs-upload automatic action="http://localhost:5000/api/users/upload"/>
-        </div>-->
-
-      <!-- modal to upload a new picture and button to start it -->
-      <!-- <n-button
-          type="primary"
-          style="background: transparent"
-          @click.native="modals.classic = true"
-        >Upload photo</n-button>
-        <modal :show.sync="modals.classic" headerClasses="justify-content-center">
-          <h4 slot="header" class="title title-up">Modal title</h4>
-          <div class="photo-container">
-            <img src="img/ryan.jpg" alt />
-          </div>
-          <template slot="footer">
-            <input type="file" style="background: transparent" />
-          </template>
-        </modal>  -->
+      <div class="content-center">
+        <h1>Profile</h1>
+      </div>
     </div>
     <div class="col-md-10 ml-auto mr-auto">
       <div class="row collections">
@@ -174,18 +152,16 @@
 
         <div class="cardi col-md-4">
           <div class="photo-container">
-            <img
-              :src="`${form.file}`"
-              style ="height:100%"
-            />
+            <img :src="`${form.file}`" style="height:100%" />
           </div>
+            <input type="file" @change="onSelect"/>
+            <button @click="onSubmit">save</button>
           <h3 class="title">{{ form.name }}</h3>
           <p class="category">User</p>
           <div class="content">
-              <p>{{ form.bio }}</p>
+            <p>{{ form.bio }}</p>
           </div>
         </div>
-      </div>
       </div>
     </div>
   </div>
@@ -282,10 +258,9 @@ export default {
             },
           }
         );
-        if (this.form.file !== res.data.data[res.data.data.length - 1].url) {
-          // this.form.file = ''
-          this.form.file = res.data.data[res.data.data.length - 1].url;
-        }
+        let response = res.data.data;
+        this.form.file = res.data.data[res.data.data.length - 1].url;
+        console.log(res);
       } catch (err) {
         this.message = "not uploaded";
         console.log(err);
@@ -293,7 +268,7 @@ export default {
     },
   },
 
-  mounted: function () {
+  mounted: function() {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
@@ -338,12 +313,14 @@ export default {
   margin: auto;
 }
 .page-header {
-  border-bottom-right-radius: 500px;
-  border-bottom-left-radius: 500px;
-  height: 20px;
+  border-bottom-right-radius: 1000px;
+  border-bottom-left-radius: 1000px;
+  min-height: 30vh;
 }
-.content{
-    text-align: center;
-
+.content {
+  text-align: center;
+}
+.content-center{
+  z-index: 0;
 }
 </style>

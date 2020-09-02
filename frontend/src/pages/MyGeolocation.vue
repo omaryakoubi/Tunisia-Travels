@@ -194,5 +194,7 @@ img:hover {
   border-bottom-left-radius: 200px;
   min-height: 30vh;
 }
-
+.content-center{
+  z-index: 0;
+}
 </style>
