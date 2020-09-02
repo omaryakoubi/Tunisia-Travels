@@ -15,24 +15,12 @@ const AdminSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     phone: {
         type: Number,
-        required: true
-    },
-    Address: {
-        type: String,
-        required: true
-    },
-    city: {
-        type: String,
-        required: true
-    },
-    country: {
-        type: String,
-        required: true
-    },
-    zip: {
-        type: String,
         required: true
     },
     date: {

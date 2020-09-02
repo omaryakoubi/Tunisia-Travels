@@ -24,7 +24,6 @@ const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const coockieSession = require("cookie-session");
 
-
 // Middleware
 // Form Data Middlware
 app.use(
@@ -59,7 +58,11 @@ require("./config/passport")(passport);
 // Bring in the Database Config
 const db = require("./config/keys").mongoURI;
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then((db) => {
     console.log("Database connected successfully");
   })
@@ -91,9 +94,9 @@ app.get("/travelinfo", (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////
 app.post("/houses", (req, res) => {
   HousesInfos.create(req.body).then((house) => {
-    res.send(house)
-  })
-})
+    res.send(house);
+  });
+});
 
 // app.get("/admin", (req, res)=>{
 //   AdminInfos.find({}).then((item) =>{
@@ -127,12 +130,16 @@ app.post("/multiple", upload.array("files"), async (req, res) => {
 
 
 app.get("/houses", (req, res) => {
-  HousesInfos.find({}).then(houses => {
-    res.send(houses)
-  })
-})
-
-
+  HousesInfos.find({}).then((houses) => {
+    res.send(houses);
+  });
+});
+app.get("/houseSelected/:id", (req, res) => {
+  HousesInfos.findById(req.params.id)
+    .then((house) => {
+      res.send(house)
+    }).catch(err => console.log(err))
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

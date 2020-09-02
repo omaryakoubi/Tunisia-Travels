@@ -172,7 +172,7 @@
       <p class="category">Administrator</p>
       <div class="content">
         <div class="social-description">
-          <h2>26</h2>
+          <h2>{{usersNumber}}</h2>
           <p>Users</p>
         </div>
         <div class="social-description">
@@ -180,7 +180,7 @@
           <p>Hosts</p>
         </div>
         <div class="social-description">
-          <h2>48</h2>
+          <h2>{{housesNumber}}</h2>
           <p>Announcement</p>
         </div>
       </div>
@@ -213,8 +213,10 @@ export default {
         country: "",
         zip: "",
         file: "",
-        message: "",
+        message: "",    
       },
+      usersNumber: 0,
+      housesNumber: 0,
       switches: {
         defaultOff: true,
       },
@@ -233,7 +235,7 @@ export default {
       this.edit = true;
       this.updateProfile();
     },
-    async updateProfile(name) {
+    async updateAdmin(name) {
       console.log("here at the top");
       try {
         const _id = this.form._id;
@@ -254,7 +256,22 @@ export default {
         console.log(err);
       }
     },
-
+    getUsersNumber () {
+      axios.get('http://localhost:5000/api/users/')
+      .then(res => {
+        console.log(res.data.length)
+        this.usersNumber = res.data.length
+      })
+      .catch(err => console.log(err))
+    },
+    housesNum() {
+      axios.get('http://localhost:5000/api/users/')
+      .then(res => {
+        console.log(res.data.length)
+        this.housesNumber = res.data.length
+      })
+    },
+    
     onSelect() {
       this.file = this.$refs.file.files[0];
     },
@@ -276,10 +293,9 @@ export default {
         console.log(err);
       }
     },
-    getImage() {
-      axios.get();
     },
-  },
+
+
 
   mounted: function() {
     const token = localStorage.getItem("token");
@@ -301,12 +317,13 @@ export default {
             (this.form.country = response.country),
             (this.form.zip = response.zip),
             (this.form.file = response.file);
-          console.log(response);
         })
         .catch((err) => {
           console.log(err);
         });
-    }
+    };
+    this.getUsersNumber()
+    this.housesNum()
   },
 };
 </script>

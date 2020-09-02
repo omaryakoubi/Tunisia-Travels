@@ -2,20 +2,26 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h5>There is {{numberOfHouses}} House in {{ coordinates.locality }}</h5>
+        <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
         <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
-        <h5>Guests Number :{{coordinates.guestsNum[0]+coordinates.guestsNum[1]+coordinates.guestsNum[2]}}</h5>
+        <h5>
+          Guests Number :{{
+          coordinates.guestsNum[0] +
+          coordinates.guestsNum[1] +
+          coordinates.guestsNum[2]
+          }}
+        </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
-        <vs-card vs-lg="4" v-for="(one,index) in arr" :key="index">
+        <vs-card vs-lg="4" v-for="(one, index) in arr" :key="index">
           <template #title>
             <h3>{{ one.houseName }}</h3>
             <h5>{{ one.typeOfPlace }}</h5>
           </template>
           <template #img>
-            <img src="../assets/images/ferrr.png" alt @click="$router.push('/SelectedHouse')" />
+            <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
           </template>
           <template #text>
             <p>{{ one.description }}</p>
@@ -84,7 +90,16 @@ export default {
       },
       numberOfHouses: 0,
       arr: [],
+      id: "",
     };
+  },
+  methods: {
+    redirectfunc(id) {
+      this.$router.push(`/selectedHouse/${id}`);
+    },
+    display() {
+      alert("heeeee");
+    },
   },
   async beforeMount() {
     await axios.get("http://localhost:5000/travelinfo").then((data) => {
@@ -114,11 +129,6 @@ export default {
       }
     });
     this.ready = true;
-  },
-  methods: {
-    display() {
-      alert("heeeee");
-    },
   },
 };
 </script>
