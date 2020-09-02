@@ -250,16 +250,6 @@ export default {
       console.log("0", this.hide);
     },
 
-    hideAndShowOmar() {
-      if (localStorage.token !== undefined) {
-        this.hide = !this.hide;
-        console.log("omar here");
-      } else {
-        // this.logout();
-        console.log("omar not here");
-      }
-    },
-
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
@@ -301,13 +291,10 @@ export default {
       window.FB.login(
         function (response) {
           if (response.authResponse) {
-            console.log("safe", response.authResponse);
             localStorage.setItem(
               "accessToken",
               response.authResponse.accessToken
             );
-
-            console.log("3morrr", response.authResponse.accessToken);
 
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
@@ -326,8 +313,8 @@ export default {
     async logInWithFacebook() {
       try {
         await this.logUserIn();
+        this.hideAndShow();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
-        await this.hideAndShowOmar();
       } catch (error) {
         console.log(error);
       }
@@ -392,17 +379,25 @@ export default {
     },
 
     logout() {
+      this.hideAndShow();
       localStorage.clear();
-      this.hideAndShowOmar();
     },
   },
 
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      localStorage.setItem("googleToken", googleToken);
-      this.$router.push("/");
-      this.hideAndShowOmar();
+      console.log("herrrrreeee", googleToken);
+      if (googleToken === undefined) {
+        localStorage.clear();
+      }
+      if (googleToken !== undefined) {
+        localStorage.setItem("googleToken", googleToken);
+        this.$router.push("/");
+        this.hideAndShow();
+      } else {
+        this.logout();
+      }
     } catch (error) {
       console.log(error);
     }
