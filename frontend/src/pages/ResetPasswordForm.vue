@@ -53,9 +53,7 @@ export default {
               confirmedPassword: this.confirmedPassword,
             }
           );
-          //   (res) => {
-          //     console.log("email getted successfully");
-          //   };
+          this.$router.push("/");
         } catch (e) {
           console.log(e);
         }
