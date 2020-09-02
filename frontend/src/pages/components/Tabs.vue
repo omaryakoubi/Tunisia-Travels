@@ -25,9 +25,11 @@
     </div>
     <br />
     <br />
-    <router-link to="/MyGeolocation">
-      <button @click="postTravelInformations">Submit</button>
-    </router-link>
+    <div class="row" style="margin-left:43%">
+      <n-button @click="postTravelInformations" type="danger" round>
+        <i class="fa fa-search"></i> Search
+      </n-button>
+    </div>
   </div>
 </template>
 <script>
@@ -65,13 +67,12 @@ export default {
     },
     postTravelInformations() {
       let check = this.check[0];
-      console.log("check", check);
       let dest = this.dest[0];
       let guestsNum = this.guestsNum[this.guestsNum.length - 1];
       this.axios
         .post("http://localhost:5000/travelinfo", { check, dest, guestsNum })
         .then((res) => {
-          console.log("axios LANDING", res);
+          this.$router.push("/MyGeolocation").catch(() => {});
         });
     },
   },
@@ -93,7 +94,7 @@ export default {
 }
 .btn:not(:disabled):not(.disabled) {
   inline-size: 222px !important;
-  color: grey;
+  /* color: grey; */
   margin-left: -50px;
 }
 .menu-btn[data-v-5bf3a84d] {

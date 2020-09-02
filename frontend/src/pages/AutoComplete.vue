@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     getFromAddress(destination) {
-      console.log("safe",destination.locality);
       this.destination = destination;
       this.$emit("travelDestination", this.destination);
     },

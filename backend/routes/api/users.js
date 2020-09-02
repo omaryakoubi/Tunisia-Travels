@@ -10,6 +10,7 @@ const Admin = require('../../model/admin.js')
 const path = require("path");
 const fs = require("fs");
 const cloudinary = require("../../cloudinary.config");
+const Housesinfo = require("../../model/HousesInfos")
 
 /**
  * @route POST api/users/signup
@@ -18,7 +19,15 @@ const cloudinary = require("../../cloudinary.config");
  */
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
-
+  //Check if it's an admin 
+  if (email.includes('@admin')) {
+    return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
+      res.status(200).json({
+        msg: 'Admin signed up'
+      })
+      console.log('yup')
+    })
+  }
   // Check for the password
   if (password.length < 8) {
     return res.status(400).json({
@@ -73,6 +82,8 @@ router.post("/signup", (req, res) => {
     email,
     phone,
     age,
+    resetPasswordToken: "",
+    resetPasswordExpires: 0,
   });
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {
@@ -102,6 +113,7 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
+
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -113,6 +125,7 @@ router.post("/login", (req, res) => {
           email: user.email,
           phone: user.phone,
           age: user.age,
+          bio: user.bio
         };
         jwt.sign(
           payload,
@@ -121,7 +134,7 @@ router.post("/login", (req, res) => {
             expiresIn: 604800,
           },
           (err, token) => {
-            res.status(200).json({ 
+            res.status(200).json({
               success: true,
               token: `Bearer ${token}`,
               msg: "You are now logged in",
@@ -163,7 +176,7 @@ router.put(
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
           { _id: req.user._id },
-          ({ name, username, email, age, phone, file } = req.body)
+          ({ name, username, email, age, phone, file , bio} = req.body)
         )
           .then(() => {
             console.log("then", req.user);
@@ -205,15 +218,15 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
-    console.log("req", req.files);
+    // console.log("req", req.files);
     const uploader = async (path) =>
+
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
     const files = req.files;
     for (let key in files) {
       const path = files[key].path;
       const newPath = await uploader(path);
-     // console.log("path", newPath);
       urls.push(newPath);
       fs.unlinkSync(path);
       res.status(200).json({
@@ -221,10 +234,29 @@ router.post(
         data: urls,
       });
     }
-
-   
   }
 );
+
+//get users number 
+
+router.get('/', (req, res) => {
+  User.find({})
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
+})
+
+// get the number of users that are hosts
+router.get('/', (req, res) => {
+  Housesinfo.find({})
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => console.log(err))
+})
+
+
 // /**
 //  * @route POST api/admin/profile
 //  * @desc Return the User's Data
@@ -264,11 +296,6 @@ router.post(
 //       : res.status(404).send("NOT FOUND");
 //   }
 // );
-
-
-    //  User.findByIdAndUpdate(req.user._id,  {file: req.file.originalname})
-    //  console.log('user id',req.user._id)
-    //  res.send({ file: req.file.originalname });
 
 
 module.exports = router;

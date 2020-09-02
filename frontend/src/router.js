@@ -5,6 +5,7 @@ Vue.use(Router);
 
 export default new Router({
   linkExactActiveClass: "active",
+  mode: "history",
   routes: [
     {
       path: "/",
@@ -31,9 +32,9 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
-      }
+      },
     },
- 
+
     {
       path: "/BecomeAhost",
       name: "BecomeAhost",
@@ -43,6 +44,17 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
+    {
+      path: "/resetform/:token",
+      name: "resetform",
+      component: () => import("./pages/ResetPasswordForm.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
     {
       path: "/payment",
       name: "payment",
@@ -53,15 +65,25 @@ export default new Router({
       },
     },
     {
-      path: "/selectedHouse",
-      name: "SelectedHouse",
+      path: "/selectedHouse/:id",
+      name: "selectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
-
-    },{
+    },
+    {
       path: "/admin",
       name: "admin",
       meta:{requiresAuth: true},
       component: () => import("./pages/admin/homeAdmin.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/omar",
+      name: "omar",
+      component: () => import("./pages/Forum.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -76,5 +98,3 @@ export default new Router({
     }
   },
 });
-
-
