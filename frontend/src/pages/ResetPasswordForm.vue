@@ -3,7 +3,7 @@
     <div id="form">
       <fg-input
         class="no-border"
-        type="text"
+        type="password"
         placeholder="New Password"
         addon-left-icon="now-ui-icons users_circle-08"
         v-model="password"
@@ -12,7 +12,7 @@
 
       <fg-input
         class="no-border"
-        type="text"
+        type="password"
         placeholder="Confirm Password"
         addon-left-icon="now-ui-icons users_circle-08"
         v-model="confirmedPassword"

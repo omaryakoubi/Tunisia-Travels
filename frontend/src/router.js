@@ -65,8 +65,8 @@ export default new Router({
       },
     },
     {
-      path: "/selectedHouse",
-      name: "SelectedHouse",
+      path: "/selectedHouse/:id",
+      name: "selectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
     },
     {
