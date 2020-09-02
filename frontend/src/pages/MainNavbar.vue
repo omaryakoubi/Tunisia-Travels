@@ -17,7 +17,12 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
             <i class="now-ui-icons education_paper"></i> Become a Host
           </nav-link>
@@ -98,10 +103,13 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-            >Forget Password?</a>
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
+            <a @click="(modals.login = false), (modals.signup = true)"
+              >Create new account?</a
+            >
           </div>
         </div>
       </modal>
@@ -162,7 +170,8 @@
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a
+          >
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -179,7 +188,9 @@
           ></fg-input>
           <p v-if="toggle">Check your email</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
+              >Send</a
+            >
           </div>
         </div>
       </modal>
@@ -248,7 +259,7 @@ export default {
         .then((res) => {
           let token = res.data.token;
           localStorage.setItem("token", token);
-          console.log("axios", res);
+          console.log("axios", res.data);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
@@ -256,12 +267,12 @@ export default {
         })
         .catch(() => {
           alert("Wrong password or username");
-        });
+        })
     },
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
+      window.FB.login(function(response) {
         if (response.authResponse) {
           console.log(response.authResponse);
         } else {
@@ -271,7 +282,7 @@ export default {
       return false;
     },
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default

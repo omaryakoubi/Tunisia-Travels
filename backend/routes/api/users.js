@@ -6,9 +6,11 @@ const passport = require("passport");
 const key = require("../../config/keys").secret;
 const multer = require("multer");
 const User = require("../../model/User.js");
+const Admin = require('../../model/admin.js')
 const path = require("path");
 const fs = require("fs");
 const cloudinary = require("../../cloudinary.config");
+const Housesinfo = require("../../model/HousesInfos")
 
 /**
  * @route POST api/users/signup
@@ -17,7 +19,15 @@ const cloudinary = require("../../cloudinary.config");
  */
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
-
+  //Check if it's an admin 
+  if(email.includes('@admin')) {
+   return  Admin.create({ name, username, email, password, cpassword, age, phone }, (req,res) => {
+    res.status(200).json({
+      msg : 'Admin signed up'
+    })
+    console.log('yup')
+  })
+  }
   // Check for the password
   if (password.length < 8) {
     return res.status(400).json({
@@ -101,6 +111,7 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
+    
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -204,6 +215,7 @@ router.post(
   // }),
   upload.array("imageFile"),
   async (req, res) => {
+    console.log("req", req.files);
     const uploader = async (path) =>
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
@@ -217,8 +229,69 @@ router.post(
         message: "uploaded",
         data: urls,
       });
-    }
+    }   
   }
 );
+
+//get users number 
+
+router.get('/', (req,res) => {
+   User.find({})
+  .then(result => {
+    res.send(result)
+  })
+  .catch(err => console.log(err))
+})
+ 
+// get the number of users that are hosts
+router.get('/', (req,res) => {
+  Housesinfo.find({})
+ .then(result => {
+   res.send(result)
+ })
+ .catch(err => console.log(err))
+})
+
+
+// /**
+//  * @route POST api/admin/profile
+//  * @desc Return the User's Data
+//  * @access Public
+//  */
+// router.get(
+//   "/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return res.json({
+//       user: req.user,
+//     });
+//   }
+// );
+// //update Admin profile
+// router.put(
+//   "/update/admin",
+//   passport.authenticate("jwt", {
+//     session: false,
+//   }),
+//   (req, res) => {
+//     return req.params.id === req.user._id.toString()
+//       ? Admin.findOneAndUpdate(
+//           { _id: req.user._id },
+//           ({ name, username, email, age, phone,city, country, zip, file } = req.body)
+//         )
+//           .then(() => {
+//             console.log("then", req.user);
+//             res.status(201).send(req.user);
+//           })
+//           .catch((err) => {
+//             console.log("catch", req.user);
+//             res.status(505).send({ err });
+//           })
+//       : res.status(404).send("NOT FOUND");
+//   }
+// );
+
 
 module.exports = router;
