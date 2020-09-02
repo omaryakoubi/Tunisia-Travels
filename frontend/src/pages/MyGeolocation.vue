@@ -2,13 +2,17 @@
   <div v-if="ready">
     <vs-row>
       <vs-col vs-lg="8">
-        <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
-        <h5>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h5>
+        <h5>
+          There is {{ numberOfHouses }} House in {{ coordinates.locality }}
+        </h5>
+        <h5>
+          Available : From {{ coordinates.start }} To {{ coordinates.end }}
+        </h5>
         <h5>
           Guests Number :{{
-          coordinates.guestsNum[0] +
-          coordinates.guestsNum[1] +
-          coordinates.guestsNum[2]
+            coordinates.guestsNum[0] +
+              coordinates.guestsNum[1] +
+              coordinates.guestsNum[2]
           }}
         </h5>
         <!-- <n-button type="primary" round simple>Price</n-button>
@@ -61,10 +65,12 @@
     </vs-row>
   </div>
 </template>
+
 <script>
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
+
 export default {
   name: "MyGeolocation",
   components: { GmapMarker, [Button.name]: Button },
