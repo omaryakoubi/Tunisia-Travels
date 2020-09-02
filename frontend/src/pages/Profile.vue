@@ -286,8 +286,6 @@ export default {
           // this.form.file = ''
           this.form.file = res.data.data[res.data.data.length - 1].url;
         }
-
-        console.log(res);
       } catch (err) {
         this.message = "not uploaded";
         console.log(err);
