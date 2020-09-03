@@ -17,7 +17,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down
+        <DropDown
           tag="li"
           title
           icon="now-ui-icons location_world"
@@ -80,7 +80,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </drop-down>
+        </DropDown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
