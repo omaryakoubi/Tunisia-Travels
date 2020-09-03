@@ -9,18 +9,19 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
   try {
     const { items } = req.body;
     const id = req.body.id;
+    console.log(req.body);
 
     const calculateOrderAmount = (items) => {
-      HousesInfos.findById(id)
+      console.log("lennaaaaaaaaaa", items.id);
+      HousesInfos.findById(item.id)
         .then((house) => {
-          let duration =
+          var duration =
             (new Date(house.end).getTime() - new Date(house.start).getTime()) /
             (1000 * 60 * 60 * 24);
           console.log("omar before", duration, house.start, house.end);
           let total = duration * house.price * 10;
-          console.log("after", total);
+
           return total;
-          res.end();
         })
         .catch((error) => {
           console.error(error);
@@ -43,7 +44,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
       from: NodemailerConfig.pass,
       to: req.body.email,
       subject: "Payment status",
-      text: "You payment is done thank you",
+      text: `Reservation Done from ${this.house.start} to ${this.house.end} with the price of ${this.total}`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => {

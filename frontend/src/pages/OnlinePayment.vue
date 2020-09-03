@@ -15,7 +15,7 @@
           class="btn btn-primary btn-round btn-lg btn-block"
         >
           <div class="spinner hidden" id="spinner"></div>
-          <span id="button-text" @click="omar">Pay</span>
+          <span id="button-text">Pay</span>
         </button>
 
         <p id="card-error" role="alert"></p>
@@ -51,19 +51,11 @@ export default {
     };
   },
 
-  created() {
-    try {
-      this.id = this.$route.params.id;
-      console.log(this.id);
-    } catch (error) {
-      console.error(error);
-    }
-  },
   methods: {
     async test() {
       var purchase = {
-        items: [{ id: "xl-tshirt" }],
         email: this.email,
+        id: this.id,
       };
       var secret = "";
       // Disable the button until we have Stripe set up on the page
@@ -150,6 +142,7 @@ export default {
   },
 
   async beforeMount() {
+    this.id = window.location.pathname.slice(9);
     // A reference to Stripe.js initialized with your real test publishable API key.
     var stripe = await loadStripe(stripeKeyFront.publicKey);
     this.stripe = stripe;
@@ -186,16 +179,16 @@ export default {
     this.card = card;
   },
 
-  async omar() {
-    try {
-      await axios.post(
-        "http://localhost:5000/api/payment/:id/create-payment-intent",
-        { id: this.id }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  },
+  // async omar() {
+  //   try {
+  //     await axios.post(
+  //       "http://localhost:5000/api/payment/:id/create-payment-intent",
+  //       { id: this.id }
+  //     );
+  //   } catch (error) {
+  //     console.log("error");
+  //   }
+  // },
 };
 </script>
 
