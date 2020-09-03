@@ -6,8 +6,8 @@ const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
 const morgan = require("morgan");
-const HousesInfos = require("./model/HousesInfos.js")
-const HousesImages = require("./model/HousesImages.js")
+const HousesInfos = require("./model/HousesInfos.js");
+const HousesImages = require("./model/HousesImages.js");
 // const AdminInfos = require ("./model/admin.js")
 const fs = require("fs");
 const cloudinary = require("./cloudinary.config");
@@ -105,20 +105,18 @@ app.post("/houses", (req, res) => {
 //   })
 // })
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads');
+    cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname)
-  }
-})
-let upload = multer({ storage: storage })
+    cb(null, Date.now() + file.originalname);
+  },
+});
+let upload = multer({ storage: storage });
 
 app.post("/multiple", upload.array("files"), async (req, res) => {
-  const uploader = async (path) =>
-    await cloudinary.uploads(path, "files");
+  const uploader = async (path) => await cloudinary.uploads(path, "files");
   const urls = [];
   const arr = req.files;
   for (let key in arr) {
@@ -127,10 +125,8 @@ app.post("/multiple", upload.array("files"), async (req, res) => {
     urls.push(newPath);
     fs.unlinkSync(path);
   }
-  res.status(200).send(urls)
-})
-
-
+  res.status(200).send(urls);
+});
 
 app.get("/houses", (req, res) => {
   HousesInfos.find({}).then((houses) => {
@@ -141,10 +137,10 @@ app.get("/houses", (req, res) => {
 app.get("/houseSelected/:id", (req, res) => {
   HousesInfos.findById(req.params.id)
     .then((house) => {
-      res.send(house)
-    }).catch(err => console.log(err))
+      res.send(house);
+    })
+    .catch((err) => console.log(err));
 });
-
 
 const port = process.env.PORT || 5000;
 app.listen(port, () =>

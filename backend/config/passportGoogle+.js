@@ -41,7 +41,6 @@ passport.use(
         .save()
         .then((newUser) => {
           console.log("userCreated", newUser.googleId);
-          console.log(req.user.googleId);
           done(null, newUser);
         })
         .catch((err) => {

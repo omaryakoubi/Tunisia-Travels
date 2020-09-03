@@ -56,7 +56,7 @@ export default new Router({
     },
 
     {
-      path: "/payment",
+      path: "/payment/:id",
       name: "payment",
       component: () => import("./pages/OnlinePayment.vue"),
       props: {
@@ -72,7 +72,7 @@ export default new Router({
     {
       path: "/admin",
       name: "admin",
-      meta:{requiresAuth: true},
+      meta: { requiresAuth: true },
       component: () => import("./pages/admin/homeAdmin.vue"),
       props: {
         header: { colorOnScroll: 400 },
