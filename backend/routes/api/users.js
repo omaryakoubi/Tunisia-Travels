@@ -11,7 +11,6 @@ const path = require("path");
 const fs = require("fs");
 const cloudinary = require("../../cloudinary.config");
 const Housesinfo = require("../../model/HousesInfos")
-
 /**
  * @route POST api/users/signup
  * @desc SignUp the User
@@ -57,7 +56,6 @@ router.post("/signup", (req, res) => {
       msg: "Enter valid phone number Please",
     });
   }
-
   // Check for the unique Username
   User.findOne({ username: username }).then((user) => {
     if (user) {
@@ -99,7 +97,6 @@ router.post("/signup", (req, res) => {
     });
   });
 });
-
 /**
  * @route POST api/users/login
  * @desc Login the User
@@ -113,7 +110,6 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
-
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -188,9 +184,7 @@ router.put(
       : res.status(404).send("NOT FOUND");
   }
 );
-
 //upload image
-
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
@@ -219,7 +213,6 @@ router.post(
   async (req, res) => {
     // console.log("req", req.files);
     const uploader = async (path) =>
-
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
     const files = req.files;
@@ -235,9 +228,7 @@ router.post(
     }
   }
 );
-
 //get users number 
-
 router.get('/', (req, res) => {
   User.find({})
     .then(result => {
@@ -245,7 +236,6 @@ router.get('/', (req, res) => {
     })
     .catch(err => console.log(err))
 })
-
 // get the number of users that are hosts
 router.get('/', (req, res) => {
   Housesinfo.find({})
@@ -254,8 +244,6 @@ router.get('/', (req, res) => {
     })
     .catch(err => console.log(err))
 })
-
-
 // /**
 //  * @route POST api/admin/profile
 //  * @desc Return the User's Data
@@ -295,6 +283,4 @@ router.get('/', (req, res) => {
 //       : res.status(404).send("NOT FOUND");
 //   }
 // );
-
-
 module.exports = router;

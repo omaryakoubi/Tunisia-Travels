@@ -56,7 +56,7 @@ export default new Router({
     },
 
     {
-      path: "/payment/:id",
+      path: "/payment",
       name: "payment",
       component: () => import("./pages/OnlinePayment.vue"),
       props: {
@@ -69,6 +69,7 @@ export default new Router({
       name: "selectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
     },
+    
     {
       path: "/admin",
       name: "admin",

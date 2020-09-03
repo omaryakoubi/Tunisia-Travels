@@ -23,12 +23,28 @@
           icon="now-ui-icons location_world"
           class="nav-item"
         >
-          <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
-            <i class="now-ui-icons education_paper"></i> Become a Host
-          </nav-link>
-          <nav-link to="/profile" class="hidden" :hidden="hide">
+          <n-button
+            @click="$router.push('/BecomeAhost')"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="hide"
+            ><i class="now-ui-icons users_circle-08"></i>
+            Become a Host
+          </n-button>
+
+          <n-button
+            @click="$router.push('/profile')"
+            type="neutral"
+            size="small"
+            class="menu-btn hidden"
+            link
+            :hidden="hide"
+          >
             <i class="now-ui-icons education_paper"></i> Account
-          </nav-link>
+          </n-button>
+
           <n-button
             @click="modals.login = true"
             type="neutral"
@@ -210,9 +226,8 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown";
+import DropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
-import NavLink from "../components/NavLink";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
 import Button from "../components/Button";
@@ -232,7 +247,6 @@ export default {
     DropDown,
     Modal,
     Navbar,
-    NavLink,
     [Popover.name]: Popover,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
@@ -404,14 +418,14 @@ export default {
       const googleToken = this.$route.query.googleId;
       console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
-        localStorage.clear();
+        localStorage.removeItem('googleToken');
       }
       if (googleToken !== undefined) {
         localStorage.setItem("googleToken", googleToken);
         this.$router.push("/");
         this.hideAndShow();
       } else {
-        this.logout();
+        localStorage.removeItem('googleToken');
       }
     } catch (error) {
       console.log(error);
