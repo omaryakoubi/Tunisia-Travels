@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-      ></parallax>
+      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
       <main-navbar />
       <div class="content-center">
         <h1>Profile</h1>
@@ -12,18 +9,12 @@
     </div>
     <div class="col-md-10 ml-auto mr-auto">
       <div class="row collections">
-        <div class="  col-md-8">
+        <div class="col-md-8">
           <div class="row">
             <div class="col-md-5 pr-1">
               <div class="form-group">
                 <label>Post</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  disabled=""
-                  placeholder="Post"
-                  value="User"
-                />
+                <input type="text" class="form-control" disabled placeholder="Post" value="User" />
               </div>
             </div>
             <div class="col-md-3 px-1">
@@ -128,23 +119,15 @@
           <br />
           <br />
           <div class="row">
-            <div class="col-md-2 pl-1">
-              Edit:
-            </div>
+            <div class="col-md-2 pl-1">Edit:</div>
             <div class="col-md-2 pl-1">
               <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
             </div>
             <div class="col-md-4 pl-1">
-              <a class="btn btn-danger btn-round btn-small safe"
-                >Change Password</a
-              >
+              <a class="btn btn-danger btn-round btn-small safe">Change Password</a>
             </div>
             <div class="col-md-4 pl-1">
-              <a
-                @click="disableEdit"
-                class="btn btn-success btn-round btn-small safe"
-                >Save Changes</a
-              >
+              <a @click="disableEdit" class="btn btn-success btn-round btn-small safe">Save Changes</a>
             </div>
           </div>
           <br />
@@ -154,8 +137,8 @@
           <div class="photo-container">
             <img :src="`${form.file}`" style="height:100%" />
           </div>
-            <input type="file" @change="onSelect"/>
-            <button @click="onSubmit">save</button>
+          <input type="file" @change="onSelect" />
+          <button @click="onSubmit">save</button>
           <h3 class="title">{{ form.name }}</h3>
           <p class="category">User</p>
           <div class="content">
@@ -171,7 +154,7 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
 import Button from "../components/Button";
-import MainNavbar from "./MainNavbar"
+import MainNavbar from "./MainNavbar";
 import axios from "axios";
 export default {
   name: "profile",
@@ -181,7 +164,7 @@ export default {
     [Switch.name]: Switch,
     [modal.name]: modal,
     [Button.name]: Button,
-    MainNavbar
+    MainNavbar,
   },
   data() {
     return {
@@ -313,7 +296,7 @@ export default {
 .content {
   text-align: center;
 }
-.content-center{
+.content-center {
   z-index: 0;
 }
 </style>
