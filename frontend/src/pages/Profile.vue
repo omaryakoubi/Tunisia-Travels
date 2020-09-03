@@ -171,9 +171,8 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import Switch from "./components/Switch.vue";
 import modal from "./components/Modal";
 import Button from "../components/Button";
+import MainNavbar from "./MainNavbar"
 import axios from "axios";
-import MainNavbar from "./MainNavbar";
-
 export default {
   name: "profile",
   bodyClass: "profile-page",
@@ -182,7 +181,7 @@ export default {
     [Switch.name]: Switch,
     [modal.name]: modal,
     [Button.name]: Button,
-    MainNavbar,
+    MainNavbar
   },
   data() {
     return {
@@ -195,13 +194,11 @@ export default {
         phone: 0,
         file: "",
         message: "",
-        bio: "",
       },
       switches: {
         defaultOn: true,
         defaultOff: false,
       },
-
       edit: true,
       modals: {
         classic: false,
@@ -219,9 +216,7 @@ export default {
     //  successUpload(){
     //   this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
     // },
-
     //update profile
-
     async updateProfile(name) {
       console.log("here at the top");
       try {
@@ -234,14 +229,12 @@ export default {
           age: this.form.age,
           phone: this.form.phone,
           file: this.form.file,
-          bio: this.form.bio,
         });
         console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
     },
-
     onSelect() {
       this.file = this.$refs.file.files[0];
     },
@@ -258,8 +251,10 @@ export default {
             },
           }
         );
-        let response = res.data.data;
-        this.form.file = res.data.data[res.data.data.length - 1].url;
+        if (this.form.file !== res.data.data[res.data.data.length - 1].url) {
+          // this.form.file = ''
+          this.form.file = res.data.data[res.data.data.length - 1].url;
+        }
         console.log(res);
       } catch (err) {
         this.message = "not uploaded";
@@ -267,8 +262,7 @@ export default {
       }
     },
   },
-
-  mounted: function() {
+  mounted: function () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
@@ -283,9 +277,8 @@ export default {
             (this.form.username = response.username),
             (this.form.email = response.email),
             (this.form.age = response.age),
-            (this.form.phone = response.phone),
-            (this.form.bio = response.bio),
-            (this.form.file = response.file);
+            (this.form.phone = response.phone);
+          this.form.file = response.file;
           console.log(response);
         })
         .catch((err) => {
