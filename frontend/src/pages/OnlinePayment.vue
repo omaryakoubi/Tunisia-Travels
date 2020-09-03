@@ -15,7 +15,7 @@
           class="btn btn-primary btn-round btn-lg btn-block"
         >
           <div class="spinner hidden" id="spinner"></div>
-          <span id="button-text">Pay</span>
+          <span id="button-text" @click="omar">Pay</span>
         </button>
 
         <p id="card-error" role="alert"></p>
@@ -50,10 +50,14 @@ export default {
       id: "",
     };
   },
+
   created() {
-    this.id = this.$route.params.id;
-    console.log(this.id);
-    // axios.post("");
+    try {
+      this.id = this.$route.params.id;
+      console.log(this.id);
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     async test() {
@@ -180,6 +184,17 @@ export default {
         : "";
     });
     this.card = card;
+  },
+
+  async omar() {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/payment/:id/create-payment-intent",
+        { id: this.id }
+      );
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
 </script>

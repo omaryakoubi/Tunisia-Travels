@@ -3,15 +3,28 @@ const nodemailer = require("nodemailer");
 const stripeKeyBack = require("../../config/stripeKeysBack");
 const stripe = require("stripe")(stripeKeyBack.secretKey);
 const NodemailerConfig = require("../../config/NodemailerConfig");
-const InfoTravel = require("../../model/InfoTravel");
+const HousesInfos = require("../../model/HousesInfos");
 
 module.exports = router.post("/create-payment-intent", async (req, res) => {
   try {
     const { items } = req.body;
+    const id = req.body.id;
 
     const calculateOrderAmount = (items) => {
-      //WE NEED TO REPLACE THIS WITH THE CALCULATION OF HOW MANY DAYS THE CUSTOMER WILL STAY IN THE HOUSE * THE PRICE.
-      return 1000;
+      HousesInfos.findById(id)
+        .then((house) => {
+          let duration =
+            (new Date(house.end).getTime() - new Date(house.start).getTime()) /
+            (1000 * 60 * 60 * 24);
+          console.log("omar before", duration, house.start, house.end);
+          let total = duration * house.price * 10;
+          console.log("after", total);
+          return total;
+          res.end();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     };
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(items),
