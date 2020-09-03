@@ -17,13 +17,34 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
-          <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
-            <i class="now-ui-icons education_paper"></i> Become a Host
-          </nav-link>
-          <nav-link to="/profile" class="hidden" :hidden="hide">
+        <drop-down
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
+          <n-button
+            @click="$router.push('/BecomeAhost')"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="hide"
+            ><i class="now-ui-icons users_circle-08"></i>
+            Become a Host
+          </n-button>
+
+          <n-button
+            @click="$router.push('/profile')"
+            type="neutral"
+            size="small"
+            class="menu-btn hidden"
+            link
+            :hidden="hide"
+          >
             <i class="now-ui-icons education_paper"></i> Account
-          </nav-link>
+          </n-button>
+
           <n-button
             @click="modals.login = true"
             type="neutral"
@@ -105,10 +126,13 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-            >Forget Password?</a>
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
+            <a @click="(modals.login = false), (modals.signup = true)"
+              >Create new account?</a
+            >
           </div>
         </div>
       </modal>
@@ -162,14 +186,19 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+          <a
+            @click="signup"
+            class="btn btn-danger btn-round btn-lg btn-block safe"
+            >SignUp</a
+          >
           <a
             @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a
+          >
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -186,7 +215,9 @@
           ></fg-input>
           <p v-if="toggle">Check your email</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
+              >Send</a
+            >
           </div>
         </div>
       </modal>
@@ -195,9 +226,8 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown.vue";
+import DropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
-import NavLink from "../components/NavLink";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
 import Button from "../components/Button";
@@ -217,7 +247,6 @@ export default {
     DropDown,
     Modal,
     Navbar,
-    NavLink,
     [Popover.name]: Popover,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
@@ -250,16 +279,6 @@ export default {
       console.log("0", this.hide);
     },
 
-    hideAndShowOmar() {
-      if (localStorage.token !== undefined) {
-        this.hide = !this.hide;
-        console.log("omar here");
-      } else {
-        // this.logout();
-        console.log("omar not here");
-      }
-    },
-
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
@@ -283,7 +302,7 @@ export default {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        async function (data) {
+        async function(data) {
           console.log("before", data);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
@@ -299,19 +318,16 @@ export default {
 
     async logUserIn() {
       window.FB.login(
-        function (response) {
+        function(response) {
           if (response.authResponse) {
-            console.log("safe", response.authResponse);
             localStorage.setItem(
               "accessToken",
               response.authResponse.accessToken
             );
 
-            console.log("3morrr", response.authResponse.accessToken);
-
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
-            window.FB.getLoginStatus(function (ressponse) {
+            window.FB.getLoginStatus(function(ressponse) {
               console.log(ressponse);
             });
             console.log(window.FB.getUserID());
@@ -326,15 +342,15 @@ export default {
     async logInWithFacebook() {
       try {
         await this.logUserIn();
+        this.hideAndShow();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
-        await this.hideAndShowOmar();
       } catch (error) {
         console.log(error);
       }
     },
 
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
@@ -392,17 +408,25 @@ export default {
     },
 
     logout() {
+      this.hideAndShow();
       localStorage.clear();
-      this.hideAndShowOmar();
     },
   },
 
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      localStorage.setItem("googleToken", googleToken);
-      this.$router.push("/");
-      this.hideAndShowOmar();
+      console.log("herrrrreeee", googleToken);
+      if (googleToken === undefined) {
+        localStorage.removeItem('googleToken');
+      }
+      if (googleToken !== undefined) {
+        localStorage.setItem("googleToken", googleToken);
+        this.$router.push("/");
+        this.hideAndShow();
+      } else {
+        localStorage.removeItem('googleToken');
+      }
     } catch (error) {
       console.log(error);
     }

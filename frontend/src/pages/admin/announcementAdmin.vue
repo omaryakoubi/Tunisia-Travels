@@ -97,7 +97,35 @@
                 </td>
 
                 <td class="text-right">
-                  $38,735
+                  <button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-info btn-sm"
+                              aria-describedby="el-tooltip-4430"
+                              tabindex="0"
+                            >
+                              <!----><i class="fa fa-info"></i
+                              ><!----></button
+                            ><button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-success btn-sm"
+                              aria-describedby="el-tooltip-6999"
+                              tabindex="0"
+                            >
+                              <!----><i
+                                class="fa fa-check"
+                              ></i
+                              ><!----></button
+                            ><button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-danger btn-sm"
+                              aria-describedby="el-tooltip-4804"
+                              tabindex="0"
+                            >
+                              <!----><i
+                               class="fa fa-times"
+                              ></i
+                              ><!---->
+                            </button>
                 </td>
               </tr>
 
@@ -115,7 +143,35 @@
                 </td>
 
                 <td class="text-right">
-                  $63,542
+                  <button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-info btn-sm"
+                              aria-describedby="el-tooltip-4430"
+                              tabindex="0"
+                            >
+                              <!----><i class="now-ui-icons users_single-02"></i
+                              ><!----></button
+                            ><button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-success btn-sm"
+                              aria-describedby="el-tooltip-6999"
+                              tabindex="0"
+                            >
+                              <!----><i
+                                class="now-ui-icons ui-2_settings-90"
+                              ></i
+                              ><!----></button
+                            ><button
+                              type="button"
+                              class="btn el-tooltip btn-icon btn-danger btn-sm"
+                              aria-describedby="el-tooltip-4804"
+                              tabindex="0"
+                            >
+                              <!----><i
+                                class="now-ui-icons ui-1_simple-remove"
+                              ></i
+                              ><!---->
+                            </button>
                 </td>
               </tr>
 
