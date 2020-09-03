@@ -17,7 +17,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down
+        <DropDown
           tag="li"
           title
           icon="now-ui-icons location_world"
@@ -80,7 +80,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </drop-down>
+        </DropDown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -285,19 +285,29 @@ export default {
           username: this.username,
           password: this.password,
         })
-        .then((res) => {
+          .then((res) => {
+            if(this.username.includes('admin')){
+          console.log('username', this.username)
           let token = res.data.token;
+          localStorage.setItem("token", token);
+          this.$router.push('/admin').catch(() => {});
+          this.hideAndShow();
+          } else {
+             let token = res.data.token;
           localStorage.setItem("token", token);
           console.log("axios", res.data);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
           this.hideAndShow();
+          } 
+         
         })
         .catch(() => {
           alert("Wrong password or username");
-        });
-    },
+        })
+        },      
+
     async getInfoFromFacebook() {
       window.FB.api(
         `/me`,
@@ -453,7 +463,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
+  }
 };
 </script>
 
