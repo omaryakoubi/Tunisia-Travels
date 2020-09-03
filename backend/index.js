@@ -24,7 +24,7 @@ const resetPassword = require("./routes/api/ResetPassword");
 const InfoTravelRoutes = require("./routes/api/InforTravel");
 const FacebookUser = require("./routes/api/FacebookUser");
 const coockieSession = require("cookie-session");
-// const Admin = require('./routes/api/Admin')
+const Admin = require('./routes/api/Admin')
 // Middleware
 // Form Data Middlware
 app.use(
@@ -63,7 +63,7 @@ app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
 app.use("/api/payment", payment);
 app.use("/api/facebook-auth", FacebookUser);
-//app.use("/admin", Admin)
+app.use("/", Admin)
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
 // Use the passport Middleware
@@ -153,14 +153,7 @@ app.get("/houses", (req, res) => {
     res.send(houses);
   });
 });
-//For Admin
-app.get("/announce", (req, res) => {
-  HousesInfos.find({
-    show : false
-  }).then((houses) => {
-    res.send(houses);
-  });
-});
+
 
 app.get("/houseSelected/:id", (req, res) => {
   HousesInfos.findById(req.params.id)
