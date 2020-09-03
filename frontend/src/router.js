@@ -16,6 +16,7 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
     {
       path: "/profile",
       name: "profile",
@@ -25,6 +26,7 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
     {
       path: "/MyGeolocation",
       name: "MyGeolocation",
@@ -56,7 +58,7 @@ export default new Router({
     },
 
     {
-      path: "/payment",
+      path: "/payment/:id",
       name: "payment",
       component: () => import("./pages/OnlinePayment.vue"),
       props: {
@@ -64,12 +66,13 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+
     {
       path: "/selectedHouse/:id",
       name: "selectedHouse",
       component: () => import("./pages/SelectedHouse.vue"),
     },
-    
+
     {
       path: "/admin",
       name: "admin",
@@ -91,6 +94,7 @@ export default new Router({
       },
     },
   ],
+
   scrollBehavior: (to) => {
     if (to.hash) {
       return { selector: to.hash };

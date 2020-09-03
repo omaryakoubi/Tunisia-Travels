@@ -32,6 +32,7 @@
 import FormGroupInput from "../components/formGroupInput.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import stripeKeyFront from "../../stripeKeyFront";
+import router from "../router.js";
 import axios from "axios";
 export default {
   name: "OnlinePayment",
@@ -46,9 +47,14 @@ export default {
       secret: "",
       stripe: null,
       card: null,
+      id: "",
     };
   },
-
+  created() {
+    this.id = this.$route.params.id;
+    console.log(this.id);
+    // axios.post("");
+  },
   methods: {
     async test() {
       var purchase = {
@@ -58,13 +64,16 @@ export default {
       var secret = "";
       // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
-      await fetch("http://localhost:5000/api/payment/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(purchase),
-      })
+      await fetch(
+        "http://localhost:5000/api/payment/:id/create-payment-intent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(purchase),
+        }
+      )
         .then(function(result) {
           return result.json();
         })

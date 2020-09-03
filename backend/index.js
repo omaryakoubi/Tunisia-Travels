@@ -49,7 +49,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
-app.use("/api/payment", payment);
+app.use("/api/payment/:id", payment);
 app.use("/api/facebook-auth", FacebookUser);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////

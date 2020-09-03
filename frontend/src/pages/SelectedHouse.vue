@@ -32,7 +32,7 @@
           </div>
           <!-- <Guests /> -->
           <div class="center">
-            <vs-button @click="$router.push('/payment')" block>
+            <vs-button @click="redirectfunc(id)" block>
               <i class="bx bxs-paint-roll"></i>Book
             </vs-button>
           </div>
@@ -110,9 +110,13 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
+    console.log(this.id)
   },
 
   methods: {
+    redirectfunc(id) {
+      this.$router.push(`/payment/${id}`);
+    },
     getInfo() {
       axios
         .get(`http://localhost:5000/houseSelected/${this.id}`)
