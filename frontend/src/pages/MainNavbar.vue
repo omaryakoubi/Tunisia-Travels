@@ -285,19 +285,29 @@ export default {
           username: this.username,
           password: this.password,
         })
-        .then((res) => {
+          .then((res) => {
+            if(this.username.includes('admin')){
+          console.log('username', this.username)
           let token = res.data.token;
+          localStorage.setItem("token", token);
+          this.$router.push('/admin').catch(() => {});
+          this.hideAndShow();
+          } else {
+             let token = res.data.token;
           localStorage.setItem("token", token);
           console.log("axios", res.data);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
           this.hideAndShow();
+          } 
+         
         })
         .catch(() => {
           alert("Wrong password or username");
-        });
-    },
+        })
+        },      
+
     async getInfoFromFacebook() {
       window.FB.api(
         `/me`,
@@ -453,7 +463,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
+  }
 };
 </script>
 
