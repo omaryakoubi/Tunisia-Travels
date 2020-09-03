@@ -4,60 +4,26 @@
       <vs-pagination progress v-model="page" :length="4" />
       <div id="center">
         <div v-show="div1">
-          <vs-input
-            label-placeholder="Host Name"
-            v-model="hostName"
-            id="content"
-          />
-          <vs-input
-            label-placeholder="Host Phone"
-            v-model="hostPhone"
-            id="content"
-          />
+          <vs-input label-placeholder="Host Name" v-model="hostName" id="content" />
+          <vs-input label-placeholder="Host Phone" v-model="hostPhone" id="content" />
           <vs-select placeholder="Guests allowed" v-model="guests" id="content">
             <vs-option label="1" value="1">1</vs-option>
             <vs-option label="2" value="2">2</vs-option>
             <vs-option label="3" value="3">3</vs-option>
             <vs-option label="4" value="4">4 +</vs-option>
           </vs-select>
-          <vs-select
-            placeholder="Type of Place"
-            v-model="typeOfPlace"
-            id="content"
-          >
-            <vs-option label="Entire Place" value="Entire Place"
-              >Entire Place</vs-option
-            >
-            <vs-option label="Private Room" value="Private Room"
-              >Private Room</vs-option
-            >
-            <vs-option label="Shared Room" value="Shared Room"
-              >Shared Room</vs-option
-            >
+          <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
+            <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
+            <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
+            <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
           </vs-select>
-          <vs-checkbox v-model="optionPet" id="content"
-            >Pets Allowed</vs-checkbox
-          >
-          <vs-button
-            id="content2"
-            flat
-            :active="active == 0"
-            @click.prevent="toPage2"
-            >Get Started</vs-button
-          >
+          <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+          <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
         </div>
       </div>
       <div v-show="div2" id="p2">
-        <vs-input
-          label-placeholder="Name of The house"
-          v-model="houseName"
-          id="content"
-        />
-        <vs-input
-          label-placeholder="Describe your house"
-          v-model="description"
-          id="content"
-        />
+        <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
+        <vs-input label-placeholder="Describe your house" v-model="description" id="content" />
         <vs-input v-model="price" placeholder="Price per Night" id="content">
           <template #icon>
             <span class="material-icons">euro</span>
@@ -67,13 +33,7 @@
         <vs-input type="date" v-model="start" id="content"></vs-input>
         <label id="content">Availability to</label>
         <vs-input type="date" v-model="end" id="content"></vs-input>
-        <vs-button
-          id="content3"
-          flat
-          :active="active == 0"
-          @click.prevent="toPage3"
-          >Next</vs-button
-        >
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage3">Next</vs-button>
       </div>
       <br />
       <br />
@@ -99,15 +59,8 @@
           flat
           :active="active == 0"
           @click.prevent="getMyPosition"
-          >Or Detect My Position</vs-button
-        >
-        <vs-button
-          id="content3"
-          flat
-          :active="active == 0"
-          @click.prevent="toPage4"
-          >Next</vs-button
-        >
+        >Or Detect My Position</vs-button>
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage4">Next</vs-button>
         <GmapMap
           ref="map"
           :center="houseCoordinates"
@@ -131,36 +84,20 @@
           <img :src="`${image.url}`" />
         </div>
         <form enctype="multipart/form-data">
-          <input
-            multiple
-            type="file"
-            ref="files"
-            @change="selectFile"
-            class="file-input"
-          />
+          <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
           <div v-for="(file, index) in files" :key="index" class="level">
             <div class="level-left">
               <div class="level-item">{{ file.name }}</div>
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a
-                  @click.prevent.prevent="files.splice(index, 1)"
-                  class="delete"
-                  >Delete</a
-                >
+                <a @click.prevent.prevent="files.splice(index, 1)" class="delete">Delete</a>
               </div>
             </div>
           </div>
           <button @click.prevent.prevent="sendFile">Upload Files</button>
         </form>
-        <vs-button
-          id="content2"
-          flat
-          :active="active == 0"
-          @click.prevent="postToDB"
-          >Submit to BACK</vs-button
-        >
+        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
   </form>
