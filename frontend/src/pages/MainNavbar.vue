@@ -195,7 +195,7 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown.vue";
+import DropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
 import NavLink from "../components/NavLink";
 import { Popover } from "element-ui";
