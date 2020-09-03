@@ -144,7 +144,7 @@ app.post("/multiple", upload.array("files"), async (req, res) => {
 
 app.get("/houses", (req, res) => {
   HousesInfos.find({
-    show : true
+   show : true
   }).then((houses) => {
     res.send(houses);
   });

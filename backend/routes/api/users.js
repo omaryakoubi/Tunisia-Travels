@@ -19,14 +19,13 @@ const Housesinfo = require("../../model/HousesInfos")
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
   //Check if it's an admin 
-  if (email.includes('@admin')) {
-    return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
-      res.status(200).json({
-        msg: 'Admin signed up'
-      })
-      console.log('yup')
-    })
-  }
+  // if (email.includes('admin')) {
+  //   return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
+  //     res.status(200).json({
+  //       msg: 'Admin signed up'
+  //     })
+  //   }).catch((err)=> {console.log(err)})
+  // }
   // Check for the password
   if (password.length < 8) {
     return res.status(400).json({
