@@ -98,6 +98,8 @@ export default {
         price: "",
         hostName: "",
         hostPhone: "",
+        start: "",
+        end: "",
       },
       numberOfHouses: 0,
       arr: [],
@@ -134,12 +136,26 @@ export default {
           data.data[i].governorate.includes(this.coordinates.locality)
         ) {
           this.numberOfHouses++;
-          this.arr.push(data.data[i]);
-          this.markers.push(data.data[i].marker);
-          console.log("houhouhouh", data.data[i].images[0].url);
+
+          let hostStart = new Date(data.data[i].start).getTime();
+          let hostEnd = new Date(data.data[i].end).getTime();
+          let travellerStart = new Date(this.coordinates.start).getTime();
+          let travellerEnd = new Date(this.coordinates.start).getTime();
+          if (
+            hostStart <= travellerStart &&
+            travellerStart <= hostEnd &&
+            travellerEnd >= travellerStart
+          ) {
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+          // else {
+          //   this.arr = [];
+          // }
         }
       }
     });
+
     this.ready = true;
   },
 };
