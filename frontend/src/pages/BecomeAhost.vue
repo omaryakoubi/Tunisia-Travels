@@ -4,81 +4,54 @@
       <vs-pagination progress v-model="page" :length="4" />
       <div id="center">
         <div v-show="div1">
-          <vs-input
-            label-placeholder="Host Name"
-            v-model="hostName"
-            id="content"
-          />
-          <vs-input
-            label-placeholder="Host Phone"
-            v-model="hostPhone"
-            id="content"
-          />
+          <p>We are going to guide you to host your house</p>
+          <p>Please fill correctly your information</p>
+          <p>to facilitate the contact with the traveler</p>
+          <vs-input label-placeholder="Host Name" v-model="hostName" id="content" />
+          <br />
+          <vs-input label-placeholder="Host Phone" v-model="hostPhone" id="content" />
+          <br />
           <vs-select placeholder="Guests allowed" v-model="guests" id="content">
             <vs-option label="1" value="1">1</vs-option>
             <vs-option label="2" value="2">2</vs-option>
             <vs-option label="3" value="3">3</vs-option>
             <vs-option label="4" value="4">4 +</vs-option>
           </vs-select>
-          <vs-select
-            placeholder="Type of Place"
-            v-model="typeOfPlace"
-            id="content"
-          >
-            <vs-option label="Entire Place" value="Entire Place"
-              >Entire Place</vs-option
-            >
-            <vs-option label="Private Room" value="Private Room"
-              >Private Room</vs-option
-            >
-            <vs-option label="Shared Room" value="Shared Room"
-              >Shared Room</vs-option
-            >
+          <br />
+          <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
+            <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
+            <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
+            <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
           </vs-select>
-          <vs-checkbox v-model="optionPet" id="content"
-            >Pets Allowed</vs-checkbox
-          >
-          <vs-button
-            id="content2"
-            flat
-            :active="active == 0"
-            @click.prevent="toPage2"
-            >Get Started</vs-button
-          >
+          <br />
+          <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+          <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
         </div>
       </div>
       <div v-show="div2" id="p2">
-        <vs-input
-          label-placeholder="Name of The house"
-          v-model="houseName"
-          id="content"
-        />
-        <vs-input
-          label-placeholder="Describe your house"
-          v-model="description"
-          id="content"
-        />
+        <p>Please tell us more about your house</p>
+        <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
+        <br />
+        <vs-input label-placeholder="Describe your house" v-model="description" id="content" />
+        <br />
         <vs-input v-model="price" placeholder="Price per Night" id="content">
           <template #icon>
             <span class="material-icons">euro</span>
           </template>
         </vs-input>
+        <br />
         <label id="content">Availability from</label>
         <vs-input type="date" v-model="start" id="content"></vs-input>
+        <br />
         <label id="content">Availability to</label>
         <vs-input type="date" v-model="end" id="content"></vs-input>
-        <vs-button
-          id="content3"
-          flat
-          :active="active == 0"
-          @click.prevent="toPage3"
-          >Next</vs-button
-        >
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage3">Next</vs-button>
       </div>
       <br />
       <br />
       <br />
       <div v-show="div3" id="p3">
+        <p>Please fill the adress of your house</p>
         <vue-google-autocomplete
           :country="['TN']"
           types="(cities)"
@@ -87,6 +60,7 @@
           placeholder="Choose a governorate"
           v-on:error="handleError"
         ></vue-google-autocomplete>
+        <br />
         <vue-google-autocomplete
           :country="['TN']"
           id="adress"
@@ -94,20 +68,14 @@
           v-on:placechanged="getStreetAdress"
           placeholder="Choose an adress"
         ></vue-google-autocomplete>
+        <br />
+        <p>Or use the automatic detection</p>
         <vs-button
           id="content3"
           flat
           :active="active == 0"
           @click.prevent="getMyPosition"
-          >Or Detect My Position</vs-button
-        >
-        <vs-button
-          id="content3"
-          flat
-          :active="active == 0"
-          @click.prevent="toPage4"
-          >Next</vs-button
-        >
+        >AutoDetect</vs-button>
         <GmapMap
           ref="map"
           :center="houseCoordinates"
@@ -122,45 +90,38 @@
             :icon="{ url: require('../../src/assets/images/gmap2.png') }"
           />
         </GmapMap>
+
+        <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage4">Next</vs-button>
       </div>
       <br />
       <br />
       <br />
       <div v-show="div4" id="p4">
+        <p>Your informations will be sent to the ADMIN</p>
+        <p>Send us your CIN , passport , Melkeya and the photo of your houses</p>
         <div v-for="(image, index) in imagesResp" :key="index">
           <img :src="`${image.url}`" />
         </div>
         <form enctype="multipart/form-data">
-          <input
-            multiple
-            type="file"
-            ref="files"
-            @change="selectFile"
-            class="file-input"
-          />
+          <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
           <div v-for="(file, index) in files" :key="index" class="level">
             <div class="level-left">
               <div class="level-item">{{ file.name }}</div>
             </div>
             <div class="level-right">
               <div class="level-item">
-                <a
-                  @click.prevent.prevent="files.splice(index, 1)"
-                  class="delete"
-                  >Delete</a
-                >
+                <a @click.prevent.prevent="files.splice(index, 1)" class="delete">Delete</a>
               </div>
             </div>
           </div>
-          <button @click.prevent.prevent="sendFile">Upload Files</button>
+          <button @click.prevent.prevent="sendFile">Save your photos</button>
         </form>
         <vs-button
           id="content2"
           flat
           :active="active == 0"
           @click.prevent="postToDB"
-          >Submit to BACK</vs-button
-        >
+        >Submit you informations</vs-button>
       </div>
     </div>
   </form>
