@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const payment = require("./routes/api/OnlinePayment");
 const InfoTravel = require("./model/InfoTravel.js");
-const morgan = require("morgan");
 const HousesInfos = require("./model/HousesInfos.js")
 const HousesImages = require("./model/HousesImages.js")
 // const AdminInfos = require ("./model/admin.js")
@@ -18,7 +17,6 @@ const path = require("path");
 const app = express();
 
 //OMAR
-app.use(morgan("combined"));
 const passportGoogle = require("./config/passportGoogle+");
 const passportGoogleKeys = require("./config/passportGoogle+Keys");
 const AuthSMRoutes = require("./routes/api/AuthSM");
@@ -47,6 +45,12 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
@@ -133,7 +137,9 @@ app.post("/multiple", upload.array("files"), async (req, res) => {
 
 
 app.get("/houses", (req, res) => {
-  HousesInfos.find({}).then((houses) => {
+  HousesInfos.find({
+    show : true
+  }).then((houses) => {
     res.send(houses);
   });
 });

@@ -6,28 +6,6 @@
         <div class="photo-container">
           <img :src="`${form.file}`" alt />
         </div>
-
-        <!-- 
-  <div class="centerx">
-    <vs-upload automatic action="http://localhost:5000/api/users/upload"/>
-        </div>-->
-
-        <!-- modal to upload a new picture and button to start it -->
-        <!-- <n-button
-          type="primary"
-          style="background: transparent"
-          @click.native="modals.classic = true"
-        >Upload photo</n-button>
-        <modal :show.sync="modals.classic" headerClasses="justify-content-center">
-          <h4 slot="header" class="title title-up">Modal title</h4>
-          <div class="photo-container">
-            <img src="img/ryan.jpg" alt />
-          </div>
-          <template slot="footer">
-            <input type="file" style="background: transparent" />
-          </template>
-        </modal>-->
-
         <form enctype="multipart/form-data">
           <div class="fields">
             <label>Upload</label>

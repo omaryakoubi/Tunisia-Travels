@@ -39,6 +39,7 @@ const UserSchema = new Schema({
   resetPasswordExpires: {
     type: Number,
   },
+  show: false
 });
 module.exports = User = mongoose.model("users", UserSchema);
 
