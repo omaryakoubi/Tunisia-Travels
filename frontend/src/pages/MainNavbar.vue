@@ -212,7 +212,7 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown";
+import dropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
