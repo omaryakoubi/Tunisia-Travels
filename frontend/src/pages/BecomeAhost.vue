@@ -19,6 +19,8 @@
           </vs-select>
           <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
           <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
+          <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+          <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
         </div>
       </div>
       <div v-show="div2" id="p2">
@@ -68,12 +70,7 @@
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
-          <GmapMarker
-            :position="houseCoordinates"
-            :clickable="true"
-            :draggable="true"
-            :icon="{ url: require('../../src/assets/images/gmap2.png') }"
-          />
+          <GmapMarker :position="houseCoordinates" :clickable="true" :draggable="true" />
         </GmapMap>
       </div>
       <br />
@@ -97,8 +94,7 @@
           </div>
           <button @click.prevent.prevent="sendFile">Upload Files</button>
         </form>
-        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>=======
-        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>>>>>>>> 50de6a93bfdad4adb9a01c612cbeef85ed92fc25
+        <vs-button id="content2" flat :active="active == 0" @click.prevent="postToDB">Submit to BACK</vs-button>
       </div>
     </div>
   </form>
