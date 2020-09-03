@@ -14,7 +14,7 @@
           <h4>There is {{availableHouses}} house(s) available from {{ coordinates.start }} to {{ coordinates.end }}</h4>
 
           <h3>
-            Traveller Number :{{
+            Traveler Number :{{
             coordinates.guestsNum[0] +
             coordinates.guestsNum[1] +
             coordinates.guestsNum[2]
@@ -28,7 +28,6 @@
           round
           @click="showAllHouses"
         >Show all houses in {{ coordinates.locality}}</n-button>
-        <n-button type="primary" size="sm" @click="showPets" round>Pets are allowed</n-button>
         <div class="row">
           <div class="card-body" v-for="(one, index) in arr" :key="index">
             <div class="row">
@@ -48,6 +47,7 @@
                   >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
                 </h3>
                 <p class="card-description">{{ one.description }}</p>
+                <p class="card-description">{{ petMessage }}</p>
                 <p class="phone">Phone: {{ one.hostPhone }}</p>
                 <span class="span">{{ one.price }} euro/night</span>
               </div>
@@ -86,6 +86,7 @@ export default {
   components: { GmapMarker, [Button.name]: Button, MainNavbar },
   data() {
     return {
+      petMessage: "",
       ready: false,
       coordinates: {
         lat: 0,
@@ -113,11 +114,6 @@ export default {
     };
   },
   methods: {
-    // showPets() {
-    //   this.axios.get('http://localhost:5000/houses').then(data=>{
-    //     this.arr =[]
-    //   })
-    // },
     showAllHouses() {
       this.axios.get("http://localhost:5000/houses").then((data) => {
         this.arr = [];
@@ -162,7 +158,6 @@ export default {
           data.data[i].governorate.includes(this.coordinates.locality)
         ) {
           this.numberOfHouses++;
-
           let hostStart = new Date(data.data[i].start).getTime();
           let hostEnd = new Date(data.data[i].end).getTime();
           let travellerStart = new Date(this.coordinates.start).getTime();
@@ -175,6 +170,11 @@ export default {
             this.availableHouses++;
             this.arr.push(data.data[i]);
             this.markers.push(data.data[i].marker);
+          }
+          if (data.data[i].optionPet === true) {
+            this.petMessage = "Pets are welcomed in this house";
+          } else {
+            this.petMessage = "Pets are not allowed";
           }
         }
       }

@@ -19,9 +19,12 @@
   </header>
   <body>
     <div>
-      <h3>{{description}}/ {{governate}}/{{city}}/{{typeOfPlace}}</h3>
-      <h3>{{hostName}}</h3>
+      <h2>Host name : {{hostName}}</h2>
+      <h3>Governate : {{governate}}</h3>
+      <h4>City : {{city}}</h4>
+      <h4>Place : {{typeOfPlace}}</h4>
       <option value="optionPet">{{pets}}</option>
+      <h5>Description : {{description}}</h5>
       <div class="price">
         <h3>{{price}}/night</h3>
         <div class="info">
@@ -30,7 +33,7 @@
             {{start}} / {{end}}
             <br />Change dates
           </div>
-          <div class="guestsNum">{{guestAccepted}}</div>
+          <div class="guestsNum">Travelers : {{guestAccepted}}</div>
         </div>
         <!-- <Guests /> -->
         <div class="center">
@@ -121,18 +124,20 @@ export default {
           let response = res.data;
           (this.hostName = response.hostName),
             (this.hostPhone = response.hostPhone),
-            (this.governate = response.governate),
+            (this.governate = response.governorate),
             (this.city = response.city),
             (this.start = response.start),
             (this.end = response.end),
             (this.description = response.description),
             (this.price = response.price);
+          this.typeOfPlace = response.typeOfPlace;
           response.images.forEach((houseUrls) => {
             this.images.push(houseUrls.url);
           });
           this.coordinates.lat = response.marker.lat;
           this.coordinates.lng = response.marker.lng;
           this.guestAccepted = response.guests;
+          console.log("hh", this.governate);
           if (response.optionPet === true) {
             this.pets = "Pets are allowed";
           } else {
