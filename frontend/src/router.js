@@ -72,8 +72,18 @@ export default new Router({
     {
       path: "/admin",
       name: "admin",
-      meta: { requiresAuth: true },
+      meta:{requiresAuth: true},
       component: () => import("./pages/admin/homeAdmin.vue"),
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+
+    {
+      path: "/omar",
+      name: "omar",
+      component: () => import("./pages/Forum.vue"),
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

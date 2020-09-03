@@ -36,6 +36,7 @@
             Login
           </n-button>
           <br />
+
           <n-button
             @click="modals.signup = true"
             type="neutral"
@@ -84,15 +85,18 @@
           addon-left-icon="now-ui-icons users_single-02"
           v-model="username"
         ></fg-input>
+
         <fg-input
           type="password"
           placeholder="Password..."
           addon-left-icon="now-ui-icons ui-1_lock-circle-open"
           v-model="password"
         ></fg-input>
+
         <div class="text-center">
           <a @click="login" class="btn btn-danger btn-round btn-lg">Login</a>
         </div>
+
         <div class="footer">
           <div class="pull-left" type="danger">
             <a
@@ -156,6 +160,7 @@
             v-model="phone"
           ></fg-input>
         </template>
+
         <template slot="footer" class="card-footer text-center">
           <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
           <a
@@ -190,7 +195,7 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown";
+import DropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
 import NavLink from "../components/NavLink";
 import { Popover } from "element-ui";
@@ -198,13 +203,16 @@ import Modal from "./components/Modal";
 import Button from "../components/Button";
 import FormGroupInput from "../components/formGroupInput.vue";
 import axios from "axios";
+
 export default {
   name: "main-navbar",
   bodyClass: "login-page",
+
   props: {
     transparent: Boolean,
     colorOnScroll: Number,
   },
+
   components: {
     DropDown,
     Modal,
@@ -214,6 +222,7 @@ export default {
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
   },
+
   data() {
     return {
       modals: {
@@ -234,20 +243,13 @@ export default {
       hide: true,
     };
   },
+
   methods: {
     hideAndShow() {
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
-    hideAndShowOmar() {
-      if (localStorage.token !== undefined) {
-        this.hide = !this.hide;
-        console.log("omar here");
-      } else {
-        // this.logout();
-        console.log("omar not here");
-      }
-    },
+
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
@@ -284,16 +286,16 @@ export default {
         }
       );
     },
+
     async logUserIn() {
       window.FB.login(
         function (response) {
           if (response.authResponse) {
-            console.log("safe", response.authResponse);
             localStorage.setItem(
               "accessToken",
               response.authResponse.accessToken
             );
-            console.log("3morrr", response.authResponse.accessToken);
+
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function (ressponse) {
@@ -311,12 +313,13 @@ export default {
     async logInWithFacebook() {
       try {
         await this.logUserIn();
+        this.hideAndShow();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
-        await this.hideAndShowOmar();
       } catch (error) {
         console.log(error);
       }
     },
+
     async initFacebook() {
       window.fbAsyncInit = function () {
         window.FB.init({
@@ -326,6 +329,7 @@ export default {
         });
       };
     },
+
     async loadFacebookSDK(d, s, id) {
       var js,
         fjs = d.getElementsByTagName(s)[0];
@@ -337,6 +341,7 @@ export default {
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
     },
+
     signup() {
       axios
         .post("http://localhost:5000/api/users/signup", {
@@ -357,6 +362,7 @@ export default {
           alert("Something Wrong");
         });
     },
+
     resetPassword() {
       this.toggle = true;
       axios
@@ -371,21 +377,32 @@ export default {
           res.status(500).send(err);
         });
     },
+
     logout() {
+      this.hideAndShow();
       localStorage.clear();
-      this.hideAndShowOmar();
     },
   },
+
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      localStorage.setItem("googleToken", googleToken);
-      this.$router.push("/");
-      this.hideAndShowOmar();
+      console.log("herrrrreeee", googleToken);
+      if (googleToken === undefined) {
+        localStorage.clear();
+      }
+      if (googleToken !== undefined) {
+        localStorage.setItem("googleToken", googleToken);
+        this.$router.push("/");
+        this.hideAndShow();
+      } else {
+        this.logout();
+      }
     } catch (error) {
       console.log(error);
     }
   },
+
   async mounted() {
     try {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
@@ -394,13 +411,16 @@ export default {
       console.error(error);
     }
   },
+
   destroyed() {
     axios
       .get("http://localhost:5000/auth/google")
+
       .then((req, res) => {
         this.hideAndShow();
         console.log(res);
       })
+
       .catch((err) => {
         console.log(err);
       });
@@ -411,5 +431,5 @@ export default {
 <style scoped>
 .menu-btn {
   color: black !important;
-}
+  }
 </style>

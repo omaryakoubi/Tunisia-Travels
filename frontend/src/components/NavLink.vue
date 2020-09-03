@@ -1,5 +1,10 @@
 <template>
-  <component :is="componentType" :to="to" class="dropdown-item" @click.native.stop="closeNav">
+  <component
+    :is="componentType"
+    :to="to"
+    class="dropdown-item"
+    @click.native.stop="closeNav"
+  >
     <slot></slot>
   </component>
 </template>
@@ -15,7 +20,7 @@ export default {
   },
   computed: {
     componentType() {
-      return this.to ? "router-link" : "a";
+      return this.to ? "r-link" : "a";
     },
   },
   methods: {

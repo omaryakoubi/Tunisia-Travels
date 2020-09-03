@@ -1,22 +1,29 @@
 <template>
   <div class="sear" v-if="ready">
-    <div class="page-header page-header-small">
-      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+    <div class="page-header page-header-small ">
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
       <main-navbar />
       <div class="content-center">
         <h1>Tunisia Travels</h1>
       </div>
     </div>
     <vs-row class="cont">
-      <vs-col>
+      <vs-col >
         <div class="row">
-          <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
-          <h4>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h4>
+          <h5>
+            There is {{ numberOfHouses }} House in {{ coordinates.locality }}
+          </h5>
+          <h4>
+            Available : From {{ coordinates.start }} To {{ coordinates.end }}
+          </h4>
           <h3>
             Guests Number :{{
-            coordinates.guestsNum[0] +
-            coordinates.guestsNum[1] +
-            coordinates.guestsNum[2]
+              coordinates.guestsNum[0] +
+                coordinates.guestsNum[1] +
+                coordinates.guestsNum[2]
             }}
           </h3>
         </div>
@@ -24,17 +31,23 @@
           <div class="card-body" v-for="(one, index) in arr" :key="index">
             <div class="row">
               <div class="col-md-5">
-                <div>
-                  <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
+                <div >
+                  
+                   <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
+
+
+                  
                 </div>
               </div>
               <div class="container col-md-7">
                 <h3 class="card-title">
-                  <a
-                    @click="$router.push('/SelectedHouse')"
-                  >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}
+                  </a>
                 </h3>
-                <p class="card-description">{{ one.description }}</p>
+                <p class="card-description">
+                  {{ one.description }}
+                </p>
                 <p class="phone">Phone: {{ one.hostPhone }}</p>
                 <span class="span">{{ one.price }} euro/night</span>
               </div>
@@ -45,6 +58,7 @@
         <n-button type="primary" round simple>Pets allowed</n-button>
         <n-button type="primary" round simple>Host Language</n-button>
         <n-button type="primary" round simple>Type of place</n-button>-->
+       
       </vs-col>
       <vs-col vs-lg="3">
         <GmapMap
@@ -68,7 +82,7 @@
   </div>
 </template>
 <script>
-import MainNavbar from "./MainNavbar";
+import MainNavbar from "./MainNavbar"
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
@@ -133,7 +147,6 @@ export default {
           this.arr.push(data.data[i]);
           this.markers.push(data.data[i].marker);
         }
-        console.log("houhouhouh", data.data[i]);
       }
     });
     this.ready = true;
@@ -163,27 +176,25 @@ export default {
   padding-right: 50px;
   border-top: solid 1px;
 }
-img {
+img{
   border-radius: 20px !important;
   width: 150px !important;
   cursor: pointer;
-  transition: transform 0.2s;
-}
+  transition: transform .2s;
+} 
 img:hover {
-  transform: scale(
-    1.1
-  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
-.container {
-  padding-top: 30px;
-  padding-left: 0px;
+.container{
+  padding-top:30px;
+  padding-left:0px;
 }
 .page-header {
   border-bottom-right-radius: 200px;
   border-bottom-left-radius: 200px;
   min-height: 30vh;
 }
-.content-center {
+.content-center{
   z-index: 0;
 }
 </style>
