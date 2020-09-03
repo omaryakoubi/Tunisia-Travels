@@ -10,16 +10,25 @@
     <vs-row class="cont">
       <vs-col>
         <div class="row">
-          <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
-          <h4>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h4>
+          <h5>There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}</h5>
+          <h4>There is {{availableHouses}} house(s) available from {{ coordinates.start }} to {{ coordinates.end }}</h4>
+
           <h3>
-            Guests Number :{{
+            Traveller Number :{{
             coordinates.guestsNum[0] +
             coordinates.guestsNum[1] +
             coordinates.guestsNum[2]
             }}
           </h3>
+          <br />
         </div>
+        <n-button
+          type="primary"
+          size="sm"
+          round
+          @click="showAllHouses"
+        >Show all houses in {{ coordinates.locality}}</n-button>
+        <n-button type="primary" size="sm" @click="showPets" round>Pets are allowed</n-button>
         <div class="row">
           <div class="card-body" v-for="(one, index) in arr" :key="index">
             <div class="row">
@@ -45,10 +54,6 @@
             </div>
           </div>
         </div>
-        <!-- <n-button type="primary" round simple>Price</n-button>
-        <n-button type="primary" round simple>Pets allowed</n-button>
-        <n-button type="primary" round simple>Host Language</n-button>
-        <n-button type="primary" round simple>Type of place</n-button>-->
       </vs-col>
       <vs-col vs-lg="3">
         <GmapMap
@@ -101,12 +106,33 @@ export default {
         start: "",
         end: "",
       },
+      availableHouses: 0,
       numberOfHouses: 0,
       arr: [],
       id: "",
     };
   },
   methods: {
+    // showPets() {
+    //   this.axios.get('http://localhost:5000/houses').then(data=>{
+    //     this.arr =[]
+    //   })
+    // },
+    showAllHouses() {
+      this.axios.get("http://localhost:5000/houses").then((data) => {
+        this.arr = [];
+        for (let i = 0; i < data.data.length; i++) {
+          if (
+            data.data[i].governorate == this.coordinates.locality ||
+            this.coordinates.locality.includes(data.data[i].governorate) ||
+            data.data[i].governorate.includes(this.coordinates.locality)
+          ) {
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+        }
+      });
+    },
     redirectfunc(id) {
       this.$router.push(`/selectedHouse/${id}`);
     },
@@ -146,12 +172,10 @@ export default {
             travellerStart <= hostEnd &&
             travellerEnd >= travellerStart
           ) {
+            this.availableHouses++;
             this.arr.push(data.data[i]);
             this.markers.push(data.data[i].marker);
           }
-          // else {
-          //   this.arr = [];
-          // }
         }
       }
     });
