@@ -17,18 +17,34 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down
+        <DropDown
           tag="li"
           title
           icon="now-ui-icons location_world"
           class="nav-item"
         >
-          <nav-link to="/BecomeAhost" class="shown" :hidden="hide">
-            <i class="now-ui-icons education_paper"></i> Become a Host
-          </nav-link>
-          <nav-link to="/profile" class="hidden" :hidden="hide">
+          <n-button
+            @click="$router.push('/BecomeAhost')"
+            type="neutral"
+            size="small"
+            class="menu-btn shown"
+            link
+            :hidden="hide"
+            ><i class="now-ui-icons users_circle-08"></i>
+            Become a Host
+          </n-button>
+
+          <n-button
+            @click="$router.push('/profile')"
+            type="neutral"
+            size="small"
+            class="menu-btn hidden"
+            link
+            :hidden="hide"
+          >
             <i class="now-ui-icons education_paper"></i> Account
-          </nav-link>
+          </n-button>
+
           <n-button
             @click="modals.login = true"
             type="neutral"
@@ -64,7 +80,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </drop-down>
+        </DropDown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -210,9 +226,8 @@
 </template>
 
 <script>
-import DropDown from "../components/Dropdown";
+import DropDown from "../components/dropDown";
 import Navbar from "../components/Navbar";
-import NavLink from "../components/NavLink";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
 import Button from "../components/Button";
@@ -232,7 +247,6 @@ export default {
     DropDown,
     Modal,
     Navbar,
-    NavLink,
     [Popover.name]: Popover,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput,
@@ -265,35 +279,35 @@ export default {
       console.log("0", this.hide);
     },
 
-    hideAndShowOmar() {
-      if (localStorage.token !== undefined) {
-        this.hide = !this.hide;
-        console.log("omar here");
-      } else {
-        // this.logout();
-        console.log("omar not here");
-      }
-    },
-
     login() {
       axios
         .post("http://localhost:5000/api/users/login", {
           username: this.username,
           password: this.password,
         })
-        .then((res) => {
+          .then((res) => {
+            if(this.username.includes('admin')){
+          console.log('username', this.username)
           let token = res.data.token;
+          localStorage.setItem("token", token);
+          this.$router.push('/admin').catch(() => {});
+          this.hideAndShow();
+          } else {
+             let token = res.data.token;
           localStorage.setItem("token", token);
           console.log("axios", res.data);
           this.$router.push("/").catch(() => {});
           this.modals.login = false;
           this.auth = true;
           this.hideAndShow();
+          } 
+         
         })
         .catch(() => {
           alert("Wrong password or username");
         })
-    },
+        },      
+
     async getInfoFromFacebook() {
       window.FB.api(
         `/me`,
@@ -316,13 +330,10 @@ export default {
       window.FB.login(
         function(response) {
           if (response.authResponse) {
-            console.log("safe", response.authResponse);
             localStorage.setItem(
               "accessToken",
               response.authResponse.accessToken
             );
-
-            console.log("3morrr", response.authResponse.accessToken);
 
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
@@ -341,8 +352,8 @@ export default {
     async logInWithFacebook() {
       try {
         await this.logUserIn();
+        this.hideAndShow();
         setTimeout(async () => await this.getInfoFromFacebook(), 2000);
-        await this.hideAndShowOmar();
       } catch (error) {
         console.log(error);
       }
@@ -407,17 +418,25 @@ export default {
     },
 
     logout() {
+      this.hideAndShow();
       localStorage.clear();
-      this.hideAndShowOmar();
     },
   },
 
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      localStorage.setItem("googleToken", googleToken);
-      this.$router.push("/");
-      this.hideAndShowOmar();
+      console.log("herrrrreeee", googleToken);
+      if (googleToken === undefined) {
+        localStorage.removeItem('googleToken');
+      }
+      if (googleToken !== undefined) {
+        localStorage.setItem("googleToken", googleToken);
+        this.$router.push("/");
+        this.hideAndShow();
+      } else {
+        localStorage.removeItem('googleToken');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -444,7 +463,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  },
+  }
 };
 </script>
 

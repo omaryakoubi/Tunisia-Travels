@@ -1,159 +1,70 @@
 <template>
   <div class="card">
     <div class="row collections">
-      <div class="card-body">
+      <div class="card-body" >
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
               <tr>
                 <th>
-                  Name
-                </th>
-
-                <th>
-                  Country
+                  Host Name
                 </th>
 
                 <th>
                   City
                 </th>
 
+                <th>
+                  Type Of Place
+                </th>
+
                 <th class="text-right">
-                  Salary
+                  Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody  v-for="(an, index) in announcement" :key="index">
               <tr>
                 <td>
-                  Dakota Rice
+                  {{an.hostName}}
                 </td>
 
                 <td>
-                  Niger
+                  {{an.city}}
                 </td>
 
                 <td>
-                  Oud-Turnhout
-                </td>
-
-                <td>
-                  <n-button type="success" link>
-                    <i class="fa fa-check"></i>
-                  </n-button>
-                  <n-button type="danger" link>
-                    <i class="fa fa-times"></i>
-                  </n-button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Minerva Hooper
-                </td>
-
-                <td>
-                  Curaçao
-                </td>
-
-                <td>
-                  Sinaai-Waas
+                  {{an.typeOfPlace}}
                 </td>
 
                 <td class="text-right">
-                  $23,789
+                  <button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-info btn-sm"
+                    aria-describedby="el-tooltip-4430"
+                    tabindex="0"
+                  >
+                    <!----><i class="fa fa-info"></i
+                    ><!----></button
+                  ><button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-success btn-sm"
+                    aria-describedby="el-tooltip-6999"
+                    tabindex="0"
+                  >
+                    <!----><i class="fa fa-check"></i
+                    ><!----></button
+                  ><button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-danger btn-sm"
+                    aria-describedby="el-tooltip-4804"
+                    tabindex="0"
+                  >
+                    <!----><i class="fa fa-times"></i
+                    ><!---->
+                  </button>
                 </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Sage Rodriguez
-                </td>
-
-                <td>
-                  Netherlands
-                </td>
-
-                <td>
-                  Baileux
-                </td>
-
-                <td class="text-right">
-                  $56,142
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Philip Chaney
-                </td>
-
-                <td>
-                  Korea, South
-                </td>
-
-                <td>
-                  Overland Park
-                </td>
-
-                <td class="text-right">
-                  $38,735
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Doris Greene
-                </td>
-
-                <td>
-                  Malawi
-                </td>
-
-                <td>
-                  Feldkirchen in Kärnten
-                </td>
-
-                <td class="text-right">
-                  $63,542
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Mason Porter
-                </td>
-
-                <td>
-                  Chile
-                </td>
-
-                <td>
-                  Gloucester
-                </td>
-
-                <td class="text-right">
-                  $78,615
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Jon Porter
-                </td>
-
-                <td>
-                  Portugal
-                </td>
-
-                <td>
-                  Gloucester
-                </td>
-
-                <td class="text-right">
-                  $98,615
-                </td>
-              </tr>
+              </tr>             
             </tbody>
           </table>
         </div>
@@ -163,10 +74,30 @@
 </template>
 <script>
 import Button from "../../components/Button.vue";
+import axios from "axios";
 
 export default {
   components: {
     [Button.name]: Button,
+  },
+  data() {
+    return {
+      announcement: []
+    };
+  },
+  mounted() {
+    this.announcements();
+  },
+  methods: {
+    announcements() {
+      axios
+        .get("http://localhost:5000/announce")
+        .then((res) => {
+          this.announcement = res.data
+          console.log("response", res.data)})
+        .catch((err) => console.log(err));
+    },
+    
   },
 };
 </script>

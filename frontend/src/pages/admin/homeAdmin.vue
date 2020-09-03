@@ -80,7 +80,7 @@ export default {
 .page-header {
   border-bottom-right-radius: 1000px;
   border-bottom-left-radius: 1000px;
-  height: 200px;
+  min-height: 30vh;
 }
 .content-center {
   z-index: 0;

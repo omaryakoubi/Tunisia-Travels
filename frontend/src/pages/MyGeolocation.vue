@@ -1,50 +1,61 @@
 <template>
-  <div v-if="ready">
-    <vs-row>
-      <vs-col vs-lg="8">
-        <h5>
-          There is {{ numberOfHouses }} House in {{ coordinates.locality }}
-        </h5>
-        <h5>
-          Available : From {{ coordinates.start }} To {{ coordinates.end }}
-        </h5>
-        <h5>
-          Guests Number :{{
+  <div class="sear" v-if="ready">
+    <div class="page-header page-header-small">
+      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+      <main-navbar />
+      <div class="content-center">
+        <h1>Tunisia Travels</h1>
+      </div>
+    </div>
+    <vs-row class="cont">
+      <vs-col>
+        <div class="row">
+          <h5>There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}</h5>
+          <h4>There is {{availableHouses}} house(s) available from {{ coordinates.start }} to {{ coordinates.end }}</h4>
+
+          <h3>
+            Traveler Number :{{
             coordinates.guestsNum[0] +
-              coordinates.guestsNum[1] +
-              coordinates.guestsNum[2]
-          }}
-        </h5>
-        <!-- <n-button type="primary" round simple>Price</n-button>
-        <n-button type="primary" round simple>Pets allowed</n-button>
-        <n-button type="primary" round simple>Host Language</n-button>
-        <n-button type="primary" round simple>Type of place</n-button>-->
-        <vs-card vs-lg="4" v-for="(one, index) in arr" :key="index">
-          <template #title>
-            <h3>{{ one.houseName }}</h3>
-            <h5>{{ one.typeOfPlace }}</h5>
-          </template>
-          <template #img>
-            <img src="../assets/images/ferrr.png" @click="redirectfunc(one._id)" alt />
-          </template>
-          <template #text>
-            <p>{{ one.description }}</p>
-          </template>
-          <template #interactions>
-            <vs-button danger icon>
-              <i class="bx">
-                {{ one.hostName }}
-                <br />
-                {{ one.hostPhone }}
-              </i>
-            </vs-button>
-            <vs-button class="btn-chat" shadow primary>
-              <span class="span">{{ one.price }} euro/night</span>
-            </vs-button>
-          </template>
-        </vs-card>
+            coordinates.guestsNum[1] +
+            coordinates.guestsNum[2]
+            }}
+          </h3>
+          <br />
+        </div>
+        <n-button
+          type="primary"
+          size="sm"
+          round
+          @click="showAllHouses"
+        >Show all houses in {{ coordinates.locality}}</n-button>
+        <div class="row">
+          <div class="card-body" v-for="(one, index) in arr" :key="index">
+            <div class="row">
+              <div class="col-md-5">
+                <div>
+                  <img
+                    :src="`${one.images[one.images.length-1].url}`"
+                    @click="redirectfunc(one._id)"
+                    alt
+                  />
+                </div>
+              </div>
+              <div class="container col-md-7">
+                <h3 class="card-title">
+                  <a
+                    @click="$router.push('/SelectedHouse')"
+                  >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
+                </h3>
+                <p class="card-description">{{ one.description }}</p>
+                <p class="card-description">{{ petMessage }}</p>
+                <p class="phone">Phone: {{ one.hostPhone }}</p>
+                <span class="span">{{ one.price }} euro/night</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </vs-col>
-      <vs-col vs-lg="4">
+      <vs-col vs-lg="3">
         <GmapMap
           ref="map"
           :center="coordinates"
@@ -65,17 +76,17 @@
     </vs-row>
   </div>
 </template>
-
 <script>
+import MainNavbar from "./MainNavbar";
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
-
 export default {
   name: "MyGeolocation",
-  components: { GmapMarker, [Button.name]: Button },
+  components: { GmapMarker, [Button.name]: Button, MainNavbar },
   data() {
     return {
+      petMessage: "",
       ready: false,
       coordinates: {
         lat: 0,
@@ -93,13 +104,31 @@ export default {
         price: "",
         hostName: "",
         hostPhone: "",
+        start: "",
+        end: "",
       },
+      availableHouses: 0,
       numberOfHouses: 0,
       arr: [],
       id: "",
     };
   },
   methods: {
+    showAllHouses() {
+      this.axios.get("http://localhost:5000/houses").then((data) => {
+        this.arr = [];
+        for (let i = 0; i < data.data.length; i++) {
+          if (
+            data.data[i].governorate == this.coordinates.locality ||
+            this.coordinates.locality.includes(data.data[i].governorate) ||
+            data.data[i].governorate.includes(this.coordinates.locality)
+          ) {
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+        }
+      });
+    },
     redirectfunc(id) {
       this.$router.push(`/selectedHouse/${id}`);
     },
@@ -129,21 +158,76 @@ export default {
           data.data[i].governorate.includes(this.coordinates.locality)
         ) {
           this.numberOfHouses++;
-          this.arr.push(data.data[i]);
-          this.markers.push(data.data[i].marker);
+          let hostStart = new Date(data.data[i].start).getTime();
+          let hostEnd = new Date(data.data[i].end).getTime();
+          let travellerStart = new Date(this.coordinates.start).getTime();
+          let travellerEnd = new Date(this.coordinates.start).getTime();
+          if (
+            hostStart <= travellerStart &&
+            travellerStart <= hostEnd &&
+            travellerEnd >= travellerStart
+          ) {
+            this.availableHouses++;
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+          if (data.data[i].optionPet === true) {
+            this.petMessage = "Pets are welcomed in this house";
+          } else {
+            this.petMessage = "Pets are not allowed";
+          }
         }
       }
     });
+
     this.ready = true;
   },
 };
 </script>
 <style scoped>
 .vue-map-container {
-  height: 900px !important;
-  float: right !important;
+  /* position: fixed; */
+  height: 100vh !important;
+  /* float: right !important; */
 }
 .vs-col--w-12 {
   width: 50% !important;
+}
+.cont {
+  margin-left: 80px;
+  margin-top: 40px;
+}
+.span {
+  float: right;
+  font-size: 130%;
+  font-weight: bold;
+  margin-bottom: auto;
+}
+.card-body {
+  padding-right: 50px;
+  border-top: solid 1px;
+}
+img {
+  border-radius: 20px !important;
+  width: 150px !important;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+img:hover {
+  transform: scale(
+    1.1
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.container {
+  padding-top: 30px;
+  padding-left: 0px;
+}
+.page-header {
+  border-bottom-right-radius: 200px;
+  border-bottom-left-radius: 200px;
+  min-height: 30vh;
+}
+.content-center {
+  z-index: 0;
 }
 </style>

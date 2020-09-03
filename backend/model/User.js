@@ -33,12 +33,16 @@ const UserSchema = new Schema({
   file: {
     type: String,
   },
+  bio: {
+    type: String
+  },
   resetPasswordToken: {
     type: String,
   },
   resetPasswordExpires: {
     type: Number,
   },
+  show: false
 });
 module.exports = User = mongoose.model("users", UserSchema);
 

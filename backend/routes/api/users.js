@@ -6,12 +6,11 @@ const passport = require("passport");
 const key = require("../../config/keys").secret;
 const multer = require("multer");
 const User = require("../../model/User.js");
-const Admin = require('../../model/admin.js')
+const Admin = require("../../model/admin.js");
 const path = require("path");
 const fs = require("fs");
 const cloudinary = require("../../cloudinary.config");
-const Housesinfo = require("../../model/HousesInfos")
-
+const Housesinfo = require("../../model/HousesInfos");
 /**
  * @route POST api/users/signup
  * @desc SignUp the User
@@ -19,15 +18,6 @@ const Housesinfo = require("../../model/HousesInfos")
  */
 router.post("/signup", (req, res) => {
   let { name, username, email, password, cpassword, age, phone } = req.body;
-  //Check if it's an admin 
-  if (email.includes('@admin')) {
-    return Admin.create({ name, username, email, password, cpassword, age, phone }, (req, res) => {
-      res.status(200).json({
-        msg: 'Admin signed up'
-      })
-      console.log('yup')
-    })
-  }
   // Check for the password
   if (password.length < 8) {
     return res.status(400).json({
@@ -57,7 +47,6 @@ router.post("/signup", (req, res) => {
       msg: "Enter valid phone number Please",
     });
   }
-
   // Check for the unique Username
   User.findOne({ username: username }).then((user) => {
     if (user) {
@@ -85,6 +74,7 @@ router.post("/signup", (req, res) => {
     resetPasswordToken: "",
     resetPasswordExpires: 0,
   });
+
   // Hash the password
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -99,7 +89,6 @@ router.post("/signup", (req, res) => {
     });
   });
 });
-
 /**
  * @route POST api/users/login
  * @desc Login the User
@@ -113,7 +102,6 @@ router.post("/login", (req, res) => {
         success: false,
       });
     }
-
     // If there is user we are now going to compare passwords
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -174,23 +162,21 @@ router.put(
   (req, res) => {
     return req.params.id === req.user._id.toString()
       ? User.findOneAndUpdate(
-        { _id: req.user._id },
-        ({ name, username, email, age, phone, file } = req.body)
-      )
-        .then(() => {
-          console.log("then", req.user);
-          res.status(201).send(req.user);
-        })
-        .catch((err) => {
-          console.log("catch", req.user);
-          res.status(505).send({ err });
-        })
+          { _id: req.user._id },
+          ({ name, username, email, age, phone, file } = req.body)
+        )
+          .then(() => {
+            console.log("then", req.user);
+            res.status(201).send(req.user);
+          })
+          .catch((err) => {
+            console.log("catch", req.user);
+            res.status(505).send({ err });
+          })
       : res.status(404).send("NOT FOUND");
   }
 );
-
 //upload image
-
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
@@ -219,7 +205,6 @@ router.post(
   async (req, res) => {
     // console.log("req", req.files);
     const uploader = async (path) =>
-
       await cloudinary.uploads(path, "imageFile");
     const urls = [];
     const files = req.files;
@@ -235,66 +220,29 @@ router.post(
     }
   }
 );
-
-//get users number 
-
-router.get('/', (req, res) => {
+//get users number
+router.get("/", (req, res) => {
   User.find({})
-    .then(result => {
-      res.send(result)
+    .then((result) => {
+      res.send(result);
     })
-    .catch(err => console.log(err))
-})
-
+    .catch((err) => console.log(err));
+});
 // get the number of users that are hosts
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   Housesinfo.find({})
-    .then(result => {
-      res.send(result)
+    .then((result) => {
+      res.send(result);
     })
-    .catch(err => console.log(err))
-})
+    .catch((err) => console.log(err));
+});
+// Admin delete user
 
-
-// /**
-//  * @route POST api/admin/profile
-//  * @desc Return the User's Data
-//  * @access Public
-//  */
-// router.get(
-//   "/admin",
-//   passport.authenticate("jwt", {
-//     session: false,
-//   }),
-//   (req, res) => {
-//     return res.json({
-//       user: req.user,
-//     });
-//   }
-// );
-// //update Admin profile
-// router.put(
-//   "/update/admin",
-//   passport.authenticate("jwt", {
-//     session: false,
-//   }),
-//   (req, res) => {
-//     return req.params.id === req.user._id.toString()
-//       ? Admin.findOneAndUpdate(
-//           { _id: req.user._id },
-//           ({ name, username, email, age, phone,city, country, zip, file } = req.body)
-//         )
-//           .then(() => {
-//             console.log("then", req.user);
-//             res.status(201).send(req.user);
-//           })
-//           .catch((err) => {
-//             console.log("catch", req.user);
-//             res.status(505).send({ err });
-//           })
-//       : res.status(404).send("NOT FOUND");
-//   }
-// );
-
-
+router.delete("/delete/:id", (req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => console.log(err));
+});
 module.exports = router;
