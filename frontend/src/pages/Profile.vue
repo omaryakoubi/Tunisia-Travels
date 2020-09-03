@@ -148,6 +148,8 @@
           <br />
         </div>
 
+
+
         <div class="cardi col-md-4">
           <div class="photo-container">
             <img class ="pic" :src="`${form.file}`" style="height:100%" />
