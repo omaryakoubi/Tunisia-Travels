@@ -33,6 +33,9 @@ const UserSchema = new Schema({
   file: {
     type: String,
   },
+  bio: {
+    type: String
+  },
   resetPasswordToken: {
     type: String,
   },
