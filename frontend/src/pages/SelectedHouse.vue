@@ -110,6 +110,17 @@ export default {
   mounted() {
     this.startRotation();
     this.getInfo();
+    this.axios.get("http://localhost:5000/travelinfo").then((data) => {
+      console.log(data.data);
+      this.start = data.data[data.data.length - 1].check.start;
+      this.end = data.data[data.data.length - 1].check.end;
+      this.guestAccepted =
+        data.data[data.data.length - 1].guestsNum[0] +
+        data.data[data.data.length - 1].guestsNum[1] +
+        data.data[data.data.length - 1].guestsNum[2];
+      localStorage.setItem("start", this.start);
+      localStorage.setItem("end", this.end);
+    });
   },
   created() {
     this.id = this.$route.params.id;
@@ -132,12 +143,11 @@ export default {
             (this.hostPhone = response.hostPhone),
             (this.governate = response.governate),
             (this.city = response.city),
-            (this.start = response.start),
-            (this.end = response.end),
+            // (this.start = response.start),
+            // (this.end = response.end),
             (this.description = response.description),
             (this.price = response.price);
-          localStorage.setItem("start", this.start);
-          localStorage.setItem("end", this.end);
+
           localStorage.setItem("price", this.price);
         })
         .catch((err) => console.log(err));

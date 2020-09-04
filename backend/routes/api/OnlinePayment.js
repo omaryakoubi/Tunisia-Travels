@@ -13,7 +13,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
       (new Date(house.end).getTime() - new Date(house.start).getTime()) /
       (1000 * 60 * 60 * 24);
 
-    let total = duration * house.price * 100;
+    let total = duration * house.price;
     // console.log(total);
 
     const paymentIntent = await stripe.paymentIntents.create({

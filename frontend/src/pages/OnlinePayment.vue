@@ -9,14 +9,14 @@
           CheckOut Date : <span>{{ checkOut }}</span>
         </h3>
         <h3>
-          Price Per Night : <span>{{ price }}$</span>
+          Price Per Night : <span>{{ price }}TND</span>
         </h3>
         <h3>
           Number of Nights :<span> {{ numberOfNights }} </span>
         </h3>
         <h2>
           Total:
-          <p>{{ total }} $</p>
+          <p>{{ total }} TND</p>
         </h2>
       </form>
     </div>
