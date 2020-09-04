@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div class="page-header page-header-small ">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/header.jpg')"
-      ></parallax>
+    <div class="page-header page-header-small">
+      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
       <main-navbar />
       <div class="content-center">
         <h1>Admin Platform</h1>
       </div>
     </div>
-
     <tabs
       pills
       class="nav-align-center"
@@ -20,27 +16,20 @@
     >
       <Tab title="Profile">
         <i slot="label" class="now-ui-icons users_circle-08"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <admin-prof />
         </div>
       </Tab>
-
       <Tab title="Users">
         <i slot="label" class="now-ui-icons location_world"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
             <users-cont />
           </div>
         </div>
       </Tab>
-
       <Tab title="Messages">
-        <i
-          slot="label"
-          class="now-ui-icons sport_user-run"        >
-        </i>
+        <i slot="label" class="now-ui-icons sport_user-run"></i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">

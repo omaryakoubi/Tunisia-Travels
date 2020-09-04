@@ -18,6 +18,7 @@
       </div>
       <template slot="navbar-menu">
         <dropDown tag="li" title icon="now-ui-icons location_world" class="nav-item">
+          
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -201,7 +202,7 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="adressMail"
           ></fg-input>
-          <p v-if="toggle">Check your email</p>
+          <p v-if="toggle">A mail has been sent to {{adressMail}}</p>
           <div class="text-center">
             <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
           </div>
@@ -261,6 +262,7 @@ export default {
 
   methods: {
     hideAndShow() {
+      console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
@@ -327,7 +329,7 @@ export default {
             });
             console.log(window.FB.getUserID());
           } else {
-            alert("User cancelled login or did not fully authorize.");
+            console.log("User cancelled login or did not fully authorize.");
           }
         },
         { scope: "public_profile,email" }

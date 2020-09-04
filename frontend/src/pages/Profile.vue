@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="black">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-      ></parallax>
+      <parallax class="page-header-image" style="background-image:url('img/bg5.jpg')"></parallax>
       <main-navbar />
       <div class="content-center title">
         <h1>Profile</h1>
@@ -17,13 +14,7 @@
             <div class="col-md-5 pr-1">
               <div class="form-group">
                 <label>Post</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  disabled
-                  placeholder="Post"
-                  value="User"
-                />
+                <input type="text" class="form-control" disabled placeholder="Post" value="User" />
               </div>
             </div>
             <div class="col-md-3 px-1">
@@ -133,16 +124,13 @@
               <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
             </div>
             <div class="col-md-4 pl-1">
-              <a class="btn btn-danger btn-round btn-small safe"
-                >Change Password</a
-              >
+              <a class="btn btn-danger btn-round btn-small safe">Change Password</a>
             </div>
             <div class="col-md-4 pl-1">
               <a
                 @click="updateProfile"
                 class="btn btn-success btn-round btn-small safe"
-                >Save Changes</a
-              >
+              >Save Changes</a>
             </div>
           </div>
           <br />
@@ -150,22 +138,13 @@
 
         <div class="cardi col-md-4">
           <div class="photo-container">
-            <img class ="pic" :src="`${form.file}`" style="height:100%" />
-          <div class="iconi">
-            <label for="upload">
-              <span
-                class="now-ui-icons media-1_camera-compact"
-                aria-hidden="true"
-              ></span>
-              <input
-                type="file"
-                ref="file"
-                id="upload"
-                style="display:none"
-                @change="onSelect"
-              />
-            </label>
-          </div>
+            <img class="pic" :src="`${form.file}`" style="height:100%" />
+            <div class="iconi">
+              <label for="upload">
+                <span class="now-ui-icons media-1_camera-compact" aria-hidden="true"></span>
+                <input type="file" ref="file" id="upload" style="display:none" @change="onSelect" />
+              </label>
+            </div>
           </div>
           <h3 class="title">{{ form.name }}</h3>
           <p class="category">User</p>
@@ -263,7 +242,7 @@ export default {
       }
     },
   },
-  mounted: function() {
+  mounted: function () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {
@@ -337,7 +316,7 @@ export default {
 .pic {
   z-index: -2 !important;
 }
-.iconi{
-  z-index: 1!important;
+.iconi {
+  z-index: 1 !important;
 }
 </style>
