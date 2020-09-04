@@ -21,21 +21,16 @@
         </div>
       </Tab>
       <Tab title="Users">
-        <<<<<<< HEAD
         <i slot="label" class="now-ui-icons location_world"></i>
-        =======
         <i slot="label" class="now-ui-icons business_badge"></i>
-        >>>>>>> cc153afd6b3fe56f7e908d6e9bceae914bdb2e07
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
             <users-cont />
           </div>
         </div>
       </Tab>
-
       <Tab title="Announcement">
         <i slot="label" class="now-ui-icons design_bullet-list-67"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
             <announcement />

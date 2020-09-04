@@ -4,40 +4,26 @@
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
-            <thead class=" text-primary">
+            <thead class="text-primary">
               <tr>
-                <th>
-                  Host Name
-                </th>
+                <th>Host Name</th>
 
-                <th>
-                  City
-                </th>
+                <th>City</th>
 
-                <th>
-                  Type Of Place
-                </th>
+                <th>Type Of Place</th>
 
-                <th>
-                  Actions
-                </th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody v-for="(an, index) in announcement" :key="index">
               <tr>
-                <td>
-                  {{ an.hostName }}
-                </td>
+                <td>{{ an.hostName }}</td>
+
+                <td>{{ an.city }}</td>
+
+                <td>{{ an.typeOfPlace }}</td>
 
                 <td>
-                  {{ an.city }}
-                </td>
-
-                <td>
-                  {{ an.typeOfPlace }}
-                </td>
-
-                <td >
                   <n-button
                     type="button"
                     class="btn el-tooltip btn-icon btn-info btn-sm"
@@ -45,26 +31,25 @@
                     tabindex="0"
                     @click="modals.info = true"
                   >
-                    <!----><i class="fa fa-info"></i
-                    ><!----></n-button
-                  ><n-button
+                    <i class="fa fa-info"></i>
+                  </n-button>
+                  <n-button
                     type="button"
                     class="btn el-tooltip btn-icon btn-success btn-sm"
                     aria-describedby="el-tooltip-6999"
                     tabindex="0"
                     @click.prevent="accept"
                   >
-                    <!----><i class="fa fa-check"></i
-                    ><!----></n-button
-                  ><n-button
+                    <i class="fa fa-check"></i>
+                  </n-button>
+                  <n-button
                     type="button"
                     class="btn el-tooltip btn-icon btn-danger btn-sm"
                     aria-describedby="el-tooltip-4804"
                     tabindex="0"
                     @click.prevent="deleteHouse(an._id)"
                   >
-                    <!----><i class="fa fa-times"></i
-                    ><!---->
+                    <i class="fa fa-times"></i>
                   </n-button>
                 </td>
               </tr>
@@ -77,9 +62,12 @@
       <template slot="header">
         <h2 slot="header" class="title title-up"></h2>
       </template>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQppdtQ3TrHpvktLshhp7MoNZHYl0ZHv5OYmQ&usqp=CAU" alt="">
-        <h1 style="color: white">Hello</h1>
-        <h3 style="color: white">info will be here</h3>
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQppdtQ3TrHpvktLshhp7MoNZHYl0ZHv5OYmQ&usqp=CAU"
+        alt
+      />
+      <h1 style="color: white">Hello</h1>
+      <h3 style="color: white">info will be here</h3>
 
       <div class="footer">
         <div class="pull-right"></div>
