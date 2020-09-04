@@ -386,8 +386,8 @@ export default {
     async initFacebook() {
       window.fbAsyncInit = function() {
         window.FB.init({
-          appId: "988468071624350", //You will need to change this
-          cookie: true, // This is important, it's not enabled by default
+          appId: "988468071624350",
+          cookie: true,
           version: "v8.0",
         });
       };
@@ -450,7 +450,6 @@ export default {
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
         localStorage.removeItem("googleToken");
       }

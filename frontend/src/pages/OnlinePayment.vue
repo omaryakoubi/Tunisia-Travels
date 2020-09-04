@@ -2,10 +2,30 @@
   <center>
     <div id="main">
       <form id="payment-form">
+        <h3>
+          CheckIn Date :<span> {{ checkIn }}</span>
+        </h3>
+        <h3>
+          CheckOut Date : <span>{{ checkOut }}</span>
+        </h3>
+        <h3>
+          Price Per Night : <span>{{ price }}TND</span>
+        </h3>
+        <h3>
+          Number of Nights :<span> {{ numberOfNights }} </span>
+        </h3>
+        <h2>
+          Total:
+          <p>{{ total }} TND</p>
+        </h2>
+      </form>
+    </div>
+    <div id="main">
+      <form id="payment-form">
         <input
           type="email"
           id="email"
-          placeholder="Email address"
+          placeholder="Enter your email address to recive the confirmation"
           v-model="email"
         />
         <div id="card-element"></div>
@@ -32,49 +52,48 @@
 import FormGroupInput from "../components/formGroupInput.vue";
 import { loadStripe } from "@stripe/stripe-js";
 import stripeKeyFront from "../../stripeKeyFront";
+import router from "../router.js";
 import axios from "axios";
 export default {
   name: "OnlinePayment",
-
   components: {
     [FormGroupInput.name]: FormGroupInput,
   },
-
   data() {
     return {
       email: "",
       secret: "",
       stripe: null,
       card: null,
+      id: "",
+      checkIn: "",
+      checkOut: "",
+      price: "",
+      numberOfNights: "",
+      total: "",
     };
   },
-
   methods: {
     async test() {
       var purchase = {
-        items: [{ id: "xl-tshirt" }],
         email: this.email,
+        id: this.id,
       };
-      var secret = "";
-      // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
-      await fetch("http://localhost:5000/api/payment/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(purchase),
-      })
-        .then(function(result) {
-          return result.json();
-        })
-        .then(function(data) {
-          secret = data.clientSecret;
-        });
+      const result = await fetch(
+        "http://localhost:5000/api/payment/create-payment-intent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(purchase),
+        }
+      );
+      let secret = (await result.json()).clientSecret;
+
       this.secret = secret;
-      // Calls stripe.confirmCardPayment
-      // If the card requires authentication Stripe shows a pop-up modal to
-      // prompt the user to enter authentication details without leaving your page.
+
       var payWithCard = function(stripe, card, clientSecret) {
         loading(true);
         stripe
@@ -86,30 +105,20 @@ export default {
           })
           .then(function(result) {
             if (result.error) {
-              // Show error to your customer
               showError(result.error.message);
             } else {
-              // The payment succeeded!
               orderComplete(result.paymentIntent.id);
             }
           });
       };
 
-      /* ------- UI helpers ------- */
-
-      // Shows a success message when the payment is complete
       var orderComplete = function(paymentIntentId) {
         loading(false);
         document.querySelector(".result-message a");
-        // .setAttribute(
-        //   "href",
-        //   "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-        // );
+
         document.querySelector(".result-message").classList.remove("hidden");
         document.querySelector("button").disabled = true;
       };
-
-      // Show the customer the error from Stripe if their card fails to charge
       var showError = function(errorMsgText) {
         loading(false);
         var errorMsg = document.querySelector("#card-error");
@@ -118,11 +127,8 @@ export default {
           errorMsg.textContent = "";
         }, 4000);
       };
-
-      // Show a spinner on payment submission
       var loading = function(isLoading) {
         if (isLoading) {
-          // Disable the button and show a spinner
           document.querySelector("button").disabled = true;
           document.querySelector("#spinner").classList.remove("hidden");
           document.querySelector("#button-text").classList.add("hidden");
@@ -135,13 +141,27 @@ export default {
       payWithCard(this.stripe, this.card, this.secret);
     },
   },
+  created() {
+    this.checkIn = localStorage.getItem("start");
+    this.checkOut = localStorage.getItem("end");
+    this.price = localStorage.getItem("price");
+    this.numberOfNights =
+      (new Date(this.checkOut).getTime() - new Date(this.checkIn).getTime()) /
+      (1000 * 60 * 60 * 24);
+    this.total = this.numberOfNights * this.price;
+  },
+
+  mounted() {
+    localStorage.removeItem("start");
+    localStorage.removeItem("end");
+    localStorage.removeItem("price");
+  },
 
   async beforeMount() {
-    // A reference to Stripe.js initialized with your real test publishable API key.
+    this.id = window.location.pathname.slice(9);
     var stripe = await loadStripe(stripeKeyFront.publicKey);
     this.stripe = stripe;
     var elements = stripe.elements();
-
     var style = {
       base: {
         color: "#32325d",
@@ -158,13 +178,9 @@ export default {
         iconColor: "#fa755a",
       },
     };
-
     var card = elements.create("card", { style: style });
-    // Stripe injects an iframe into the DOM
     card.mount("#card-element");
-
     card.on("change", function(event) {
-      // Disable the Pay button if there are no card details in the Element
       document.querySelector("button").disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error
         ? event.error.message
@@ -189,14 +205,13 @@ body {
   height: 100vh;
   width: 100vw;
 }
-
 form {
   margin-top: 50px;
   width: 30vw;
   min-width: 500px;
   align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 0px 0.5px #f96332 0px 2px 5px 0px #f96332,
+    0px 1px 1.5px 0px #f96332;
   border-radius: 7px;
   padding: 40px;
 }
@@ -254,7 +269,7 @@ button {
   cursor: pointer;
   display: block;
   transition: all 0.2s ease;
-  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 4px 5.5px 0px #f96332;
   width: 100%;
 }
 button:hover {
@@ -291,7 +306,7 @@ button:disabled {
 .spinner:before {
   width: 10.4px;
   height: 20.4px;
-  background: #5469d4;
+  background: #f96332;
   border-radius: 20.4px 0 0 20.4px;
   top: -0.2px;
   left: -0.2px;
@@ -303,7 +318,7 @@ button:disabled {
 .spinner:after {
   width: 10.4px;
   height: 10.2px;
-  background: #5469d4;
+  background: #f96332;
   border-radius: 0 10.2px 10.2px 0;
   top: -0.1px;
   left: 10.2px;

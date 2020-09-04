@@ -35,7 +35,11 @@ app.use(
 // Json Body Middleware
 app.use(bodyParser.json());
 // Cors Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // Setting up the static directory
 app.use(express.static(path.join(__dirname, "/client/public")));
 app.use(
@@ -122,6 +126,12 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+// app.get("/admin", (req, res)=>{
+//   AdminInfos.find({}).then((item) =>{
+//     res.send(item)
+//   })
+// })
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
