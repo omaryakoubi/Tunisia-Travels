@@ -2,7 +2,10 @@
   <div id="navbar">
     <navbar transparent menu-classes="ml-auto">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/">Tunisia Travels</a>
+        <a class="navbar-brand" href="/">
+          <span style="color: red">T</span>unisia
+          <span style="color: red">T</span>ravels
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,12 +20,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <DropDown
-          tag="li"
-          title
-          icon="now-ui-icons location_world"
-          class="nav-item"
-        >
+        <Dropdown tag="li" title icon="now-ui-icons location_world" class="nav-item">
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -30,7 +28,8 @@
             class="menu-btn shown"
             link
             :hidden="hide"
-            ><i class="now-ui-icons users_circle-08"></i>
+          >
+            <i class="now-ui-icons users_circle-08"></i>
             Become a Host
           </n-button>
 
@@ -80,7 +79,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </DropDown>
+        </Dropdown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -126,13 +125,10 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-              >Forget Password?</a
-            >
+            >Forget Password?</a>
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)"
-              >Create new account?</a
-            >
+            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
           </div>
         </div>
       </modal>
@@ -186,19 +182,14 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <a
-            @click="signup"
-            class="btn btn-danger btn-round btn-lg btn-block safe"
-            >SignUp</a
-          >
+          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
           <a
             @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-            >You already have an account?</a
-          >
+          >You already have an account?</a>
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -213,11 +204,9 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="adressMail"
           ></fg-input>
-          <p v-if="toggle">Check your email</p>
+          <p v-if="toggle">A mail has been sent to {{adressMail}}</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
-              >Send</a
-            >
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
           </div>
         </div>
       </modal>
@@ -226,7 +215,7 @@
 </template>
 
 <script>
-import DropDown from "../components/dropDown";
+import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
@@ -244,7 +233,7 @@ export default {
   },
 
   components: {
-    DropDown,
+    Dropdown,
     Modal,
     Navbar,
     [Popover.name]: Popover,
@@ -275,6 +264,7 @@ export default {
 
   methods: {
     hideAndShow() {
+      console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
@@ -285,34 +275,33 @@ export default {
           username: this.username,
           password: this.password,
         })
-          .then((res) => {
-            if(this.username.includes('admin')){
-          console.log('username', this.username)
-          let token = res.data.token;
-          localStorage.setItem("token", token);
-          this.$router.push('/admin').catch(() => {});
-          this.hideAndShow();
+        .then((res) => {
+          if (this.username.includes("admin")) {
+            console.log("username", this.username);
+            let token = res.data.token;
+            localStorage.setItem("token", token);
+            this.$router.push("/admin").catch(() => {});
+            this.hideAndShow();
           } else {
-             let token = res.data.token;
-          localStorage.setItem("token", token);
-          console.log("axios", res.data);
-          this.$router.push("/").catch(() => {});
-          this.modals.login = false;
-          this.auth = true;
-          this.hideAndShow();
-          } 
-         
+            let token = res.data.token;
+            localStorage.setItem("token", token);
+            console.log("axios", res.data);
+            this.$router.push("/").catch(() => {});
+            this.modals.login = false;
+            this.auth = true;
+            this.hideAndShow();
+          }
         })
         .catch(() => {
           alert("Wrong password or username");
-        })
-        },      
+        });
+    },
 
     async getInfoFromFacebook() {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        async function(data) {
+        async function (data) {
           console.log("before", data);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
@@ -328,7 +317,7 @@ export default {
 
     async logUserIn() {
       window.FB.login(
-        function(response) {
+        function (response) {
           if (response.authResponse) {
             localStorage.setItem(
               "accessToken",
@@ -337,12 +326,12 @@ export default {
 
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
-            window.FB.getLoginStatus(function(ressponse) {
+            window.FB.getLoginStatus(function (ressponse) {
               console.log(ressponse);
             });
             console.log(window.FB.getUserID());
           } else {
-            alert("User cancelled login or did not fully authorize.");
+            console.log("User cancelled login or did not fully authorize.");
           }
         },
         { scope: "public_profile,email" }
@@ -360,7 +349,7 @@ export default {
     },
 
     async initFacebook() {
-      window.fbAsyncInit = function() {
+      window.fbAsyncInit = function () {
         window.FB.init({
           appId: "988468071624350", //You will need to change this
           cookie: true, // This is important, it's not enabled by default
@@ -428,14 +417,14 @@ export default {
       const googleToken = this.$route.query.googleId;
       console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
-        localStorage.removeItem('googleToken');
+        localStorage.removeItem("googleToken");
       }
       if (googleToken !== undefined) {
         localStorage.setItem("googleToken", googleToken);
         this.$router.push("/");
         this.hideAndShow();
       } else {
-        localStorage.removeItem('googleToken');
+        localStorage.removeItem("googleToken");
       }
     } catch (error) {
       console.log(error);
@@ -463,7 +452,7 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 

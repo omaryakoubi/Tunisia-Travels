@@ -100,9 +100,16 @@
       <div v-show="div4" id="p4">
         <p>Your informations will be sent to the ADMIN</p>
         <p>Send us your CIN , passport , Melkeya and the photo of your houses</p>
-        <div v-for="(image, index) in imagesResp" :key="index">
+        <vs-card-group>
+          <vs-card v-for="(image, index) in imagesResp" :key="index">
+            <template #img>
+              <img :src="`${image.url}`" alt id="hi" />
+            </template>
+          </vs-card>
+        </vs-card-group>
+        <!-- <div v-for="(image, index) in imagesResp" :key="index">
           <img :src="`${image.url}`" />
-        </div>
+        </div>-->
         <form enctype="multipart/form-data">
           <input multiple type="file" ref="files" @change="selectFile" class="file-input" />
           <div v-for="(file, index) in files" :key="index" class="level">
@@ -137,6 +144,7 @@ import Vuesax from "vuesax";
 import "vuesax/dist/vuesax.css";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 import MainNavbar from "./MainNavbar"
+
 export default {
   name: "BecomeAhost",
   components: { VueGoogleAutocomplete, 
@@ -176,6 +184,9 @@ export default {
     },
   }),
   methods: {
+    handleClick() {
+      alert("gey");
+    },
     selectFile() {
       const files = this.$refs.files.files;
       this.files = [...this.files, ...files];
@@ -302,4 +313,9 @@ export default {
 #p3 {
   margin-top: -61px;
 } */
+
+#hi {
+  max-width: 350px;
+  max-height: 350px;
+}
 </style>

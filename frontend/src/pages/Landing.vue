@@ -170,35 +170,25 @@
                 <div class="col-md-3">
                   <div class="team-player">
                     <img
-                      src="img/ryan.jpg"
+                      src="img/hou.jpg"
                       alt="Thumbnail Image"
                       class="rounded-circle img-fluid img-raised"
                     />
                     <h4 class="title">Houssem Edd. Abdelli</h4>
                     <p class="category text-primary">Scrum Master</p>
-                    <p class="description">
-                      You can write here details about one of your team members.
-                      You can give more details about what they do. Feel free to
-                      add some
-                      <a href="#">links</a> for people to be able to follow them
-                      outside the site.
-                    </p>
+                    
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="team-player">
                     <img
-                      src="img/ryan.jpg"
+                      src="img/ferrr.png"
                       alt="Thumbnail Image"
                       class="rounded-circle img-fluid img-raised"
                     />
                     <h4 class="title">Firas Mrad</h4>
                     <p class="category text-primary">Product Owner</p>
-                    <p class="description">
-                      You can write here details about one of your team members.
-                      You can give more details about what they do. Feel free to
-                      add some
-                    </p>
+                    
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -210,11 +200,7 @@
                     />
                     <h4 class="title">Omar Yakoubi</h4>
                     <p class="category text-primary">Member</p>
-                    <p class="description">
-                      You can write here details about one of your team members.
-                      You can give more details about what they do. Feel free to
-                      add some
-                    </p>
+                   
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -226,11 +212,7 @@
                     />
                     <h4 class="title">Safa Hamrouni</h4>
                     <p class="category text-primary">Member</p>
-                    <p class="description">
-                      You can write here details about one of your team members.
-                      You can give more details about what they do. Feel free to
-                      add some
-                    </p>
+                   
                   </div>
                 </div>
               </div>
