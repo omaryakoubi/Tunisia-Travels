@@ -15,8 +15,9 @@ const HousesInfosSchema = new Schema({
     end: { type: String },
     description: { type: String },
     price: { type: String },
-    marker: { type: Object },
-    images: { type: Array }
+    marker: { type: Object }, 
+    images: { type: Array },
+    show: { type: Boolean }
 })
 
 const HousesInfos = mongoose.model('HousesInfos', HousesInfosSchema)
