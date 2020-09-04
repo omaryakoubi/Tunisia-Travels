@@ -1,50 +1,52 @@
+// :icon="{ url: require('../../src/assets/images/gmap2.png') }"
 <template>
+<div>
+<main-navbar style="background: black" />
   <form enctype="multipart/form-data">
     <div>
-      <vs-pagination progress v-model="page" :length="4" />
       <div id="center">
         <div v-show="div1">
           <p>We are going to guide you to host your house</p>
           <p>Please fill correctly your information</p>
           <p>to facilitate the contact with the traveler</p>
-          <vs-input label-placeholder="Host Name" v-model="hostName" id="content" />
+          <vs-input label-placeholder="Host Name" v-model="hostName" class="col-8" />
           <br />
-          <vs-input label-placeholder="Host Phone" v-model="hostPhone" id="content" />
+          <vs-input label-placeholder="Host Phone" v-model="hostPhone" class="col-8" />
           <br />
-          <vs-select placeholder="Guests allowed" v-model="guests" id="content">
+          <vs-select placeholder="Guests allowed" v-model="guests" class="col-6">
             <vs-option label="1" value="1">1</vs-option>
             <vs-option label="2" value="2">2</vs-option>
             <vs-option label="3" value="3">3</vs-option>
             <vs-option label="4" value="4">4 +</vs-option>
           </vs-select>
           <br />
-          <vs-select placeholder="Type of Place" v-model="typeOfPlace" id="content">
+          <vs-select placeholder="Type of Place" v-model="typeOfPlace" class="col-6">
             <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
             <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
             <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
           </vs-select>
           <br />
-          <vs-checkbox v-model="optionPet" id="content">Pets Allowed</vs-checkbox>
+          <vs-checkbox v-model="optionPet" class="col-8">Pets Allowed</vs-checkbox>
           <vs-button id="content2" flat :active="active == 0" @click.prevent="toPage2">Get Started</vs-button>
         </div>
       </div>
       <div v-show="div2" id="p2">
         <p>Please tell us more about your house</p>
-        <vs-input label-placeholder="Name of The house" v-model="houseName" id="content" />
+        <vs-input label-placeholder="Name of The house" v-model="houseName" class="col-8" />
         <br />
-        <vs-input label-placeholder="Describe your house" v-model="description" id="content" />
+        <vs-input label-placeholder="Describe your house" v-model="description" class="col-8" />
         <br />
-        <vs-input v-model="price" placeholder="Price per Night" id="content">
+        <vs-input v-model="price" placeholder="Price per Night" class="col-8">
           <template #icon>
             <span class="material-icons">euro</span>
           </template>
         </vs-input>
         <br />
-        <label id="content">Availability from</label>
-        <vs-input type="date" v-model="start" id="content"></vs-input>
+        <label class="col-8">Availability from</label>
+        <vs-input type="date" v-model="start" class="col-8"></vs-input>
         <br />
-        <label id="content">Availability to</label>
-        <vs-input type="date" v-model="end" id="content"></vs-input>
+        <label class="col-8">Availability to</label>
+        <vs-input type="date" v-model="end" class="col-8"></vs-input>
         <vs-button id="content3" flat :active="active == 0" @click.prevent="toPage3">Next</vs-button>
       </div>
       <br />
@@ -87,7 +89,6 @@
             :position="houseCoordinates"
             :clickable="true"
             :draggable="true"
-            :icon="{ url: require('../../src/assets/images/gmap2.png') }"
           />
         </GmapMap>
 
@@ -131,7 +132,9 @@
         >Submit you informations</vs-button>
       </div>
     </div>
+    <vs-pagination progress v-model="page" :length="4" />
   </form>
+  </div>
 </template>
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
@@ -139,11 +142,14 @@ import AutoComplete from "./AutoComplete.vue";
 import DatePicker from "./DatePicker";
 import Vuesax from "vuesax";
 import "vuesax/dist/vuesax.css";
-import { vsButton, vsSelect, vsPopup, vsImages } from "vuesax";
+import { vsButton, vsSelect, vsPopup } from "vuesax";
+import MainNavbar from "./MainNavbar"
 
 export default {
   name: "BecomeAhost",
-  components: { VueGoogleAutocomplete },
+  components: { VueGoogleAutocomplete, 
+    [MainNavbar.name] : MainNavbar
+  },
   data: () => ({
     files: [],
     message: "",
@@ -283,7 +289,7 @@ export default {
 };
 </script>
 <style scoped>
-.content {
+/* .content {
   align-content: center !important;
   margin-left: 650px;
   border-radius: 14px;
@@ -292,10 +298,7 @@ export default {
   margin-top: 150px;
   align-content: center !important;
 }
-#content {
-  align-content: center !important;
-  margin-left: 650px;
-}
+
 #content2 {
   align-content: center !important;
   margin-left: 690px;
@@ -309,7 +312,8 @@ export default {
 }
 #p3 {
   margin-top: -61px;
-}
+} */
+
 #hi {
   max-width: 350px;
   max-height: 350px;
