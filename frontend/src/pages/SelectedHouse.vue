@@ -1,5 +1,16 @@
 <template>
 <div>
+  <div class="page-header page-header-small ">
+      <parallax
+        class="page-header-image"
+      ></parallax>
+      <main-navbar />
+      <div class="content-center title">
+        <h1>Admin Platform</h1>
+      </div>
+    </div>
+    <Caroussel/>
+
   <header>
     <div class="slides">
       <h1>{{hostName}}</h1>
@@ -8,16 +19,13 @@
           :src="images[Math.abs(currentNumber) % images.length]"
           v-on:mouseover="stopRotation"
           v-on:mouseout="startRotation"
-          style="height:500px; width:85%; margin-left:50px; border-radius:30px"
+          style="height:500px; width:70%; border-radius:30px"
         />
-        <p style="margin-left: 40%">
-          <a @click="prev">Previous</a> ||
-          <a @click="next">Next</a>
-        </p>
+       
       </image-slider>
     </div>
   </header>
-  <body>
+  <!-- <body>
     <div>
       <h2>Host name : {{hostName}}</h2>
       <h3>Governate : {{governate}}</h3>
@@ -35,7 +43,6 @@
           </div>
           <div class="guestsNum">Travelers : {{guestAccepted}}</div>
         </div>
-        <!-- <Guests /> -->
         <div class="center">
           <vs-button @click="$router.push('/payment')" block>
             <i class="bx bxs-paint-roll"></i>Book
@@ -61,23 +68,25 @@
         />
       </GmapMap>
     </div>
-  </body>
+  </body> -->
 </div>
 </template>
 
 <script>
-import DatePicker from "./DatePicker";
+// import DatePicker from "./DatePicker";
 // import Guests from './Guests'
-import GmapMarker from "vue2-google-maps/src/components/marker";
+// import GmapMarker from "vue2-google-maps/src/components/marker";
 import axios from "axios";
 import router from "../router";
+import Caroussel from "./components/CarousselSection"
 
 export default {
   name: "selectedHouse",
   components: {
-    DatePicker,
+    // DatePicker,
     // Guests,
-    GmapMarker,
+    // GmapMarker,
+    Caroussel
   },
   data() {
     return {
@@ -192,6 +201,9 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
   padding: 24px;
 }
+.page-header-image{
+background-image: url('../../public/img/header.jpg');
+}
 .slides {
   margin-left: 10%;
   margin-top: 5%;
@@ -217,4 +229,5 @@ export default {
   border: 1px gray solid;
   border-radius: 10px;
 }
+
 </style>>

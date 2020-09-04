@@ -3,11 +3,7 @@
     <div
       class="modal fade"
       @click.self="closeModal"
-      :class="[
-        { 'show d-block': show },
-        { 'd-none': !show },
-        { 'modal-mini': type === 'mini' },
-      ]"
+      :class="[{ 'show d-block': show }, { 'd-none': !show }]"
       v-show="show"
       tabindex="-1"
       role="dialog"
@@ -17,11 +13,7 @@
         class="modal-dialog"
         :class="[{ 'modal-notice': type === 'notice' }, modalClasses]"
       >
-        <div
-          class="modal-content"
-          id="bg-login"
-          style="background-image: url('img/login.jpg')"
-        >
+        <div class="modal-content" id="bg-login">
           <slot name="base-content">
             <div class="modal-header" :class="headerClasses">
               <slot name="close-button">
@@ -70,7 +62,7 @@ export default {
       type: String,
       default: "",
       validator(value) {
-        let acceptedValues = ["", "notice", "mini"];
+        let acceptedValues = ["", "notice"];
         return acceptedValues.indexOf(value) !== -1;
       },
     },
@@ -105,5 +97,9 @@ export default {
 <style>
 .modal.show {
  backdrop-filter: blur(5px);
+
+}
+.fade {
+  width: 100%;
 }
 </style>
