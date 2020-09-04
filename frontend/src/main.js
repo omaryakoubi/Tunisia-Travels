@@ -11,9 +11,11 @@ import router from "./router";
 import NowUiKit from "./plugins/now-ui-kit";
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Vuetify from 'vuetify'
+import VueToastify from "vue-toastify";
 
 
 Vue.config.productionTip = false;
+
 Vue.use(Vuetify);
 Vue.use(NowUiKit);
 Vue.use(VueAxios, axios)
