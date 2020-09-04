@@ -358,7 +358,7 @@ export default {
               "accessToken",
               response.authResponse.accessToken
             );
-
+console.log('hou')
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function(ressponse) {
