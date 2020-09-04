@@ -301,8 +301,7 @@ export default {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        async function (data) {
-          console.log("before", data);
+        async function(data) {
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -324,9 +323,7 @@ export default {
               response.authResponse.accessToken
             );
 
-            // console.log(window.FB.getAccessToken());
-            // console.log(window.FB.getAuthResponse());
-            window.FB.getLoginStatus(function (ressponse) {
+            window.FB.getLoginStatus(function(ressponse) {
               console.log(ressponse);
             });
             console.log(window.FB.getUserID());
@@ -351,8 +348,8 @@ export default {
     async initFacebook() {
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: "988468071624350", //You will need to change this
-          cookie: true, // This is important, it's not enabled by default
+          appId: "988468071624350",
+          cookie: true,
           version: "v8.0",
         });
       };
@@ -415,7 +412,6 @@ export default {
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
         localStorage.removeItem("googleToken");
       }
