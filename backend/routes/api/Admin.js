@@ -12,11 +12,12 @@ Router.get("/announce", (req, res) => {
     });
   });
   
-  Router.post("/announce", (req, res) => {
-    HousesInfos.findOneAndUpdate(
-      { show: false },
+  Router.post("/announce/:id", (req, res) => {
+    HousesInfos.findByIdAndUpdate(
+      req.params.id,
       { show: true }
     ).then((houses) => {
+      console.log(houses)
       res.send(houses);
     });
   });
