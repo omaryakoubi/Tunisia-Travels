@@ -10,7 +10,7 @@
         <h1>Admin Platform</h1>
       </div>
     </div>
-    
+
     <tabs
       pills
       class="nav-align-center"
@@ -37,11 +37,14 @@
       </Tab>
 
       <Tab title="Messages">
-        <i slot="label" class="now-ui-icons sport_user-run"></i>
+        <i
+          slot="label"
+          class="now-ui-icons sport_user-run"        >
+        </i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
-            <announcement/>
+            <announcement />
           </div>
         </div>
       </Tab>
@@ -56,8 +59,8 @@ import Tab from "../components/Tab.vue";
 import AdminProf from "./adminProfile.vue";
 import MainNavbar from "../MainNavbar";
 import usersCont from "./usersControle.vue";
-import Announcement from "./announcementAdmin.vue"
-import Button from "../../components/Button"
+import Announcement from "./announcementAdmin.vue";
+import Button from "../../components/Button";
 export default {
   name: "admin",
   components: {
@@ -67,12 +70,10 @@ export default {
     AdminProf,
     usersCont,
     Announcement,
-    [Button.name] : Button,
+    [Button.name]: Button,
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
 };
 </script>
@@ -85,10 +86,10 @@ export default {
 .content-center {
   z-index: 0;
 }
-.nav-align-center{
+.nav-align-center {
   margin-top: 30px;
 }
-.collections{
-  margin-top:50px
+.collections {
+  margin-top: 50px;
 }
 </style>

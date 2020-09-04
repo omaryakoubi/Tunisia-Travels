@@ -7,14 +7,14 @@
       ></parallax>
       <main-navbar />
       <div class="content-center">
-       <h1 class="title">Welcome to Tunisia Travels</h1>
+        <h1 class="title">Welcome to Tunisia Travels</h1>
         <h2 class="title">Wherever you go, we have a place for you.</h2>
         <h5 class="title">Choose your travel destination and Book</h5>
-       
-          <tabs />
+
+        <tabs />
       </div>
     </div>
-   
+
     <div style="background-image:url('img/bg7.jpg')">
       <div class="section section-about-us">
         <div class="container">
@@ -94,7 +94,9 @@
           </div>
         </div>
       </div>
+
       <div class="section section-team text-center">
+        <div class="line"></div>
         <div class="container">
           <h2 class="title">Simple steps to get started</h2>
           <div class="team">
@@ -160,6 +162,7 @@
           </div>
         </div>
         <div class="section section-team text-center">
+          <div class="line"></div>
           <div class="container">
             <h2 class="title">Here is our team</h2>
             <div class="team">
@@ -167,7 +170,7 @@
                 <div class="col-md-3">
                   <div class="team-player">
                     <img
-                      src="img/avatar.jpg"
+                      src="img/ryan.jpg"
                       alt="Thumbnail Image"
                       class="rounded-circle img-fluid img-raised"
                     />
@@ -180,7 +183,6 @@
                       <a href="#">links</a> for people to be able to follow them
                       outside the site.
                     </p>
-                   
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -196,16 +198,13 @@
                       You can write here details about one of your team members.
                       You can give more details about what they do. Feel free to
                       add some
-                      <a href="#">links</a> for people to be able to follow them
-                      outside the site.
                     </p>
-                    
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="team-player">
                     <img
-                      src="img/eva.jpg"
+                      src="img/omar.jpg"
                       alt="Thumbnail Image"
                       class="rounded-circle img-fluid img-raised"
                     />
@@ -215,16 +214,13 @@
                       You can write here details about one of your team members.
                       You can give more details about what they do. Feel free to
                       add some
-                      <a href="#">links</a> for people to be able to follow them
-                      outside the site.
                     </p>
-                  
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="team-player">
                     <img
-                      src="img/eva.jpg"
+                      src="img/safa.jpg"
                       alt="Thumbnail Image"
                       class="rounded-circle img-fluid img-raised"
                     />
@@ -234,10 +230,7 @@
                       You can write here details about one of your team members.
                       You can give more details about what they do. Feel free to
                       add some
-                      <a href="#">links</a> for people to be able to follow them
-                      outside the site.
                     </p>
-                   
                   </div>
                 </div>
               </div>
@@ -254,7 +247,7 @@ import FormGroupInput from "../components/formGroupInput.vue";
 import MainNavbar from "./MainNavbar.vue";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 import Tabs from "./components/Tabs";
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "landing",
   bodyClass: "landing-page",
@@ -271,15 +264,20 @@ export default {
 };
 </script>
 <style scoped>
-
-.content-center{
+.content-center {
   z-index: 0;
 }
 .blockquote {
   width: 500px !important;
 }
 .team-player img {
-  min-width: 200px !important;
+  min-width: 150px !important;
   height: 100px !important;
+}
+.line {
+  width: 50%;
+  margin-left: 25%;
+  border-bottom: 1px solid black;
+  /* position: absolute; */
 }
 </style>
