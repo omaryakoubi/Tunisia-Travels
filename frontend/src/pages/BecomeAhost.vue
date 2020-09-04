@@ -1,3 +1,4 @@
+// :icon="{ url: require('../../src/assets/images/gmap2.png') }"
 <template>
 <div>
 <main-navbar style="background: black" />
@@ -88,7 +89,6 @@
             :position="houseCoordinates"
             :clickable="true"
             :draggable="true"
-            :icon="{ url: require('../../src/assets/images/gmap2.png') }"
           />
         </GmapMap>
 
