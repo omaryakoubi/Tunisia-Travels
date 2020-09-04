@@ -215,7 +215,7 @@
 </template>
 
 <script>
-import Dropdown from "../components/Dropdown";
+import Dropdown from "../components/Dropdown.vue";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
@@ -301,7 +301,7 @@ export default {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        async function(data) {
+        async function (data) {
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -323,7 +323,7 @@ export default {
               response.authResponse.accessToken
             );
 
-            window.FB.getLoginStatus(function(ressponse) {
+            window.FB.getLoginStatus(function (ressponse) {
               console.log(ressponse);
             });
             console.log(window.FB.getUserID());
