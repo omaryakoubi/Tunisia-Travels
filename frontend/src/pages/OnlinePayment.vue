@@ -89,7 +89,6 @@ export default {
         email: this.email,
         id: this.id,
       };
-
       // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
       const result = await fetch(
@@ -103,10 +102,6 @@ export default {
         }
       );
       let secret = (await result.json()).clientSecret;
-      // this.checkIn = (await result.json()).checkIn;
-      // this.checkOut = (await result.json()).checkOut;
-      // this.total = (await result.json()).total;
-
       // .then(function(data) {
       // secret = data.clientSecret;
       //   console.log("lenaaaaaaaaa", data);
