@@ -1,6 +1,6 @@
 <template>
   <div class="row collections">
-    <div class="  col-md-8">
+    <div class="col-md-8 inpt">
       <div class="row">
         <div class="col-md-5 pr-1">
           <div class="form-group">
@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              disabled=""
+              disabled
               placeholder="Post"
               value="Administrator"
             />
@@ -99,89 +99,42 @@
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-4 pr-1">
-          <div class="form-group">
-            <label>City</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="City"
-              v-model="form.city"
-              value="form.city"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 px-1">
-          <div class="form-group">
-            <label>Country</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Country"
-              v-model="form.country"
-              value="form.country"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 pl-1">
-          <div class="form-group">
-            <label>Postal Code</label>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="ZIP Code"
-              v-model="form.zip"
-              value="form.zip"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-2 pl-1">
-          Edit:
-        </div>
+      <div class="row butto">
+        <div class="col-md-2 pl-1">Edit:</div>
         <div class="col-md-2 pl-1">
           <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-4 pl-1">
-          <a
-            @click="disableEdit"
-            class="btn btn-success btn-round btn-small safe"
-            >Save Changes</a
-          >
-        </div>
-        <div class="col-md-8 pl-1">
           <a class="btn btn-danger btn-round btn-small safe">Change Password</a>
+        </div>
+        <div class="col-md-4 pl-1">
+          <a @click="disableEdit" class="btn btn-success btn-round btn-small safe">Save Changes</a>
         </div>
       </div>
     </div>
 
     <div class="cardi col-md-4">
       <div class="photo-container">
-        <img src="img/ryan.jpg" alt="" />
+        <img class="pic" :src="`${form.file}`" style="height:100%" />
       </div>
+      <label for="upload">
+        <span class="now-ui-icons media-1_camera-compact" aria-hidden="true"></span>
+        <input type="file" ref="file" id="upload" style="display:none" @change="onSelect" />
+      </label>
       <h3 class="title">{{ form.name }}</h3>
-      <p class="category">Administrator</p>
+      <!-- <p class="category">{{ Administrator }}</p> -->
       <div class="content">
         <div class="social-description">
-          <h2>{{usersNumber}}</h2>
+          <h2>{{ usersNumber }}</h2>
           <p>Users</p>
         </div>
         <div class="social-description">
-          <h2>26</h2>
+          <h2>{{hosts}}</h2>
           <p>Hosts</p>
         </div>
         <div class="social-description">
-          <h2>{{housesNumber}}</h2>
-          <p>Announcement</p>
+          <h2>{{ housesNumber }}</h2>
+          <p>Houses</p>
         </div>
       </div>
     </div>
@@ -213,10 +166,15 @@ export default {
         country: "",
         zip: "",
         file: "",
-        message: "",    
+        message: "",
       },
+      hosts: 0,
       usersNumber: 0,
       housesNumber: 0,
+      hostNumber: 0,
+      arrNotAdmin: 0,
+      countHouses: 0,
+      arrNameOfHosts: [],
       switches: {
         defaultOff: true,
       },
@@ -236,10 +194,8 @@ export default {
       this.updateProfile();
     },
     async updateAdmin(name) {
-      console.log("here at the top");
       try {
         const _id = this.form._id;
-        console.log(_id);
         await axios.put(`http://localhost:5000/api/users/update/${_id}`, {
           name: this.form.name,
           username: this.form.username,
@@ -251,27 +207,32 @@ export default {
           zip: this.form.zip,
           file: this.form.file,
         });
-        console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
     },
-    getUsersNumber () {
-      axios.get('http://localhost:5000/api/users/')
-      .then(res => {
-        console.log(res.data.length)
-        this.usersNumber = res.data.length
-      })
-      .catch(err => console.log(err))
+    getUsersNumber() {
+      axios
+        .get("http://localhost:5000/api/users/")
+        .then((res) => {
+          let data = res.data.filter((element) => {
+            return element.username !== "admin";
+          });
+          this.usersNumber = data.length;
+        })
+        .catch((err) => console.log(err));
     },
     housesNum() {
-      axios.get('http://localhost:5000/api/users/')
-      .then(res => {
-        console.log(res.data.length)
-        this.housesNumber = res.data.length
-      })
+      axios.get("http://localhost:5000/houses").then((res) => {
+        this.housesNumber = res.data.length;
+
+        res.data.forEach((house) => {
+          this.arrNameOfHosts.push(house.hostName);
+          let c = this.arrNameOfHosts.length;
+        });
+      });
     },
-    
+
     onSelect() {
       this.file = this.$refs.file.files[0];
     },
@@ -293,20 +254,17 @@ export default {
         console.log(err);
       }
     },
-    },
+  },
 
-
-
-  mounted: function() {
+  mounted() {
     const token = localStorage.getItem("token");
-    console.log("token", token);
     if (token) {
       axios.defaults.headers.common["Authorization"] = token;
       axios
         .get("http://localhost:5000/api/users/profile")
         .then((res) => {
           let response = res.data.user;
-            (this.form._id = response._id),
+          (this.form._id = response._id),
             (this.form.username = response.username),
             (this.form.name = response.name),
             (this.form.username = response.username),
@@ -321,9 +279,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    };
-    this.getUsersNumber()
-    this.housesNum()
+    }
+    this.getUsersNumber();
+    this.housesNum();
   },
 };
 </script>
@@ -332,10 +290,23 @@ export default {
   background-color: gainsboro;
   border-radius: 15px 50px 30px;
 }
-.left {
-  float: left;
+.collections {
+  margin-top: 50px;
+  border: 1px solid black;
+  padding: 30px;
+  border-radius: 30px;
+  text-align: center;
 }
-.right {
-  float: right;
+.butto {
+  margin-top: 40px;
+  text-align: center;
+  align-items: center;
+}
+.inpt {
+  padding: 30px;
+  border-radius: 30px;
+}
+.media-1_camera-compact {
+  font-size: 24px;
 }
 </style>

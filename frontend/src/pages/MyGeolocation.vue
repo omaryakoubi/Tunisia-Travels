@@ -1,54 +1,66 @@
 <template>
   <div class="sear" v-if="ready">
     <div class="page-header page-header-small">
-      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
       <main-navbar />
-      <div class="content-center">
-        <h1>Tunisia Travels</h1>
+      <div class="content-center title">
+        <h1>
+          <span style="color: red">T</span>unisia
+          <span style="color: red">T</span>ravels
+        </h1>
       </div>
     </div>
     <vs-row class="cont">
       <vs-col>
         <div class="row">
-          <h5>There is {{ numberOfHouses }} House in {{ coordinates.locality }}</h5>
-          <h4>Available : From {{ coordinates.start }} To {{ coordinates.end }}</h4>
+          <h5>
+            There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}
+          </h5>
+          <h4>
+            There is {{ availableHouses }} house(s) available from
+            {{ coordinates.start }} to {{ coordinates.end }}
+          </h4>
+
           <h3>
-            Guests Number :{{
-            coordinates.guestsNum[0] +
-            coordinates.guestsNum[1] +
-            coordinates.guestsNum[2]
+            Traveler Number :{{
+              coordinates.guestsNum[0] +
+                coordinates.guestsNum[1] +
+                coordinates.guestsNum[2]
             }}
           </h3>
+          <br />
         </div>
+        <n-button type="primary" size="sm" round @click="showAllHouses"
+          >Show all houses in {{ coordinates.locality }}</n-button
+        >
         <div class="row">
           <div class="card-body" v-for="(one, index) in arr" :key="index">
-            <div class="row">
-              <div class="col-md-5">
-                <div>
-                  <img
-                    :src="`${one.images[one.images.length-1].url}`"
-                    @click="redirectfunc(one._id)"
-                    alt
-                  />
-                </div>
+            <div class="line"></div>
+            <div class="row insi">
+              <div class="col-md-4">
+                <img
+                  :src="`${one.images[one.images.length - 1].url}`"
+                  @click="redirectfunc(one._id)"
+                  alt
+                />
               </div>
-              <div class="container col-md-7">
+              <div class="col-md-7">
                 <h3 class="card-title">
-                  <a
-                    @click="$router.push('/SelectedHouse')"
-                  >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}</a
+                  >
                 </h3>
                 <p class="card-description">{{ one.description }}</p>
+                <p class="card-description">{{ petMessage }}</p>
                 <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <span class="span">{{ one.price }} euro/night</span>
+                <p class="span">{{ one.price }} euro/night</p>
               </div>
             </div>
           </div>
         </div>
-        <!-- <n-button type="primary" round simple>Price</n-button>
-        <n-button type="primary" round simple>Pets allowed</n-button>
-        <n-button type="primary" round simple>Host Language</n-button>
-        <n-button type="primary" round simple>Type of place</n-button>-->
       </vs-col>
       <vs-col vs-lg="3">
         <GmapMap
@@ -60,15 +72,39 @@
         >
           <GmapMarker
             :key="index"
-            v-for="(m,index) in markers "
+            v-for="(m, index) in markers"
             :position="m"
             :clickable="true"
             :draggable="true"
-            @mouseover="display"
+            @mouseover="display(m)"
           />
         </GmapMap>
       </vs-col>
     </vs-row>
+    <!-- GmapMarker hover -->
+    <modal :show.sync="modals.gmark" headerClasses="justify-content-center">
+      <template slot="header">
+        <h2 slot="header" class="title title-up">{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</h2>
+      </template>
+      <div class="card-body" v-if='hovered'>
+        <div class="row insi">
+          <div class="col-md-5">
+            <img
+              :src="`${toShow.images[toShow.images.length - 1].url}`"
+              @click="redirectfunc(toShow._id)"
+              
+            />
+          </div>
+          <div class="col-md-5 cont">
+            
+            <p class="card-description">{{ toShow.description }}</p>
+            <p class="card-description">{{ petMessage }}</p>
+            <p class="phone">Phone: {{ toShow.hostPhone }}</p>
+            <p class="span">{{ toShow.price }} euro/night</p>
+          </div>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -76,11 +112,26 @@ import MainNavbar from "./MainNavbar";
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
+import Modal from "./components/Modal2";
+import { Tooltip } from "element-ui";
+
 export default {
   name: "MyGeolocation",
-  components: { GmapMarker, [Button.name]: Button, MainNavbar },
+  components: {
+    GmapMarker,
+    [Button.name]: Button,
+    MainNavbar,
+    Modal,
+    [Tooltip.name]: Tooltip,
+  },
   data() {
     return {
+      toShow: {},
+      hovered:false,
+      modals: {
+        gmark: false,
+      },
+      petMessage: "",
       ready: false,
       coordinates: {
         lat: 0,
@@ -98,18 +149,45 @@ export default {
         price: "",
         hostName: "",
         hostPhone: "",
+        start: "",
+        end: "",
       },
+      availableHouses: 0,
       numberOfHouses: 0,
       arr: [],
       id: "",
     };
   },
   methods: {
+    showAllHouses() {
+      this.axios.get("http://localhost:5000/houses").then((data) => {
+        this.arr = [];
+        for (let i = 0; i < data.data.length; i++) {
+          if (
+            data.data[i].governorate == this.coordinates.locality ||
+            this.coordinates.locality.includes(data.data[i].governorate) ||
+            data.data[i].governorate.includes(this.coordinates.locality)
+          ) {
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+        }
+      });
+    },
     redirectfunc(id) {
       this.$router.push(`/selectedHouse/${id}`);
     },
-    display() {
-      alert("heeeee");
+    display(id) {
+      for (let i = 0; i < this.arr.length; i++) {
+        if (
+          this.arr[i].marker.lat == id.lat &&
+          this.arr[i].marker.lng == id.lng
+        ) {
+          this.toShow = this.arr[i];
+        }
+      }
+      this.hovered = true
+      this.modals.gmark = true;
     },
   },
   async beforeMount() {
@@ -124,7 +202,6 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
-      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -134,12 +211,28 @@ export default {
           data.data[i].governorate.includes(this.coordinates.locality)
         ) {
           this.numberOfHouses++;
-          this.arr.push(data.data[i]);
-          this.markers.push(data.data[i].marker);
-          console.log("houhouhouh", data.data[i].images[0].url);
+          let hostStart = new Date(data.data[i].start).getTime();
+          let hostEnd = new Date(data.data[i].end).getTime();
+          let travellerStart = new Date(this.coordinates.start).getTime();
+          let travellerEnd = new Date(this.coordinates.start).getTime();
+          if (
+            hostStart <= travellerStart &&
+            travellerStart <= hostEnd &&
+            travellerEnd >= travellerStart
+          ) {
+            this.availableHouses++;
+            this.arr.push(data.data[i]);
+            this.markers.push(data.data[i].marker);
+          }
+          if (data.data[i].optionPet === true) {
+            this.petMessage = "Pets are welcomed in this house";
+          } else {
+            this.petMessage = "Pets are not allowed";
+          }
         }
       }
     });
+
     this.ready = true;
   },
 };
@@ -163,13 +256,10 @@ export default {
   font-weight: bold;
   margin-bottom: auto;
 }
-.card-body {
-  padding-right: 50px;
-  border-top: solid 1px;
-}
+
 img {
   border-radius: 20px !important;
-  width: 150px !important;
+  width: 100vh !important;
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -183,11 +273,27 @@ img:hover {
   padding-left: 0px;
 }
 .page-header {
-  border-bottom-right-radius: 200px;
-  border-bottom-left-radius: 200px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
   min-height: 30vh;
 }
 .content-center {
   z-index: 0;
+}
+.title {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 22px;
+}
+.line {
+  width: 70%;
+  margin-left: 15%;
+  border-bottom: 1px solid black;
+  /* position: absolute; */
+}
+.insi {
+  padding-top: 50px;
+}
+.tooltip-buttons {
+  margin-left: 3px;
 }
 </style>
