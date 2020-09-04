@@ -13,7 +13,7 @@
         class="modal-dialog"
         :class="[{ 'modal-notice': type === 'notice' }, modalClasses]"
       >
-        <div class="modal-content" id="bg-login">
+        <div class="modal-content" >
           <slot name="base-content">
             <div class="modal-header" :class="headerClasses">
               <slot name="close-button">
@@ -94,12 +94,15 @@ export default {
   },
 };
 </script>
-<style>
+<style  scoped>
 .modal.show {
  backdrop-filter: blur(5px);
+}
+.modal-dialog{
+  min-width: 100vh;
+  /* text-align: center; */
+  /* align-content: center; */
+}
 
-}
-.fade {
-  width: 100%;
-}
-</style>
+</style>>
+
