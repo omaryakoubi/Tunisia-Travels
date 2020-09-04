@@ -222,8 +222,8 @@ form {
   width: 30vw;
   min-width: 500px;
   align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 0px 0px 0.5px #f96332 0px 2px 5px 0px #f96332,
+    0px 1px 1.5px 0px #f96332;
   border-radius: 7px;
   padding: 40px;
 }
@@ -281,7 +281,7 @@ button {
   cursor: pointer;
   display: block;
   transition: all 0.2s ease;
-  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 4px 5.5px 0px #f96332;
   width: 100%;
 }
 button:hover {
@@ -318,7 +318,7 @@ button:disabled {
 .spinner:before {
   width: 10.4px;
   height: 20.4px;
-  background: #5469d4;
+  background: #f96332;
   border-radius: 20.4px 0 0 20.4px;
   top: -0.2px;
   left: -0.2px;
@@ -330,7 +330,7 @@ button:disabled {
 .spinner:after {
   width: 10.4px;
   height: 10.2px;
-  background: #5469d4;
+  background: #f96332;
   border-radius: 0 10.2px 10.2px 0;
   top: -0.1px;
   left: 10.2px;
