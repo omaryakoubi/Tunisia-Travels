@@ -115,6 +115,7 @@ export default {
 
   methods: {
     redirectfunc(id) {
+      localStorage
       this.$router.push(`/payment/${id}`);
     },
     getInfo() {

@@ -7,28 +7,17 @@ const HousesInfos = require("../../model/HousesInfos");
 
 module.exports = router.post("/create-payment-intent", async (req, res) => {
   try {
-    const { items } = req.body;
     const id = req.body.id;
-    console.log(req.body);
+    const house = await HousesInfos.findById(id);
+    let duration =
+      (new Date(house.end).getTime() - new Date(house.start).getTime()) /
+      (1000 * 60 * 60 * 24);
 
-    const calculateOrderAmount = (items) => {
-      console.log("lennaaaaaaaaaa", items.id);
-      HousesInfos.findById(item.id)
-        .then((house) => {
-          var duration =
-            (new Date(house.end).getTime() - new Date(house.start).getTime()) /
-            (1000 * 60 * 60 * 24);
-          console.log("omar before", duration, house.start, house.end);
-          let total = duration * house.price * 10;
+    let total = duration * house.price * 10;
+    // console.log(total);
 
-          return total;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(items),
+      amount: total,
       currency: "usd",
     });
 
@@ -44,7 +33,7 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
       from: NodemailerConfig.pass,
       to: req.body.email,
       subject: "Payment status",
-      text: `Reservation Done from ${this.house.start} to ${this.house.end} with the price of ${this.total}`,
+      text: `Reservation Done from ${house.start} to ${house.end} with the price of ${total}`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
@@ -54,10 +43,13 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
         res.send(`Email sent : ${info.response}`);
       }
     });
+
+    const client_secret = paymentIntent.client_secret;
     res.send({
-      clientSecret: paymentIntent.client_secret,
+      clientSecret: client_secret,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 });

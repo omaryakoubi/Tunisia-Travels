@@ -2,6 +2,26 @@
   <center>
     <div id="main">
       <form id="payment-form">
+        <h3>
+          CheckIn Date:<span>{{ purchaseInfo.CheckIn }}</span>
+        </h3>
+        <h3>
+          CheckOut Date:<span>{{ purchaseInfo.CheckOut }}</span>
+        </h3>
+        <h3>
+          Price Per Night:<span>{{ purchaseInfo.Price }}</span>
+        </h3>
+        <h3>
+          Number of Nights:<span>{{ purchaseInfo.Nights }}</span>
+        </h3>
+        <h2>
+          Total:
+          <p>{{ purchaseInfo.Total }}</p>
+        </h2>
+      </form>
+    </div>
+    <div id="main">
+      <form id="payment-form">
         <input
           type="email"
           id="email"
@@ -48,20 +68,21 @@ export default {
       stripe: null,
       card: null,
       id: "",
+      purchaseInfo: {},
     };
   },
-
+  async mounted() {},
   methods: {
     async test() {
       var purchase = {
         email: this.email,
         id: this.id,
       };
-      var secret = "";
+
       // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
-      await fetch(
-        "http://localhost:5000/api/payment/:id/create-payment-intent",
+      const result = await fetch(
+        "http://localhost:5000/api/payment/create-payment-intent",
         {
           method: "POST",
           headers: {
@@ -69,14 +90,18 @@ export default {
           },
           body: JSON.stringify(purchase),
         }
-      )
-        .then(function(result) {
-          return result.json();
-        })
-        .then(function(data) {
-          secret = data.clientSecret;
-        });
-      this.secret = secret;
+      );
+
+      let dhia = (await result.json()).clientSecret;
+
+      // .then(function(data) {
+      // secret = data.clientSecret;
+      //   console.log("lenaaaaaaaaa", data);
+      //   console.log("safa", data);
+      //   console.log("safe", data.clientSecret);
+      //   // DATA IS AN EMPTY OBJECT AND DATA.CLIENT IS UNDEFINED.
+      // });
+      this.secret = dhia;
       // Calls stripe.confirmCardPayment
       // If the card requires authentication Stripe shows a pop-up modal to
       // prompt the user to enter authentication details without leaving your page.

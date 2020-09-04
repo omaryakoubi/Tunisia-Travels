@@ -35,7 +35,11 @@ app.use(
 // Json Body Middleware
 app.use(bodyParser.json());
 // Cors Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // Setting up the static directory
 app.use(express.static(path.join(__dirname, "/client/public")));
 app.use(
@@ -49,7 +53,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/Auth", AuthSMRoutes);
 app.use("/api/users", resetPassword);
-app.use("/api/payment/:id", payment);
+app.use("/api/payment", payment);
 app.use("/api/facebook-auth", FacebookUser);
 // app.use('/', InfoTravelRoutes)
 ////////////////////////////////////////////////////////////////////
