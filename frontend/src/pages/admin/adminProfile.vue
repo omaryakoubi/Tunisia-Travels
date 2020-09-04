@@ -1,6 +1,6 @@
 <template>
   <div class="row collections">
-    <div class="  col-md-8 inpt">
+    <div class="col-md-8 inpt">
       <div class="row">
         <div class="col-md-5 pr-1">
           <div class="form-group">
@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              disabled=""
+              disabled
               placeholder="Post"
               value="Administrator"
             />
@@ -100,9 +100,7 @@
         </div>
       </div>
       <div class="row butto">
-        <div class="col-md-2 pl-1">
-          Edit:
-        </div>
+        <div class="col-md-2 pl-1">Edit:</div>
         <div class="col-md-2 pl-1">
           <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
         </div>
@@ -110,11 +108,7 @@
           <a class="btn btn-danger btn-round btn-small safe">Change Password</a>
         </div>
         <div class="col-md-4 pl-1">
-          <a
-            @click="disableEdit"
-            class="btn btn-success btn-round btn-small safe"
-            >Save Changes</a
-          >
+          <a @click="disableEdit" class="btn btn-success btn-round btn-small safe">Save Changes</a>
         </div>
       </div>
     </div>
@@ -124,32 +118,23 @@
         <img class="pic" :src="`${form.file}`" style="height:100%" />
       </div>
       <label for="upload">
-        <span
-          class="now-ui-icons media-1_camera-compact"
-          aria-hidden="true"
-        ></span>
-        <input
-          type="file"
-          ref="file"
-          id="upload"
-          style="display:none"
-          @change="onSelect"
-        />
+        <span class="now-ui-icons media-1_camera-compact" aria-hidden="true"></span>
+        <input type="file" ref="file" id="upload" style="display:none" @change="onSelect" />
       </label>
       <h3 class="title">{{ form.name }}</h3>
-      <p class="category">{{ Administrator }}</p>
+      <!-- <p class="category">{{ Administrator }}</p> -->
       <div class="content">
         <div class="social-description">
           <h2>{{ usersNumber }}</h2>
           <p>Users</p>
         </div>
         <div class="social-description">
-          <h2>26</h2>
+          <h2>{{hosts}}</h2>
           <p>Hosts</p>
         </div>
         <div class="social-description">
           <h2>{{ housesNumber }}</h2>
-          <p>Announcement</p>
+          <p>Houses</p>
         </div>
       </div>
     </div>
@@ -183,8 +168,13 @@ export default {
         file: "",
         message: "",
       },
+      hosts: 0,
       usersNumber: 0,
       housesNumber: 0,
+      hostNumber: 0,
+      arrNotAdmin: 0,
+      countHouses: 0,
+      arrNameOfHosts: [],
       switches: {
         defaultOff: true,
       },
@@ -204,10 +194,8 @@ export default {
       this.updateProfile();
     },
     async updateAdmin(name) {
-      console.log("here at the top");
       try {
         const _id = this.form._id;
-        console.log(_id);
         await axios.put(`http://localhost:5000/api/users/update/${_id}`, {
           name: this.form.name,
           username: this.form.username,
@@ -219,7 +207,6 @@ export default {
           zip: this.form.zip,
           file: this.form.file,
         });
-        console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
@@ -236,8 +223,13 @@ export default {
         .catch((err) => console.log(err));
     },
     housesNum() {
-      axios.get("http://localhost:5000/api/users/").then((res) => {
+      axios.get("http://localhost:5000/houses").then((res) => {
         this.housesNumber = res.data.length;
+
+        res.data.forEach((house) => {
+          this.arrNameOfHosts.push(house.hostName);
+          let c = this.arrNameOfHosts.length;
+        });
       });
     },
 
@@ -266,7 +258,6 @@ export default {
 
   mounted() {
     const token = localStorage.getItem("token");
-    console.log("token", token);
     if (token) {
       axios.defaults.headers.common["Authorization"] = token;
       axios
@@ -315,7 +306,7 @@ export default {
   padding: 30px;
   border-radius: 30px;
 }
-.media-1_camera-compact{
+.media-1_camera-compact {
   font-size: 24px;
 }
 </style>

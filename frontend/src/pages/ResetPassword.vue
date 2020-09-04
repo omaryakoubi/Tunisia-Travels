@@ -7,18 +7,11 @@
         placeholder="Adress-Mail"
         addon-left-icon="now-ui-icons users_circle-08"
         v-model="adressMail"
-      >
-      </fg-input>
+      ></fg-input>
 
-      <a
-        @click="resetPassword"
-        class="btn btn-primary btn-round btn-lg btn-block"
-        >Login</a
-      >
+      <a @click="resetPassword" class="btn btn-primary btn-round btn-lg btn-block">Login</a>
     </div>
-    <p v-if="toggle">
-      Email has been send to {{ sadressMail }} Please Check Your Email
-    </p>
+    <p v-if="toggle">Email has been send to {{ adressMail }} Please Check Your Email</p>
   </center>
 </template>
 

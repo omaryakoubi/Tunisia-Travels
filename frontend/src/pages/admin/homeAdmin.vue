@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div class="page-header page-header-small ">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/header.jpg')"
-      ></parallax>
+    <div class="page-header page-header-small">
+      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
       <main-navbar />
       <div class="content-center title">
         <h1>Admin Platform</h1>
       </div>
     </div>
-
     <tabs
       pills
       class="nav-align-center"
@@ -20,25 +16,21 @@
     >
       <Tab title="Profile">
         <i slot="label" class="now-ui-icons users_circle-08"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <admin-prof />
         </div>
       </Tab>
-
       <Tab title="Users">
+        <i slot="label" class="now-ui-icons location_world"></i>
         <i slot="label" class="now-ui-icons business_badge"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
             <users-cont />
           </div>
         </div>
       </Tab>
-
       <Tab title="Announcement">
         <i slot="label" class="now-ui-icons design_bullet-list-67"></i>
-
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
             <announcement />
