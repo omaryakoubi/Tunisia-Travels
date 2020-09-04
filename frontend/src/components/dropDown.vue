@@ -31,7 +31,7 @@
 </template>
 <script>
 export default {
-  name: "DropDown",
+  name: "dropDown",
   props: {
     direction: {
       type: String,
