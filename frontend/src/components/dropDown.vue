@@ -5,7 +5,7 @@
     :class="[
       { show: isOpen },
       { dropdown: direction === 'down' },
-      { dropup: direction === 'up' }
+      { dropup: direction === 'up' },
     ]"
     aria-haspopup="true"
     :aria-expanded="isOpen"
@@ -13,7 +13,11 @@
     v-click-outside="closeDropDown"
   >
     <slot name="title">
-      <a class="dropdown-toggle nav-link" :class="{ 'no-caret': hideArrow }" data-toggle="dropdown">
+      <a
+        class="dropdown-toggle nav-link"
+        :class="{ 'no-caret': hideArrow }"
+        data-toggle="dropdown"
+      >
         <i :class="icon"></i>
         <span class="no-icon">{{ title }}</span>
       </a>
@@ -22,7 +26,7 @@
       class="dropdown-menu"
       :class="[
         { 'dropdown-menu-right': position === 'right' },
-        { show: isOpen }
+        { show: isOpen },
       ]"
     >
       <slot></slot>
@@ -31,7 +35,7 @@
 </template>
 <script>
 export default {
-  name: "dropDown",
+  name: "Dropdown",
   props: {
     direction: {
       type: String,
