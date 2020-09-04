@@ -1,92 +1,74 @@
 <template>
-<div>
-  <div class="page-header page-header-small ">
-      <parallax
-        class="page-header-image"
-      ></parallax>
+  <div>
+    <div class="page-header page-header-small ">
+      <parallax class="page-header-image"></parallax>
       <main-navbar />
       <div class="content-center title">
-        <h1>Admin Platform</h1>
+        <h1>{{ hostName }}, {{ governate }}</h1>
       </div>
     </div>
-    <Caroussel/>
-
-  <header>
-    <div class="slides">
-      <h1>{{hostName}}</h1>
-      <image-slider>
-        <img
-          :src="images[Math.abs(currentNumber) % images.length]"
-          v-on:mouseover="stopRotation"
-          v-on:mouseout="startRotation"
-          style="height:500px; width:70%; border-radius:30px"
-        />
-       
-      </image-slider>
-    </div>
-  </header>
-  <!-- <body>
-    <div>
-      <h2>Host name : {{hostName}}</h2>
-      <h3>Governate : {{governate}}</h3>
-      <h4>City : {{city}}</h4>
-      <h4>Place : {{typeOfPlace}}</h4>
-      <option value="optionPet">{{pets}}</option>
-      <h5>Description : {{description}}</h5>
-      <div class="price">
-        <h3>{{price}}/night</h3>
-        <div class="info">
-          <div class="dateInfo" @click="handleClick">
-            <DatePicker :hidden="hide" />
-            {{start}} / {{end}}
-            <br />Change dates
+    <Caroussel />
+    <body>
+      <div>
+        <h2>Host name : {{ hostName }}</h2>
+        <h3>Governate : {{ governate }}</h3>
+        <h4>City : {{ city }}</h4>
+        <h4>Place : {{ typeOfPlace }}</h4>
+        <option value="optionPet">{{ pets }}</option>
+        <h5>Description : {{ description }}</h5>
+        <div class="price">
+          <h3>{{ price }}/night</h3>
+          <div class="info">
+            <div class="dateInfo" @click="handleClick">
+              <DatePicker :hidden="hide" />
+              {{ start }} / {{ end }} <br />Change dates
+            </div>
+            <div class="guestsNum">Travelers : {{ guestAccepted }}</div>
           </div>
-          <div class="guestsNum">Travelers : {{guestAccepted}}</div>
-        </div>
-        <div class="center">
-          <vs-button @click="$router.push('/payment')" block>
-            <i class="bx bxs-paint-roll"></i>Book
-          </vs-button>
+          <div class="center">
+            <vs-button @click="$router.push('/payment')" block>
+              <i class="bx bxs-paint-roll"></i>Book
+            </vs-button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="map">
-      Geolocation
-      <GmapMap
-        ref="map"
-        :center="coordinates"
-        :zoom="15"
-        style="width:80% ; height:400px"
-        map-type-id="terrain"
-      >
-        <GmapMarker
-          :icon="{ url: require('../../src/assets/images/gmap2.png') }"
-          :position="coordinates"
-          :clickable="true"
-          :draggable="true"
-        />
-      </GmapMap>
-    </div>
-  </body> -->
-</div>
+      <div class="map">
+        Geolocation
+        <GmapMap
+          ref="map"
+          :center="coordinates"
+          :zoom="15"
+          style="width:80% ; height:400px"
+          map-type-id="terrain"
+        >
+          <GmapMarker
+            :icon="{ url: require('../../src/assets/images/gmap2.png') }"
+            :position="coordinates"
+            :clickable="true"
+            :draggable="true"
+          />
+        </GmapMap>
+      </div>
+    </body>
+  </div>
 </template>
 
 <script>
-// import DatePicker from "./DatePicker";
-// import Guests from './Guests'
-// import GmapMarker from "vue2-google-maps/src/components/marker";
+import DatePicker from "./DatePicker";
+import GmapMarker from "vue2-google-maps/src/components/marker";
 import axios from "axios";
 import router from "../router";
-import Caroussel from "./components/CarousselSection"
+import Caroussel from "./components/CarousselSection";
+import MainNavbar from "./MainNavbar";
 
 export default {
   name: "selectedHouse",
   components: {
-    // DatePicker,
-    // Guests,
-    // GmapMarker,
-    Caroussel
+    DatePicker,
+    GmapMarker,
+    MainNavbar,
+    Caroussel,
   },
   data() {
     return {
@@ -117,7 +99,6 @@ export default {
   },
 
   mounted() {
-    this.startRotation();
     this.getInfo();
   },
   created() {
@@ -155,21 +136,11 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    startRotation: function () {
-      this.timer = setInterval(this.next, 3000);
-    },
+    
 
-    stopRotation: function () {
-      clearTimeout(this.timer);
-      this.timer = null;
-    },
+  
 
-    next: function () {
-      this.currentNumber += 1;
-    },
-    prev: function () {
-      this.currentNumber -= 1;
-    },
+   
     handleClick() {
       this.hide = !this.hide;
     },
@@ -177,20 +148,8 @@ export default {
 };
 </script>
 
-<style  scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.8s ease;
-  overflow: hidden;
-  visibility: visible;
-  opacity: 1;
-  position: absolute;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  visibility: hidden;
-}
+<style scoped>
+
 .price {
   position: relative;
   margin-left: 65%;
@@ -201,9 +160,13 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
   padding: 24px;
 }
-.page-header-image{
-background-image: url('../../public/img/header.jpg');
+.page-header-image {
+  background-image: url("../../public/img/header.jpg");
+   border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
+  min-height: 30vh !important;
 }
+
 .slides {
   margin-left: 10%;
   margin-top: 5%;
@@ -228,6 +191,5 @@ background-image: url('../../public/img/header.jpg');
   /* background: linear-gradient(gray, gray) no-repeat center/2px 100%; */
   border: 1px gray solid;
   border-radius: 10px;
-}
-
-</style>>
+}</style
+>>

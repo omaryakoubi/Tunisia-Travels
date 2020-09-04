@@ -84,23 +84,19 @@
     <!-- GmapMarker hover -->
     <modal :show.sync="modals.gmark" headerClasses="justify-content-center">
       <template slot="header">
-        <h2 slot="header" class="title title-up">Reset Password</h2>
+        <h2 slot="header" class="title title-up">{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</h2>
       </template>
       <div class="card-body" v-if='hovered'>
         <div class="row insi">
-          <div class="col-md-4">
+          <div class="col-md-5">
             <img
               :src="`${toShow.images[toShow.images.length - 1].url}`"
               @click="redirectfunc(toShow._id)"
-              alt
+              
             />
           </div>
-          <div class="col-md-7">
-            <h3 class="card-title">
-              <a @click="$router.push('/SelectedHouse')"
-                >{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</a
-              >
-            </h3>
+          <div class="col-md-5 cont">
+            
             <p class="card-description">{{ toShow.description }}</p>
             <p class="card-description">{{ petMessage }}</p>
             <p class="phone">Phone: {{ toShow.hostPhone }}</p>
