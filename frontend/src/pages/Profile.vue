@@ -303,6 +303,9 @@ export default {
   width: 80%;
   margin: auto;
 }
+.content-center {
+  z-index: 0;
+}
 .page-header {
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
