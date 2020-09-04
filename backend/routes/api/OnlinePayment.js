@@ -47,6 +47,11 @@ module.exports = router.post("/create-payment-intent", async (req, res) => {
     const client_secret = paymentIntent.client_secret;
     res.send({
       clientSecret: client_secret,
+      checkIn: house.start,
+      checkOut: house.end,
+      price: house.price,
+      nights: duration,
+      total: total,
     });
   } catch (error) {
     console.log(error);

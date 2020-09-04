@@ -3,20 +3,20 @@
     <div id="main">
       <form id="payment-form">
         <h3>
-          CheckIn Date:<span>{{ purchaseInfo.CheckIn }}</span>
+          CheckIn Date :<span> {{ checkIn }}</span>
         </h3>
         <h3>
-          CheckOut Date:<span>{{ purchaseInfo.CheckOut }}</span>
+          CheckOut Date : <span>{{ checkOut }}</span>
         </h3>
         <h3>
-          Price Per Night:<span>{{ purchaseInfo.Price }}</span>
+          Price Per Night : <span>{{ price }}$</span>
         </h3>
         <h3>
-          Number of Nights:<span>{{ purchaseInfo.Nights }}</span>
+          Number of Nights :<span> {{ numberOfNights }} </span>
         </h3>
         <h2>
           Total:
-          <p>{{ purchaseInfo.Total }}</p>
+          <p>{{ total }} $</p>
         </h2>
       </form>
     </div>
@@ -66,16 +66,30 @@ export default {
       stripe: null,
       card: null,
       id: "",
-      purchaseInfo: {},
+      checkIn: "",
+      checkOut: "",
+      price: "",
+      numberOfNights: "",
+      total: "",
     };
   },
-  async mounted() {},
+  created() {
+    this.checkIn = localStorage.getItem("start");
+    this.checkOut = localStorage.getItem("end");
+    this.price = localStorage.getItem("price");
+    this.numberOfNights =
+      (new Date(this.checkOut).getTime() - new Date(this.checkIn).getTime()) /
+      (1000 * 60 * 60 * 24);
+    this.total = this.numberOfNights * this.price;
+  },
+
   methods: {
     async test() {
       var purchase = {
         email: this.email,
         id: this.id,
       };
+
       // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
       const result = await fetch(
@@ -89,6 +103,10 @@ export default {
         }
       );
       let secret = (await result.json()).clientSecret;
+      // this.checkIn = (await result.json()).checkIn;
+      // this.checkOut = (await result.json()).checkOut;
+      // this.total = (await result.json()).total;
+
       // .then(function(data) {
       // secret = data.clientSecret;
       //   console.log("lenaaaaaaaaa", data);

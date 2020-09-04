@@ -101,6 +101,9 @@ export default {
       typeOfPlace: "",
       price: "",
       id: "",
+      checkIn: "",
+      checkOut: "",
+      total: "",
     };
   },
 
@@ -110,14 +113,15 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    console.log(this.id)
+    console.log(this.id);
   },
 
   methods: {
     redirectfunc(id) {
-      localStorage
+      localStorage;
       this.$router.push(`/payment/${id}`);
     },
+
     getInfo() {
       axios
         .get(`http://localhost:5000/houseSelected/${this.id}`)
@@ -132,6 +136,9 @@ export default {
             (this.end = response.end),
             (this.description = response.description),
             (this.price = response.price);
+          localStorage.setItem("start", this.start);
+          localStorage.setItem("end", this.end);
+          localStorage.setItem("price", this.price);
         })
         .catch((err) => console.log(err));
     },

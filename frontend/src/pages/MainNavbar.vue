@@ -303,7 +303,6 @@ export default {
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
         async function(data) {
-          console.log("before", data);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -325,8 +324,6 @@ export default {
               response.authResponse.accessToken
             );
 
-            // console.log(window.FB.getAccessToken());
-            // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function(ressponse) {
               console.log(ressponse);
             });
@@ -416,7 +413,6 @@ export default {
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
         localStorage.removeItem("googleToken");
       }
