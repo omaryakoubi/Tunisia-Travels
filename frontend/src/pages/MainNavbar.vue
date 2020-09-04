@@ -2,7 +2,10 @@
   <div id="navbar">
     <navbar transparent menu-classes="ml-auto">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/">Tunisia Travels</a>
+        <a class="navbar-brand" href="/">
+          <span style="color: red">T</span>unisia
+          <span style="color: red">T</span>ravels
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,7 +20,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <dropDown tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <Dropdown tag="li" title icon="now-ui-icons location_world" class="nav-item">
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -76,7 +79,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </dropDown>
+        </Dropdown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -201,7 +204,7 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="adressMail"
           ></fg-input>
-          <p v-if="toggle">Check your email</p>
+          <p v-if="toggle">A mail has been sent to {{adressMail}}</p>
           <div class="text-center">
             <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
           </div>
@@ -212,7 +215,7 @@
 </template>
 
 <script>
-import dropDown from "../components/dropDown.vue";
+import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
@@ -230,7 +233,7 @@ export default {
   },
 
   components: {
-    dropDown,
+    Dropdown,
     Modal,
     Navbar,
     [Popover.name]: Popover,
@@ -261,6 +264,7 @@ export default {
 
   methods: {
     hideAndShow() {
+      console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
@@ -327,7 +331,7 @@ export default {
             });
             console.log(window.FB.getUserID());
           } else {
-            alert("User cancelled login or did not fully authorize.");
+            console.log("User cancelled login or did not fully authorize.");
           }
         },
         { scope: "public_profile,email" }
