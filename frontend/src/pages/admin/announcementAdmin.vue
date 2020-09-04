@@ -77,32 +77,9 @@
       <template slot="header">
         <h2 slot="header" class="title title-up"></h2>
       </template>
-
-      <div class="cardi col-md-4">
-        <div>
-          <img
-            src="https://picsum.photos/300/150/?image=41"
-            fluid-grow
-            alt="Fluid-grow image"
-          />
-        </div>
-        <h3 class="title">form.name</h3>
-        <p class="category">Administrator</p>
-        <div class="content">
-          <div class="social-description">
-            <h2>usersNumber</h2>
-            <p>Users</p>
-          </div>
-          <div class="social-description">
-            <h2>26</h2>
-            <p>Hosts</p>
-          </div>
-          <div class="social-description">
-            <h2>housesNumber</h2>
-            <p>Announcement</p>
-          </div>
-        </div>
-      </div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQppdtQ3TrHpvktLshhp7MoNZHYl0ZHv5OYmQ&usqp=CAU" alt="">
+        <h1 style="color: white">Hello</h1>
+        <h3 style="color: white">info will be here</h3>
 
       <div class="footer">
         <div class="pull-right"></div>

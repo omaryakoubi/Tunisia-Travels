@@ -4,7 +4,7 @@ const HousesInfos = require('../../model/HousesInfos')
 
 
 
-module.exports = Router.get("/announce", (req, res) => {
+Router.get("/announce", (req, res) => {
     HousesInfos.find({
       show: false,
     }).then((houses) => {
@@ -12,7 +12,7 @@ module.exports = Router.get("/announce", (req, res) => {
     });
   });
   
-  module.exports = Router.post("/announce", (req, res) => {
+  Router.post("/announce", (req, res) => {
     HousesInfos.findOneAndUpdate(
       { show: false },
       { show: true }
@@ -21,7 +21,7 @@ module.exports = Router.get("/announce", (req, res) => {
     });
   });
   
-  module.exports = Router.delete("/announce/:id", (req, res) => {
+  Router.delete("/announce/:id", (req, res) => {
     HousesInfos.findByIdAndDelete(req.params.id)
       .then((house) => {
         res.send(house);
@@ -29,3 +29,4 @@ module.exports = Router.get("/announce", (req, res) => {
       .catch((err) => console.log(err));
   });
 
+module.exports = Router
