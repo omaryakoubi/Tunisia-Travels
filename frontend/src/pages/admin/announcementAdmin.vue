@@ -18,7 +18,7 @@
                   Type Of Place
                 </th>
 
-                <th class="text-right">
+                <th>
                   Actions
                 </th>
               </tr>
@@ -37,7 +37,7 @@
                   {{ an.typeOfPlace }}
                 </td>
 
-                <td class="text-right">
+                <td >
                   <n-button
                     type="button"
                     class="btn el-tooltip btn-icon btn-info btn-sm"

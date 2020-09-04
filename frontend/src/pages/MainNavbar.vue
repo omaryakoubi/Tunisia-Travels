@@ -2,7 +2,7 @@
   <div id="navbar">
     <navbar transparent menu-classes="ml-auto">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/">Tunisia Travels</a>
+        <a class="navbar-brand" href="/"><span style="color: red">T</span>unisia <span style="color: red">T</span>ravels</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,7 +17,12 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <dropDown tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <Dropdown
+          tag="li"
+          title
+          icon="now-ui-icons loader_gear"
+          class="nav-item"
+        >
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -76,7 +81,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </dropDown>
+        </Dropdown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -212,7 +217,7 @@
 </template>
 
 <script>
-import dropDown from "../components/dropDown.vue";
+import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
@@ -230,7 +235,7 @@ export default {
   },
 
   components: {
-    dropDown,
+    Dropdown,
     Modal,
     Navbar,
     [Popover.name]: Popover,

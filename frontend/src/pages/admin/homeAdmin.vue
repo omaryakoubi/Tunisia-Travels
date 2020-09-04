@@ -6,7 +6,7 @@
         style="background-image:url('img/header.jpg')"
       ></parallax>
       <main-navbar />
-      <div class="content-center">
+      <div class="content-center title">
         <h1>Admin Platform</h1>
       </div>
     </div>
@@ -27,7 +27,7 @@
       </Tab>
 
       <Tab title="Users">
-        <i slot="label" class="now-ui-icons location_world"></i>
+        <i slot="label" class="now-ui-icons business_badge"></i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
@@ -36,11 +36,8 @@
         </div>
       </Tab>
 
-      <Tab title="Messages">
-        <i
-          slot="label"
-          class="now-ui-icons sport_user-run"        >
-        </i>
+      <Tab title="Announcement">
+        <i slot="label" class="now-ui-icons design_bullet-list-67"></i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
@@ -51,7 +48,6 @@
     </tabs>
   </div>
 </template>
-
 <script>
 // import MainNavbar from "../MainNavbar.vue";
 import Tabs from "../components/Tabs2.vue";
@@ -79,8 +75,8 @@ export default {
 </script>
 <style scoped>
 .page-header {
-  border-bottom-right-radius: 1000px;
-  border-bottom-left-radius: 1000px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
   min-height: 30vh;
 }
 .content-center {
@@ -91,5 +87,9 @@ export default {
 }
 .collections {
   margin-top: 50px;
+}
+.title {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 22px;
 }
 </style>
