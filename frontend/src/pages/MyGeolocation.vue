@@ -76,7 +76,7 @@
             :position="m"
             :clickable="true"
             :draggable="true"
-            @mouseover="modals.gmark = true"
+            @mouseover="display(m)"
           />
         </GmapMap>
       </vs-col>
@@ -86,29 +86,28 @@
       <template slot="header">
         <h2 slot="header" class="title title-up">Reset Password</h2>
       </template>
-      <div class="card-body" v-for="(one, index) in arr" :key="index">
-            <div class="line"></div>
-            <div class="row insi">
-              <div class="col-md-4">
-                <img
-                  :src="`${one.images[one.images.length - 1].url}`"
-                  @click="redirectfunc(one._id)"
-                  alt
-                />
-              </div>
-              <div class="col-md-7">
-                <h3 class="card-title">
-                  <a @click="$router.push('/SelectedHouse')"
-                    >{{ one.houseName }}, {{ one.typeOfPlace }}</a
-                  >
-                </h3>
-                <p class="card-description">{{ one.description }}</p>
-                <p class="card-description">{{ petMessage }}</p>
-                <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <p class="span">{{ one.price }} euro/night</p>
-              </div>
-            </div>
+      <div class="card-body" v-if='hovered'>
+        <div class="row insi">
+          <div class="col-md-4">
+            <img
+              :src="`${toShow.images[toShow.images.length - 1].url}`"
+              @click="redirectfunc(toShow._id)"
+              alt
+            />
           </div>
+          <div class="col-md-7">
+            <h3 class="card-title">
+              <a @click="$router.push('/SelectedHouse')"
+                >{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</a
+              >
+            </h3>
+            <p class="card-description">{{ toShow.description }}</p>
+            <p class="card-description">{{ petMessage }}</p>
+            <p class="phone">Phone: {{ toShow.hostPhone }}</p>
+            <p class="span">{{ toShow.price }} euro/night</p>
+          </div>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -131,6 +130,8 @@ export default {
   },
   data() {
     return {
+      toShow: {},
+      hovered:false,
       modals: {
         gmark: false,
       },
@@ -180,8 +181,17 @@ export default {
     redirectfunc(id) {
       this.$router.push(`/selectedHouse/${id}`);
     },
-    display() {
-      modals.gmark = true;
+    display(id) {
+      for (let i = 0; i < this.arr.length; i++) {
+        if (
+          this.arr[i].marker.lat == id.lat &&
+          this.arr[i].marker.lng == id.lng
+        ) {
+          this.toShow = this.arr[i];
+        }
+      }
+      this.hovered = true
+      this.modals.gmark = true;
     },
   },
   async beforeMount() {

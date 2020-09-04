@@ -104,6 +104,6 @@ export default {
 </script>
 <style>
 .modal.show {
-  background-color: rgba(0, 0, 0, 0.3);
+ backdrop-filter: blur(5px);
 }
 </style>
