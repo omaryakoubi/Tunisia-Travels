@@ -30,6 +30,7 @@
                     aria-describedby="el-tooltip-4430"
                     tabindex="0"
                     @click="modals.info = true"
+                    @click.prevent="popup(an._id)"
                   >
                     <i class="fa fa-info"></i>
                   </n-button>
@@ -62,12 +63,18 @@
       <template slot="header">
         <h2 slot="header" class="title title-up"></h2>
       </template>
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQppdtQ3TrHpvktLshhp7MoNZHYl0ZHv5OYmQ&usqp=CAU"
+      <div v-for="(img, index) in images" :key="index"> 
+        <img
+        :src="img"
         alt
-      />
-      <h1 style="color: white">Hello</h1>
-      <h3 style="color: white">info will be here</h3>
+      /></div>
+     
+      <h2 style="color: white">{{houseName}}</h2>
+      <h3 style="color: white">{{adress}}</h3>
+      <h3 style="color: white">{{description}}</h3>
+      <h4 style="color: white">{{hostPhone}}</h4>
+      <h4 style="color: white">{{price}}TND/night</h4>
+
 
       <div class="footer">
         <div class="pull-right"></div>
@@ -91,6 +98,12 @@ export default {
       modals: {
         info: false,
       },
+      images: [],
+      houseName : '',
+      adress: '',
+      description: '',
+      hostPhone: 0,
+      price: 0,
     };
   },
   mounted() {
@@ -122,6 +135,20 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    popup(id) {
+      axios. 
+        get(`http://localhost:5000/announce/pop/${id}`)
+        .then(res => {
+          console.log('pop',res.data)
+          this.images = res.data.images[0]
+          this.houseName = res.data.houseName
+          this.adress = res.data.adress
+          this.description= res.data.description
+          this.hostPhone= res.data.hostPhone
+          this.price= res.data.price
+        })
+        .catch(err => {console.log(err)})
+    }
   },
 };
 </script>
