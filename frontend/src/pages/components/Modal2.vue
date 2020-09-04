@@ -100,9 +100,7 @@ export default {
 }
 .modal-dialog{
   min-width: 100vh;
-  /* text-align: center; */
-  /* align-content: center; */
+  border-radius: 20px;
 }
-
 </style>>
 
