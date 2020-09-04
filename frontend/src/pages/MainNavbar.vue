@@ -2,7 +2,7 @@
   <div id="navbar">
     <navbar transparent menu-classes="ml-auto">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/">Tunisia Travels</a>
+        <a class="navbar-brand" href="/"><span style="color: red">T</span>unisia <span style="color: red">T</span>ravels</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,10 +17,10 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <DropDown
+        <drop-down
           tag="li"
           title
-          icon="now-ui-icons location_world"
+          icon="now-ui-icons loader_gear"
           class="nav-item"
         >
           <n-button
@@ -80,7 +80,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </DropDown>
+        </drop-down>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -226,7 +226,7 @@
 </template>
 
 <script>
-import DropDown from "../components/dropDown";
+import DropDown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";

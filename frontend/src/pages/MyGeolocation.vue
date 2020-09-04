@@ -1,55 +1,62 @@
 <template>
   <div class="sear" v-if="ready">
     <div class="page-header page-header-small">
-      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
       <main-navbar />
-      <div class="content-center">
-        <h1>Tunisia Travels</h1>
+      <div class="content-center title">
+        <h1>
+          <span style="color: red">T</span>unisia
+          <span style="color: red">T</span>ravels
+        </h1>
       </div>
     </div>
     <vs-row class="cont">
       <vs-col>
         <div class="row">
-          <h5>There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}</h5>
-          <h4>There is {{availableHouses}} house(s) available from {{ coordinates.start }} to {{ coordinates.end }}</h4>
+          <h5>
+            There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}
+          </h5>
+          <h4>
+            There is {{ availableHouses }} house(s) available from
+            {{ coordinates.start }} to {{ coordinates.end }}
+          </h4>
 
           <h3>
             Traveler Number :{{
-            coordinates.guestsNum[0] +
-            coordinates.guestsNum[1] +
-            coordinates.guestsNum[2]
+              coordinates.guestsNum[0] +
+                coordinates.guestsNum[1] +
+                coordinates.guestsNum[2]
             }}
           </h3>
           <br />
         </div>
-        <n-button
-          type="primary"
-          size="sm"
-          round
-          @click="showAllHouses"
-        >Show all houses in {{ coordinates.locality}}</n-button>
+        <n-button type="primary" size="sm" round @click="showAllHouses"
+          >Show all houses in {{ coordinates.locality }}</n-button
+        >
         <div class="row">
           <div class="card-body" v-for="(one, index) in arr" :key="index">
-            <div class="row">
-              <div class="col-md-5">
-                <div>
-                  <img
-                    :src="`${one.images[one.images.length-1].url}`"
-                    @click="redirectfunc(one._id)"
-                    alt
-                  />
-                </div>
+            <div class="line"></div>
+            <div class="row insi">
+              <div class="col-md-4">
+                <img
+                  :src="`${one.images[one.images.length - 1].url}`"
+                  @click="redirectfunc(one._id)"
+                  alt
+                />
               </div>
-              <div class="container col-md-7">
+              <div class="col-md-7">
                 <h3 class="card-title">
-                  <a
-                    @click="$router.push('/SelectedHouse')"
-                  >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}</a
+                  >
                 </h3>
                 <p class="card-description">{{ one.description }}</p>
                 <p class="card-description">{{ petMessage }}</p>
                 <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <span class="span">{{ one.price }} euro/night</span>
+                <p class="span">{{ one.price }} euro/night</p>
               </div>
             </div>
           </div>
@@ -65,15 +72,44 @@
         >
           <GmapMarker
             :key="index"
-            v-for="(m,index) in markers "
+            v-for="(m, index) in markers"
             :position="m"
             :clickable="true"
             :draggable="true"
-            @mouseover="display"
+            @mouseover="modals.gmark = true"
           />
         </GmapMap>
       </vs-col>
     </vs-row>
+    <!-- GmapMarker hover -->
+    <modal :show.sync="modals.gmark" headerClasses="justify-content-center">
+      <template slot="header">
+        <h2 slot="header" class="title title-up">Reset Password</h2>
+      </template>
+      <div class="card-body" v-for="(one, index) in arr" :key="index">
+            <div class="line"></div>
+            <div class="row insi">
+              <div class="col-md-4">
+                <img
+                  :src="`${one.images[one.images.length - 1].url}`"
+                  @click="redirectfunc(one._id)"
+                  alt
+                />
+              </div>
+              <div class="col-md-7">
+                <h3 class="card-title">
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}</a
+                  >
+                </h3>
+                <p class="card-description">{{ one.description }}</p>
+                <p class="card-description">{{ petMessage }}</p>
+                <p class="phone">Phone: {{ one.hostPhone }}</p>
+                <p class="span">{{ one.price }} euro/night</p>
+              </div>
+            </div>
+          </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -81,11 +117,23 @@ import MainNavbar from "./MainNavbar";
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import Button from "../components/Button.vue";
 import axios from "axios";
+import Modal from "./components/Modal2";
+import { Tooltip } from "element-ui";
+
 export default {
   name: "MyGeolocation",
-  components: { GmapMarker, [Button.name]: Button, MainNavbar },
+  components: {
+    GmapMarker,
+    [Button.name]: Button,
+    MainNavbar,
+    Modal,
+    [Tooltip.name]: Tooltip,
+  },
   data() {
     return {
+      modals: {
+        gmark: false,
+      },
       petMessage: "",
       ready: false,
       coordinates: {
@@ -133,7 +181,7 @@ export default {
       this.$router.push(`/selectedHouse/${id}`);
     },
     display() {
-      alert("heeeee");
+      modals.gmark = true;
     },
   },
   async beforeMount() {
@@ -148,7 +196,6 @@ export default {
         data.data[data.data.length - 1].guestsNum[1],
         data.data[data.data.length - 1].guestsNum[2]
       );
-      this.markers.push(this.coordinates);
     });
     await axios.get("http://localhost:5000/houses").then((data) => {
       for (let i = 0; i < data.data.length; i++) {
@@ -203,13 +250,10 @@ export default {
   font-weight: bold;
   margin-bottom: auto;
 }
-.card-body {
-  padding-right: 50px;
-  border-top: solid 1px;
-}
+
 img {
   border-radius: 20px !important;
-  width: 150px !important;
+  width: 100vh !important;
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -223,11 +267,27 @@ img:hover {
   padding-left: 0px;
 }
 .page-header {
-  border-bottom-right-radius: 200px;
-  border-bottom-left-radius: 200px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
   min-height: 30vh;
 }
 .content-center {
   z-index: 0;
+}
+.title {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 22px;
+}
+.line {
+  width: 70%;
+  margin-left: 15%;
+  border-bottom: 1px solid black;
+  /* position: absolute; */
+}
+.insi {
+  padding-top: 50px;
+}
+.tooltip-buttons {
+  margin-left: 3px;
 }
 </style>

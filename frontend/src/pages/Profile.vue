@@ -153,7 +153,7 @@
         <div class="cardi col-md-4">
           <div class="photo-container">
             <img class ="pic" :src="`${form.file}`" style="height:100%" />
-          <div class="iconi">
+          </div>
             <label for="upload">
               <span
                 class="now-ui-icons media-1_camera-compact"
@@ -167,8 +167,6 @@
                 @change="onSelect"
               />
             </label>
-          </div>
-          </div>
           <h3 class="title">{{ form.name }}</h3>
           <p class="category">User</p>
           <div class="content">
@@ -325,9 +323,6 @@ export default {
 .content {
   text-align: center;
 }
-.content-center {
-  z-index: 0;
-}
 .butto {
   text-align: center;
   align-items: center;
@@ -341,5 +336,8 @@ export default {
 }
 .iconi{
   z-index: 1!important;
+}
+.media-1_camera-compact{
+  font-size: 24px;
 }
 </style>
