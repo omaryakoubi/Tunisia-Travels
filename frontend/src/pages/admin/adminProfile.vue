@@ -108,7 +108,11 @@
           <a class="btn btn-danger btn-round btn-small safe">Change Password</a>
         </div>
         <div class="col-md-4 pl-1">
-          <a @click="disableEdit" class="btn btn-success btn-round btn-small safe">Save Changes</a>
+          <a
+            @click="disableEdit"
+            class="btn btn-success btn-round btn-small safe"
+            >Save Changes</a
+          >
         </div>
       </div>
     </div>
@@ -118,8 +122,17 @@
         <img class="pic" :src="`${form.file}`" style="height:100%" />
       </div>
       <label for="upload">
-        <span class="now-ui-icons media-1_camera-compact" aria-hidden="true"></span>
-        <input type="file" ref="file" id="upload" style="display:none" @change="onSelect" />
+        <span
+          class="now-ui-icons media-1_camera-compact"
+          aria-hidden="true"
+        ></span>
+        <input
+          type="file"
+          ref="file"
+          id="upload"
+          style="display:none"
+          @change="onSelect"
+        />
       </label>
       <h3 class="title">{{ form.name }}</h3>
       <!-- <p class="category">{{ Administrator }}</p> -->
@@ -129,7 +142,7 @@
           <p>Users</p>
         </div>
         <div class="social-description">
-          <h2>{{hosts}}</h2>
+          <h2>{{ hosts }}</h2>
           <p>Hosts</p>
         </div>
         <div class="social-description">
@@ -224,13 +237,19 @@ export default {
     },
     housesNum() {
       axios.get("http://localhost:5000/houses").then((res) => {
-        this.housesNumber = res.data.length;
-
-        res.data.forEach((house) => {
-          this.arrNameOfHosts.push(house.hostName);
-          let c = this.arrNameOfHosts.length;
-        });
-      });
+        this.housesNumber = res.data.length;      
+        let hosts = res.data.map(host => {
+          return host.hostName
+          
+        })        
+        console.log('hosts',hosts)
+        let a = hosts.filter((host,i) => {
+          return host[i] === host[i]
+        })
+      console.log('all',a)
+      this.hosts = a.length
+      })
+      .catch(err => console.log(err))
     },
 
     onSelect() {

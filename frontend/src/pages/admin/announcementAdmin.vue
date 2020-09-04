@@ -38,7 +38,7 @@
                     class="btn el-tooltip btn-icon btn-success btn-sm"
                     aria-describedby="el-tooltip-6999"
                     tabindex="0"
-                    @click.prevent="accept"
+                    @click.prevent="accepts(an._id)"
                   >
                     <i class="fa fa-check"></i>
                   </n-button>
@@ -102,13 +102,13 @@ export default {
         .get("http://localhost:5000/announce")
         .then((res) => {
           this.announcement = res.data;
-          console.log(res.data);
+          console.log('res',res.data);
         })
         .catch((err) => console.log(err));
     },
-    accept() {
+    accepts(id) {
       axios
-        .post("http://localhost:5000/announce")
+        .post(`http://localhost:5000/announce/${id}`)
         .then((res) => {
           console.log("res", res);
         })
