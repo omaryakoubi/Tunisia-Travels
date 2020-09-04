@@ -99,49 +99,6 @@
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-4 pr-1">
-          <div class="form-group">
-            <label>City</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="City"
-              v-model="form.city"
-              value="form.city"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 px-1">
-          <div class="form-group">
-            <label>Country</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Country"
-              v-model="form.country"
-              value="form.country"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 pl-1">
-          <div class="form-group">
-            <label>Postal Code</label>
-            <input
-              type="number"
-              class="form-control"
-              placeholder="ZIP Code"
-              v-model="form.zip"
-              value="form.zip"
-              :disabled="edit"
-            />
-          </div>
-        </div>
-      </div>
-
       <div class="row">
         <div class="col-md-2 pl-1">
           Edit:
@@ -259,15 +216,14 @@ export default {
     getUsersNumber () {
       axios.get('http://localhost:5000/api/users/')
       .then(res => {
-        console.log(res.data.length)
-        this.usersNumber = res.data.length
+        let data = res.data.filter(element => { return element.username !== 'admin'})
+        this.usersNumber = data.length
       })
       .catch(err => console.log(err))
     },
     housesNum() {
       axios.get('http://localhost:5000/api/users/')
       .then(res => {
-        console.log(res.data.length)
         this.housesNumber = res.data.length
       })
     },
@@ -297,7 +253,7 @@ export default {
 
 
 
-  mounted: function() {
+  mounted () {
     const token = localStorage.getItem("token");
     console.log("token", token);
     if (token) {

@@ -7,207 +7,65 @@
             <thead class=" text-primary">
               <tr>
                 <th>
-                  Name
-                </th>
-
-                <th>
-                  Country
+                  Host Name
                 </th>
 
                 <th>
                   City
                 </th>
 
+                <th>
+                  Type Of Place
+                </th>
+
                 <th class="text-right">
-                  Salary
+                  Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="(an, index) in announcement" :key="index">
               <tr>
                 <td>
-                  Dakota Rice
+                  {{ an.hostName }}
                 </td>
 
                 <td>
-                  Niger
+                  {{ an.city }}
                 </td>
 
                 <td>
-                  Oud-Turnhout
+                  {{ an.typeOfPlace }}
                 </td>
 
-                <td>
-                  <n-button type="success" link>
-                    <i class="fa fa-check"></i>
+                <td class="text-right">
+                  <n-button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-info btn-sm"
+                    aria-describedby="el-tooltip-4430"
+                    tabindex="0"
+                    @click="modals.info = true"
+                  >
+                    <!----><i class="fa fa-info"></i
+                    ><!----></n-button
+                  ><n-button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-success btn-sm"
+                    aria-describedby="el-tooltip-6999"
+                    tabindex="0"
+                    @click.prevent="accept"
+                  >
+                    <!----><i class="fa fa-check"></i
+                    ><!----></n-button
+                  ><n-button
+                    type="button"
+                    class="btn el-tooltip btn-icon btn-danger btn-sm"
+                    aria-describedby="el-tooltip-4804"
+                    tabindex="0"
+                    @click.prevent="deleteHouse(an._id)"
+                  >
+                    <!----><i class="fa fa-times"></i
+                    ><!---->
                   </n-button>
-                  <n-button type="danger" link>
-                    <i class="fa fa-times"></i>
-                  </n-button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Minerva Hooper
-                </td>
-
-                <td>
-                  Curaçao
-                </td>
-
-                <td>
-                  Sinaai-Waas
-                </td>
-
-                <td class="text-right">
-                  $23,789
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Sage Rodriguez
-                </td>
-
-                <td>
-                  Netherlands
-                </td>
-
-                <td>
-                  Baileux
-                </td>
-
-                <td class="text-right">
-                  $56,142
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Philip Chaney
-                </td>
-
-                <td>
-                  Korea, South
-                </td>
-
-                <td>
-                  Overland Park
-                </td>
-
-                <td class="text-right">
-                  <button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-info btn-sm"
-                              aria-describedby="el-tooltip-4430"
-                              tabindex="0"
-                            >
-                              <!----><i class="fa fa-info"></i
-                              ><!----></button
-                            ><button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-success btn-sm"
-                              aria-describedby="el-tooltip-6999"
-                              tabindex="0"
-                            >
-                              <!----><i
-                                class="fa fa-check"
-                              ></i
-                              ><!----></button
-                            ><button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-danger btn-sm"
-                              aria-describedby="el-tooltip-4804"
-                              tabindex="0"
-                            >
-                              <!----><i
-                               class="fa fa-times"
-                              ></i
-                              ><!---->
-                            </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Doris Greene
-                </td>
-
-                <td>
-                  Malawi
-                </td>
-
-                <td>
-                  Feldkirchen in Kärnten
-                </td>
-
-                <td class="text-right">
-                  <button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-info btn-sm"
-                              aria-describedby="el-tooltip-4430"
-                              tabindex="0"
-                            >
-                              <!----><i class="now-ui-icons users_single-02"></i
-                              ><!----></button
-                            ><button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-success btn-sm"
-                              aria-describedby="el-tooltip-6999"
-                              tabindex="0"
-                            >
-                              <!----><i
-                                class="now-ui-icons ui-2_settings-90"
-                              ></i
-                              ><!----></button
-                            ><button
-                              type="button"
-                              class="btn el-tooltip btn-icon btn-danger btn-sm"
-                              aria-describedby="el-tooltip-4804"
-                              tabindex="0"
-                            >
-                              <!----><i
-                                class="now-ui-icons ui-1_simple-remove"
-                              ></i
-                              ><!---->
-                            </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Mason Porter
-                </td>
-
-                <td>
-                  Chile
-                </td>
-
-                <td>
-                  Gloucester
-                </td>
-
-                <td class="text-right">
-                  $78,615
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  Jon Porter
-                </td>
-
-                <td>
-                  Portugal
-                </td>
-
-                <td>
-                  Gloucester
-                </td>
-
-                <td class="text-right">
-                  $98,615
                 </td>
               </tr>
             </tbody>
@@ -215,14 +73,73 @@
         </div>
       </div>
     </div>
+    <modal :show.sync="modals.info" headerClasses="justify-content-center">
+      <template slot="header">
+        <h2 slot="header" class="title title-up"></h2>
+      </template>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQppdtQ3TrHpvktLshhp7MoNZHYl0ZHv5OYmQ&usqp=CAU" alt="">
+        <h1 style="color: white">Hello</h1>
+        <h3 style="color: white">info will be here</h3>
+
+      <div class="footer">
+        <div class="pull-right"></div>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
 import Button from "../../components/Button.vue";
+import axios from "axios";
+import Modal from "../components/Modal";
 
 export default {
   components: {
     [Button.name]: Button,
+    Modal,
+  },
+  data() {
+    return {
+      announcement: [],
+      modals: {
+        info: false,
+      },
+    };
+  },
+  mounted() {
+    this.announcements();
+  },
+  methods: {
+    announcements() {
+      axios
+        .get("http://localhost:5000/announce")
+        .then((res) => {
+          this.announcement = res.data;
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    },
+    accept() {
+      axios
+        .post("http://localhost:5000/announce")
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => console.log(err));
+    },
+    deleteHouse(id) {
+      axios
+        .delete(`http://localhost:5000/announce/${id}`)
+        .then((res) => {
+          console.log("house deleted");
+        })
+        .catch((err) => console.log(err));
+    },
   },
 };
 </script>
+
+<style scoped>
+.back {
+  background-color: black !important;
+}
+</style>
