@@ -79,6 +79,16 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    // {
+    //   path: "/admin/users",
+    //   name: "admin-users",
+    //   meta:{requiresAuth: true},
+    //   component: () => import("./pages/admin/usersControle"),
+    //   props: {
+    //     header: { colorOnScroll: 400 },
+    //     footer: { backgroundColor: "black" },
+    //   },
+    // },
 
     {
       path: "/omar",

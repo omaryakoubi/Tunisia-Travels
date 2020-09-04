@@ -6,11 +6,11 @@
         style="background-image:url('img/header.jpg')"
       ></parallax>
       <main-navbar />
-      <div class="content-center">
+      <div class="content-center title">
         <h1>Admin Platform</h1>
       </div>
     </div>
-    
+
     <tabs
       pills
       class="nav-align-center"
@@ -27,7 +27,7 @@
       </Tab>
 
       <Tab title="Users">
-        <i slot="label" class="now-ui-icons location_world"></i>
+        <i slot="label" class="now-ui-icons business_badge"></i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
@@ -36,19 +36,18 @@
         </div>
       </Tab>
 
-      <Tab title="Messages">
-        <i slot="label" class="now-ui-icons sport_user-run"></i>
+      <Tab title="Announcement">
+        <i slot="label" class="now-ui-icons design_bullet-list-67"></i>
 
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
-            <announcement/>
+            <announcement />
           </div>
         </div>
       </Tab>
     </tabs>
   </div>
 </template>
-
 <script>
 // import MainNavbar from "../MainNavbar.vue";
 import Tabs from "../components/Tabs2.vue";
@@ -56,8 +55,8 @@ import Tab from "../components/Tab.vue";
 import AdminProf from "./adminProfile.vue";
 import MainNavbar from "../MainNavbar";
 import usersCont from "./usersControle.vue";
-import Announcement from "./announcementAdmin.vue"
-import Button from "../../components/Button"
+import Announcement from "./announcementAdmin.vue";
+import Button from "../../components/Button";
 export default {
   name: "admin",
   components: {
@@ -67,28 +66,30 @@ export default {
     AdminProf,
     usersCont,
     Announcement,
-    [Button.name] : Button,
+    [Button.name]: Button,
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
 };
 </script>
 <style scoped>
 .page-header {
-  border-bottom-right-radius: 1000px;
-  border-bottom-left-radius: 1000px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
   min-height: 30vh;
 }
 .content-center {
   z-index: 0;
 }
-.nav-align-center{
+.nav-align-center {
   margin-top: 30px;
 }
-.collections{
-  margin-top:50px
+.collections {
+  margin-top: 50px;
+}
+.title {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 22px;
 }
 </style>
