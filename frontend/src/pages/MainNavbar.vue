@@ -20,7 +20,12 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <Dropdown tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <Dropdown
+          tag="li"
+          title
+          icon="now-ui-icons location_world"
+          class="nav-item"
+        >
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -114,7 +119,8 @@
         ></fg-input>
 
         <div class="text-center">
-          <a @click="login" class="btn btn-danger btn-round btn-lg">Login</a>
+          <vs-button @click="login" class="btn btn-danger btn-round btn-lg">Login</vs-button>
+       
         </div>
 
         <div class="footer">
@@ -125,10 +131,13 @@
                   (modals.login = false),
                   (modals.signup = false)
               "
-            >Forget Password?</a>
+              >Forget Password?</a
+            >
           </div>
           <div class="pull-right">
-            <a @click="(modals.login = false), (modals.signup = true)">Create new account?</a>
+            <a @click="(modals.login = false), (modals.signup = true)"
+              >Create new account?</a
+            >
           </div>
         </div>
       </modal>
@@ -182,14 +191,19 @@
         </template>
 
         <template slot="footer" class="card-footer text-center">
-          <a @click="signup" class="btn btn-danger btn-round btn-lg btn-block safe">SignUp</a>
+          <a
+            @click="signup"
+            class="btn btn-danger btn-round btn-lg btn-block safe"
+            >SignUp</a
+          >
           <a
             @click="
               (modals.login = true),
                 (modals.signup = false),
                 (modals.reset = false)
             "
-          >You already have an account?</a>
+            >You already have an account?</a
+          >
         </template>
       </modal>
       <!-- Reset Modal -->
@@ -204,9 +218,11 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="adressMail"
           ></fg-input>
-          <p v-if="toggle">A mail has been sent to {{adressMail}}</p>
+          <p v-if="toggle">A mail has been sent to {{ adressMail }}</p>
           <div class="text-center">
-            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
+            <a @click="resetPassword" class="btn btn-danger btn-round btn-lg"
+              >Send</a
+            >
           </div>
         </div>
       </modal>
@@ -215,6 +231,7 @@
 </template>
 
 <script>
+import { vsButton } from "vuesax";
 import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
@@ -263,6 +280,23 @@ export default {
   },
 
   methods: {
+    openNotification(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "You are logged In !",
+      });      
+    },  
+    openNotification2(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "Please try again",
+        text: "Wrong password or email."
+      });
+    },
     hideAndShow() {
       console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
@@ -290,10 +324,11 @@ export default {
             this.modals.login = false;
             this.auth = true;
             this.hideAndShow();
+            this.openNotification('top-right', 'success')
           }
         })
         .catch(() => {
-          alert("Wrong password or username");
+          this.openNotification2('top-left', 'danger')
         });
     },
 
@@ -302,6 +337,7 @@ export default {
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
         async function(data) {
+          console.log("before", data);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -316,13 +352,15 @@ export default {
 
     async logUserIn() {
       window.FB.login(
-        function (response) {
+        function(response) {
           if (response.authResponse) {
             localStorage.setItem(
               "accessToken",
               response.authResponse.accessToken
             );
-
+console.log('hou')
+            // console.log(window.FB.getAccessToken());
+            // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function(ressponse) {
               console.log(ressponse);
             });
@@ -346,7 +384,7 @@ export default {
     },
 
     async initFacebook() {
-      window.fbAsyncInit = function () {
+      window.fbAsyncInit = function() {
         window.FB.init({
           appId: "988468071624350",
           cookie: true,
