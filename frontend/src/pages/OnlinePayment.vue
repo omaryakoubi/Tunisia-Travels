@@ -73,23 +73,12 @@ export default {
       total: "",
     };
   },
-  created() {
-    this.checkIn = localStorage.getItem("start");
-    this.checkOut = localStorage.getItem("end");
-    this.price = localStorage.getItem("price");
-    this.numberOfNights =
-      (new Date(this.checkOut).getTime() - new Date(this.checkIn).getTime()) /
-      (1000 * 60 * 60 * 24);
-    this.total = this.numberOfNights * this.price;
-  },
-
   methods: {
     async test() {
       var purchase = {
         email: this.email,
         id: this.id,
       };
-      // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
       const result = await fetch(
         "http://localhost:5000/api/payment/create-payment-intent",
@@ -102,17 +91,9 @@ export default {
         }
       );
       let secret = (await result.json()).clientSecret;
-      // .then(function(data) {
-      // secret = data.clientSecret;
-      //   console.log("lenaaaaaaaaa", data);
-      //   console.log("safa", data);
-      //   console.log("safe", data.clientSecret);
-      //   // DATA IS AN EMPTY OBJECT AND DATA.CLIENT IS UNDEFINED.
-      // });
+
       this.secret = secret;
-      // Calls stripe.confirmCardPayment
-      // If the card requires authentication Stripe shows a pop-up modal to
-      // prompt the user to enter authentication details without leaving your page.
+
       var payWithCard = function(stripe, card, clientSecret) {
         loading(true);
         stripe
@@ -124,27 +105,20 @@ export default {
           })
           .then(function(result) {
             if (result.error) {
-              // Show error to your customer
               showError(result.error.message);
             } else {
-              // The payment succeeded!
               orderComplete(result.paymentIntent.id);
             }
           });
       };
-      /* ------- UI helpers ------- */
-      // Shows a success message when the payment is complete
+
       var orderComplete = function(paymentIntentId) {
         loading(false);
         document.querySelector(".result-message a");
-        // .setAttribute(
-        //   "href",
-        //   "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-        // );
+
         document.querySelector(".result-message").classList.remove("hidden");
         document.querySelector("button").disabled = true;
       };
-      // Show the customer the error from Stripe if their card fails to charge
       var showError = function(errorMsgText) {
         loading(false);
         var errorMsg = document.querySelector("#card-error");
@@ -153,10 +127,8 @@ export default {
           errorMsg.textContent = "";
         }, 4000);
       };
-      // Show a spinner on payment submission
       var loading = function(isLoading) {
         if (isLoading) {
-          // Disable the button and show a spinner
           document.querySelector("button").disabled = true;
           document.querySelector("#spinner").classList.remove("hidden");
           document.querySelector("#button-text").classList.add("hidden");
@@ -169,9 +141,24 @@ export default {
       payWithCard(this.stripe, this.card, this.secret);
     },
   },
+  created() {
+    this.checkIn = localStorage.getItem("start");
+    this.checkOut = localStorage.getItem("end");
+    this.price = localStorage.getItem("price");
+    this.numberOfNights =
+      (new Date(this.checkOut).getTime() - new Date(this.checkIn).getTime()) /
+      (1000 * 60 * 60 * 24);
+    this.total = this.numberOfNights * this.price;
+  },
+
+  mounted() {
+    localStorage.removeItem("start");
+    localStorage.removeItem("end");
+    localStorage.removeItem("price");
+  },
+
   async beforeMount() {
     this.id = window.location.pathname.slice(9);
-    // A reference to Stripe.js initialized with your real test publishable API key.
     var stripe = await loadStripe(stripeKeyFront.publicKey);
     this.stripe = stripe;
     var elements = stripe.elements();
@@ -192,10 +179,8 @@ export default {
       },
     };
     var card = elements.create("card", { style: style });
-    // Stripe injects an iframe into the DOM
     card.mount("#card-element");
     card.on("change", function(event) {
-      // Disable the Pay button if there are no card details in the Element
       document.querySelector("button").disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error
         ? event.error.message
@@ -203,16 +188,6 @@ export default {
     });
     this.card = card;
   },
-  // async omar() {
-  //   try {
-  //     await axios.post(
-  //       "http://localhost:5000/api/payment/:id/create-payment-intent",
-  //       { id: this.id }
-  //     );
-  //   } catch (error) {
-  //     console.log("error");
-  //   }
-  // },
 };
 </script>
 
