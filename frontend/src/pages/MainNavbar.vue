@@ -17,7 +17,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <drop-down tag="li" title icon="now-ui-icons location_world" class="nav-item">
+        <dropDown tag="li" title icon="now-ui-icons location_world" class="nav-item">
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -76,7 +76,7 @@
             <i class="now-ui-icons users_circle-08"></i>
             Logout
           </n-button>
-        </drop-down>
+        </dropDown>
       </template>
       <modal :show.sync="modals.login" headerClasses="justify-content-center">
         <template slot="header">
@@ -230,7 +230,7 @@ export default {
   },
 
   components: {
-    DropDown,
+    dropDown,
     Modal,
     Navbar,
     [Popover.name]: Popover,
