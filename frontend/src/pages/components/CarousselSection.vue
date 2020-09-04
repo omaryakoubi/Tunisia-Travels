@@ -1,11 +1,6 @@
 <template>
   <div class="section" id="carousel">
-    <div class="container">
-      <div class="title">
-        <h4>Carousel</h4>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-8">
+    <div class="col-md-10 ml-auto mr-auto">
           <el-carousel height="500px" >
             <el-carousel-item v-for="(img, index) in images" :key="index">
               <img
@@ -17,8 +12,6 @@
            
           </el-carousel>
         </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -67,4 +60,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.d-block{
+  width: 100%;
+  height: 100%;
+}
+
+</style>
