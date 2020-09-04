@@ -352,8 +352,8 @@ export default {
     async initFacebook() {
       window.fbAsyncInit = function() {
         window.FB.init({
-          appId: "988468071624350", 
-          cookie: true, 
+          appId: "988468071624350",
+          cookie: true,
           version: "v8.0",
         });
       };
@@ -418,14 +418,14 @@ export default {
       const googleToken = this.$route.query.googleId;
       console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
-        localStorage.removeItem('googleToken');
+        localStorage.removeItem("googleToken");
       }
       if (googleToken !== undefined) {
         localStorage.setItem("googleToken", googleToken);
         this.$router.push("/");
         this.hideAndShow();
       } else {
-        localStorage.removeItem('googleToken');
+        localStorage.removeItem("googleToken");
       }
     } catch (error) {
       console.log(error);

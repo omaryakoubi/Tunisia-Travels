@@ -25,7 +25,7 @@
         <input
           type="email"
           id="email"
-          placeholder="Email address"
+          placeholder="Enter your email address to recive the confirmation"
           v-model="email"
         />
         <div id="card-element"></div>
@@ -56,11 +56,9 @@ import router from "../router.js";
 import axios from "axios";
 export default {
   name: "OnlinePayment",
-
   components: {
     [FormGroupInput.name]: FormGroupInput,
   },
-
   data() {
     return {
       email: "",
@@ -78,7 +76,6 @@ export default {
         email: this.email,
         id: this.id,
       };
-
       // Disable the button until we have Stripe set up on the page
       document.querySelector("button").disabled = true;
       const result = await fetch(
@@ -91,9 +88,7 @@ export default {
           body: JSON.stringify(purchase),
         }
       );
-
-      let dhia = (await result.json()).clientSecret;
-
+      let secret = (await result.json()).clientSecret;
       // .then(function(data) {
       // secret = data.clientSecret;
       //   console.log("lenaaaaaaaaa", data);
@@ -101,7 +96,7 @@ export default {
       //   console.log("safe", data.clientSecret);
       //   // DATA IS AN EMPTY OBJECT AND DATA.CLIENT IS UNDEFINED.
       // });
-      this.secret = dhia;
+      this.secret = secret;
       // Calls stripe.confirmCardPayment
       // If the card requires authentication Stripe shows a pop-up modal to
       // prompt the user to enter authentication details without leaving your page.
@@ -124,9 +119,7 @@ export default {
             }
           });
       };
-
       /* ------- UI helpers ------- */
-
       // Shows a success message when the payment is complete
       var orderComplete = function(paymentIntentId) {
         loading(false);
@@ -138,7 +131,6 @@ export default {
         document.querySelector(".result-message").classList.remove("hidden");
         document.querySelector("button").disabled = true;
       };
-
       // Show the customer the error from Stripe if their card fails to charge
       var showError = function(errorMsgText) {
         loading(false);
@@ -148,7 +140,6 @@ export default {
           errorMsg.textContent = "";
         }, 4000);
       };
-
       // Show a spinner on payment submission
       var loading = function(isLoading) {
         if (isLoading) {
@@ -165,14 +156,12 @@ export default {
       payWithCard(this.stripe, this.card, this.secret);
     },
   },
-
   async beforeMount() {
     this.id = window.location.pathname.slice(9);
     // A reference to Stripe.js initialized with your real test publishable API key.
     var stripe = await loadStripe(stripeKeyFront.publicKey);
     this.stripe = stripe;
     var elements = stripe.elements();
-
     var style = {
       base: {
         color: "#32325d",
@@ -189,11 +178,9 @@ export default {
         iconColor: "#fa755a",
       },
     };
-
     var card = elements.create("card", { style: style });
     // Stripe injects an iframe into the DOM
     card.mount("#card-element");
-
     card.on("change", function(event) {
       // Disable the Pay button if there are no card details in the Element
       document.querySelector("button").disabled = event.empty;
@@ -203,7 +190,6 @@ export default {
     });
     this.card = card;
   },
-
   // async omar() {
   //   try {
   //     await axios.post(
@@ -231,7 +217,6 @@ body {
   height: 100vh;
   width: 100vw;
 }
-
 form {
   margin-top: 50px;
   width: 30vw;
