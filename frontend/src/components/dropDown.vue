@@ -5,7 +5,7 @@
     :class="[
       { show: isOpen },
       { dropdown: direction === 'down' },
-      { dropup: direction === 'up' }
+      { dropup: direction === 'up' },
     ]"
     aria-haspopup="true"
     :aria-expanded="isOpen"
@@ -22,7 +22,7 @@
       class="dropdown-menu"
       :class="[
         { 'dropdown-menu-right': position === 'right' },
-        { show: isOpen }
+        { show: isOpen },
       ]"
     >
       <slot></slot>
@@ -31,7 +31,7 @@
 </template>
 <script>
 export default {
-  name: "Dropdown",
+  name: "dropdown",
   props: {
     direction: {
       type: String,
