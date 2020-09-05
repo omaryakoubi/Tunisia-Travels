@@ -2,30 +2,29 @@
   <center>
     <div id="main">
       <form id="payment-form">
-        <h3>
+        <h4>
           CheckIn Date :<span> {{ checkIn }}</span>
-        </h3>
-        <h3>
+        </h4>
+        <h4>
           CheckOut Date : <span>{{ checkOut }}</span>
-        </h3>
-        <h3>
+        </h4>
+        <h4>
           Price Per Night : <span>{{ price }}TND</span>
-        </h3>
-        <h3>
+        </h4>
+        <h4>
           Number of Nights :<span> {{ numberOfNights }} </span>
-        </h3>
-        <h2>
+        </h4>
+        <h5>
           Total:
           <p>{{ total }} TND</p>
-        </h2>
+        </h5>
       </form>
     </div>
-    <div id="main">
       <form id="payment-form">
         <input
           type="email"
           id="email"
-          placeholder="Enter your email address to recive the confirmation"
+          placeholder="Enter your email address to receive the confirmation"
           v-model="email"
         />
         <div id="card-element"></div>
@@ -44,7 +43,6 @@
           <a>SUCCEEDED</a> Thank You!
         </p>
       </form>
-    </div>
   </center>
 </template>
 
@@ -213,7 +211,6 @@ form {
   box-shadow: 0px 0px 0px 0.5px #f96332 0px 2px 5px 0px #f96332,
     0px 1px 1.5px 0px #f96332;
   border-radius: 7px;
-  padding: 40px;
 }
 input {
   border-radius: 6px;

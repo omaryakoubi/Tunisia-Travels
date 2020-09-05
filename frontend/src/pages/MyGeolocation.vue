@@ -53,10 +53,10 @@
                     >{{ one.houseName }}, {{ one.typeOfPlace }}</a
                   >
                 </h3>
-                <p class="card-description">{{ one.description }}</p>
-                <p class="card-description">{{ petMessage }}</p>
-                <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <p class="span">{{ one.price }} euro/night</p>
+                <p class="card-description"><b>Description : </b>{{ one.description }}</p>
+                <p class="card-description"><b> </b>{{ petMessage }}</p>
+                <p class="phone"><b>Phone: </b>{{ one.hostPhone }}</p>
+                <p class="span">{{ one.price }} TND/Night</p>
               </div>
             </div>
           </div>
