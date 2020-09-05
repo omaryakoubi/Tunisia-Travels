@@ -124,6 +124,9 @@ export default {
         .post(`http://localhost:5000/announce/${id}`)
         .then((res) => {
           console.log("res", res);
+          this.announcement = this.announcement.filter(announce => {
+            return announce._id !== res.data._id
+          })
         })
         .catch((err) => console.log(err));
     },
@@ -132,6 +135,9 @@ export default {
         .delete(`http://localhost:5000/announce/${id}`)
         .then((res) => {
           console.log("house deleted");
+          this.announcement = this.announcement.filter(announce => {
+            return announce._id !== res.data._id
+          })
         })
         .catch((err) => console.log(err));
     },

@@ -216,7 +216,7 @@
 
 <script>
 import { vsButton } from "vuesax";
-import Dropdown from "../components/Dropdown";
+import Dropdown from "../components/Dropdown.vue";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
 import Modal from "./components/Modal";
