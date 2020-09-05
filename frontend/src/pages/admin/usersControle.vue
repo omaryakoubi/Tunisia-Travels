@@ -86,7 +86,7 @@ export default {
         .then((res) => {
           let data = res.data.filter((element) => {
             return element.username !== "admin";
-          });
+          });  
           this.usersList = data;
         })
         .catch((err) => console.log(err));

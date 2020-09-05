@@ -34,11 +34,9 @@
                 <div class="guestsNum">Travelers : {{ guestAccepted }}</div>
               </div>
               <div class="center">
-                <a
-                  class="btn btn-success btn-round btn-small safe"
-                  @click="$router.push('/payment')"
-                  >Book</a
-                >
+                <vs-button @click="redirectfunc(id)" block>
+                  <i class="bx bxs-paint-roll"></i>Book
+                </vs-button>
               </div>
             </div>
           </div>
@@ -47,8 +45,8 @@
       <div class="col-md-10 ml-auto mr-auto">
         <div class="map">
           <h3>
-              <b>Mapping</b>
-            </h3>
+            <b>Mapping</b>
+          </h3>
           <GmapMap
             ref="map"
             :center="coordinates"
@@ -75,7 +73,6 @@ import axios from "axios";
 import router from "../router";
 import Caroussel from "./components/CarousselSection";
 import MainNavbar from "./MainNavbar";
-
 export default {
   name: "selectedHouse",
   components: {
@@ -120,13 +117,18 @@ export default {
         data.data[data.data.length - 1].guestsNum[0] +
         data.data[data.data.length - 1].guestsNum[1] +
         data.data[data.data.length - 1].guestsNum[2];
+      localStorage.setItem("start", this.start);
+      localStorage.setItem("end", this.end);
     });
   },
   created() {
     this.id = this.$route.params.id;
   },
-
   methods: {
+    redirectfunc(id) {
+      localStorage;
+      this.$router.push(`/payment/${id}`);
+    },
     getInfo() {
       axios
         .get(`http://localhost:5000/houseSelected/${this.id}`)
@@ -145,6 +147,7 @@ export default {
           response.images.forEach((houseUrls) => {
             this.images.push(houseUrls.url);
           });
+          localStorage.setItem("price", this.price);
           this.coordinates.lat = response.marker.lat;
           this.coordinates.lng = response.marker.lng;
           // this.guestAccepted = response.guests;
@@ -191,6 +194,9 @@ export default {
   background-color: gainsboro;
   border-radius: 15px 50px 30px;
   padding: 10px;
+}
+.content-center {
+  z-index: 0;
 }
 
 .collections {

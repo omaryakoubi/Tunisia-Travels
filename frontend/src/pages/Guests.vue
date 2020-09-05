@@ -7,7 +7,7 @@
       :step="1"
       formName="integer_plus_minus"
     >
-      Adults
+      <span>Adults{{" "}}</span>
       <br />
       {{adultsNumber}}
     </integer-plusminus>
@@ -30,8 +30,10 @@
       :min="0"
       :step="1"
       formName="integer_plus_minus"
+      id="infants"
     >
-      Infants
+      <span>Infants</span>
+
       <br />
       {{infantsNumber}}
     </integer-plusminus>
@@ -62,5 +64,8 @@ export default {
 };
 </script>
 <style  scoped>
+.int-pm[data-v-f3939500] {
+  justify-content: space-between;
+}
 </style>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="row collections">
-    <div class="  col-md-8 inpt">
+    <div class="col-md-8 inpt">
       <div class="row">
         <div class="col-md-5 pr-1">
           <div class="form-group">
@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              disabled=""
+              disabled
               placeholder="Post"
               value="Administrator"
             />
@@ -100,9 +100,7 @@
         </div>
       </div>
       <div class="row butto">
-        <div class="col-md-2 pl-1">
-          Edit:
-        </div>
+        <div class="col-md-2 pl-1">Edit:</div>
         <div class="col-md-2 pl-1">
           <n-switch v-model="edit" on-text="OFF" off-text="ON"></n-switch>
         </div>
@@ -137,19 +135,19 @@
         />
       </label>
       <h3 class="title">{{ form.name }}</h3>
-      <p class="category">{{ Administrator }}</p>
+      <!-- <p class="category">{{ Administrator }}</p> -->
       <div class="content">
         <div class="social-description">
           <h2>{{ usersNumber }}</h2>
           <p>Users</p>
         </div>
         <div class="social-description">
-          <h2>26</h2>
+          <h2>{{ hosts }}</h2>
           <p>Hosts</p>
         </div>
         <div class="social-description">
           <h2>{{ housesNumber }}</h2>
-          <p>Announcement</p>
+          <p>Houses</p>
         </div>
       </div>
     </div>
@@ -183,8 +181,13 @@ export default {
         file: "",
         message: "",
       },
+      hosts: 0,
       usersNumber: 0,
       housesNumber: 0,
+      hostNumber: 0,
+      arrNotAdmin: 0,
+      countHouses: 0,
+      arrNameOfHosts: [],
       switches: {
         defaultOff: true,
       },
@@ -204,10 +207,8 @@ export default {
       this.updateProfile();
     },
     async updateAdmin(name) {
-      console.log("here at the top");
       try {
         const _id = this.form._id;
-        console.log(_id);
         await axios.put(`http://localhost:5000/api/users/update/${_id}`, {
           name: this.form.name,
           username: this.form.username,
@@ -219,7 +220,6 @@ export default {
           zip: this.form.zip,
           file: this.form.file,
         });
-        console.log("HOU", this.form);
       } catch (err) {
         console.log(err);
       }
@@ -236,9 +236,20 @@ export default {
         .catch((err) => console.log(err));
     },
     housesNum() {
-      axios.get("http://localhost:5000/api/users/").then((res) => {
-        this.housesNumber = res.data.length;
-      });
+      axios.get("http://localhost:5000/houses").then((res) => {
+        this.housesNumber = res.data.length;      
+        let hosts = res.data.map(host => {
+          return host.hostName
+          
+        })        
+        console.log('hosts',hosts)
+        let a = hosts.filter((host,i) => {
+          return host[i] === host[i]
+        })
+      console.log('all',a)
+      this.hosts = a.length
+      })
+      .catch(err => console.log(err))
     },
 
     onSelect() {
@@ -266,7 +277,6 @@ export default {
 
   mounted() {
     const token = localStorage.getItem("token");
-    console.log("token", token);
     if (token) {
       axios.defaults.headers.common["Authorization"] = token;
       axios
@@ -315,7 +325,7 @@ export default {
   padding: 30px;
   border-radius: 30px;
 }
-.media-1_camera-compact{
+.media-1_camera-compact {
   font-size: 24px;
 }
 </style>

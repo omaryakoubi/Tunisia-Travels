@@ -2,7 +2,10 @@
   <div id="navbar">
     <navbar transparent menu-classes="ml-auto">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="/"><span style="color: red">T</span>unisia <span style="color: red">T</span>ravels</a>
+        <a class="navbar-brand" href="/">
+          <span style="color: red">T</span>unisia
+          <span style="color: red">T</span>ravels
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,12 +20,7 @@
         </button>
       </div>
       <template slot="navbar-menu">
-        <Dropdown
-          tag="li"
-          title
-          icon="now-ui-icons loader_gear"
-          class="nav-item"
-        >
+        <Dropdown tag="li" title icon="now-ui-icons location_world" class="nav-item">
           <n-button
             @click="$router.push('/BecomeAhost')"
             type="neutral"
@@ -116,7 +114,7 @@
         ></fg-input>
 
         <div class="text-center">
-          <a @click="login" class="btn btn-danger btn-round btn-lg">Login</a>
+          <vs-button @click="login" class="btn btn-danger btn-round btn-lg">Login</vs-button>
         </div>
 
         <div class="footer">
@@ -206,7 +204,7 @@
             addon-left-icon="now-ui-icons users_circle-08"
             v-model="adressMail"
           ></fg-input>
-          <p v-if="toggle">Check your email</p>
+          <p v-if="toggle">A mail has been sent to {{ adressMail }}</p>
           <div class="text-center">
             <a @click="resetPassword" class="btn btn-danger btn-round btn-lg">Send</a>
           </div>
@@ -217,6 +215,7 @@
 </template>
 
 <script>
+import { vsButton } from "vuesax";
 import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
@@ -265,7 +264,25 @@ export default {
   },
 
   methods: {
+    openNotification(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "You are logged In !",
+      });
+    },
+    openNotification2(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "Please try again",
+        text: "Wrong password or email.",
+      });
+    },
     hideAndShow() {
+      console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
       console.log("0", this.hide);
     },
@@ -291,10 +308,11 @@ export default {
             this.modals.login = false;
             this.auth = true;
             this.hideAndShow();
+            this.openNotification("top-right", "success");
           }
         })
         .catch(() => {
-          alert("Wrong password or username");
+          this.openNotification2("top-left", "danger");
         });
     },
 
@@ -324,7 +342,6 @@ export default {
               "accessToken",
               response.authResponse.accessToken
             );
-
             // console.log(window.FB.getAccessToken());
             // console.log(window.FB.getAuthResponse());
             window.FB.getLoginStatus(function (ressponse) {
@@ -332,7 +349,7 @@ export default {
             });
             console.log(window.FB.getUserID());
           } else {
-            alert("User cancelled login or did not fully authorize.");
+            console.log("User cancelled login or did not fully authorize.");
           }
         },
         { scope: "public_profile,email" }
@@ -352,8 +369,8 @@ export default {
     async initFacebook() {
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: "988468071624350", //You will need to change this
-          cookie: true, // This is important, it's not enabled by default
+          appId: "988468071624350",
+          cookie: true,
           version: "v8.0",
         });
       };
@@ -416,7 +433,6 @@ export default {
   async created() {
     try {
       const googleToken = this.$route.query.googleId;
-      console.log("herrrrreeee", googleToken);
       if (googleToken === undefined) {
         localStorage.removeItem("googleToken");
       }
