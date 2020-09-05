@@ -13,7 +13,7 @@
     <body>
       <div class="col-md-10 ml-auto mr-auto">
         <div class="row collections">
-          <div class="col-md-8 inpt">
+          <div class="col-md-6 inpt">
             <h3>
               <b>Entire condominium hosted by {{ hostName }}</b>
             </h3>
@@ -26,18 +26,9 @@
             <option value="optionPet">{{ pets }}</option>
           </div>
 
-          <div class="cardi col-md-4">
+          <div class="cardi col-md-6">
             <div class="content">
-              <div class="price">
-                <h3>{{ price }} €/night</h3>
-                <div class="dateInfo">{{ start }} / {{ end }}</div>
-                <div class="guestsNum">Travelers : {{ guestAccepted }}</div>
-              </div>
-              <div class="center">
-                <vs-button @click="redirectfunc(id)" block>
-                  <i class="bx bxs-paint-roll"></i>Book
-                </vs-button>
-              </div>
+             <OnlinePayment />
             </div>
           </div>
         </div>
@@ -68,6 +59,7 @@
 </template>
 
 <script>
+import  OnlinePayment from "./OnlinePayment";
 import GmapMarker from "vue2-google-maps/src/components/marker";
 import axios from "axios";
 import router from "../router";
@@ -79,6 +71,7 @@ export default {
     GmapMarker,
     MainNavbar,
     Caroussel,
+    OnlinePayment
   },
   data() {
     return {

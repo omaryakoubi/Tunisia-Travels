@@ -1,7 +1,10 @@
 <template>
   <div class="sear" v-if="ready">
     <div class="page-header page-header-small">
-      <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+      <parallax
+        class="page-header-image"
+        style="background-image:url('img/header.jpg')"
+      ></parallax>
       <main-navbar />
       <div class="content-center title">
         <h1>
@@ -12,40 +15,37 @@
     </div>
     <vs-row class="cont">
       <vs-col>
-                  <div class="row">
-
-          <h5>There is <b>{{ numberOfHouses }} </b>house(s) in <b>{{ coordinates.locality }}</b></h5>
-                  </div>
-                  <div class="row">
-
+        <div class="row">
+          <h5>
+            There is <b>{{ numberOfHouses }} </b>house(s) in
+            <b>{{ coordinates.locality }}</b>
+          </h5>
+        </div>
+        <div class="row">
           <h5>
             There is <b>{{ availableHouses }}</b> house(s) available from
-           <b> {{ coordinates.start }}</b> to <b>{{ coordinates.end }}</b>
+            <b> {{ coordinates.start }}</b> to <b>{{ coordinates.end }}</b>
           </h5>
-                  </div>
-                  <div class="row">
-
-
+        </div>
+        <div class="row">
           <h5>
             Traveler number :<b>{{
-            coordinates.guestsNum[0] +
-            coordinates.guestsNum[1] +
-            coordinates.guestsNum[2]
+              coordinates.guestsNum[0] +
+                coordinates.guestsNum[1] +
+                coordinates.guestsNum[2]
             }}</b>
           </h5>
-                  </div>
-        <n-button
-          type="primary"
-          size="sm"
-          round
-          @click="showAllHouses"
-        >Show all houses in {{ coordinates.locality }}</n-button>
+        </div>
+        <n-button type="primary" size="sm" round @click="showAllHouses"
+          >Show all houses in {{ coordinates.locality }}</n-button
+        >
         <div class="row">
           <div class="card-body" v-for="(one, index) in arr" :key="index">
             <div class="line"></div>
             <div class="row insi">
               <div class="col-md-4">
                 <img
+                style="max-height:200px; "
                   :src="`${one.images[one.images.length - 1].url}`"
                   @click="redirectfunc(one._id)"
                   alt
@@ -53,14 +53,16 @@
               </div>
               <div class="col-md-7">
                 <h3 class="card-title">
-                  <a
-                    @click="$router.push('/SelectedHouse')"
-                  >{{ one.houseName }}, {{ one.typeOfPlace }}</a>
+                  <a @click="$router.push('/SelectedHouse')"
+                    >{{ one.houseName }}, {{ one.typeOfPlace }}</a
+                  >
                 </h3>
-                <p class="card-description">{{ one.description }}</p>
-                <p class="card-description">{{ petMessage }}</p>
-                <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <p class="span">{{ one.price }} euro/night</p>
+                <p class="card-description">
+                  <b>Description : </b>{{ one.description }}
+                </p>
+                <p class="card-description"><b> </b>{{ petMessage }}</p>
+                <p class="phone"><b>Phone: </b>{{ one.hostPhone }}</p>
+                <p class="span">{{ one.price }} TND/Night</p>
               </div>
             </div>
           </div>
@@ -88,12 +90,14 @@
     <!-- GmapMarker hover -->
     <modal :show.sync="modals.gmark" headerClasses="justify-content-center">
       <template slot="header">
-        <h2 slot="header" class="title title-up">{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</h2>
+        <h2 slot="header" class="title title-up">
+          {{ toShow.houseName }}, {{ toShow.typeOfPlace }}
+        </h2>
       </template>
       <div class="card-body" v-if="hovered">
         <div class="row">
           <img
-            style="max-height:200px; max-width:400px; margin-left:20%"
+            style="max-height:200px; max-width:400px; margin-left:27%"
             :src="`${toShow.images[toShow.images.length - 1].url}`"
             @click="redirectfunc(toShow._id)"
           />
@@ -111,7 +115,9 @@
         </div>
 
         <div class="row">
-          <p class="span" style="margin-left:80%">{{ toShow.price }} TND/Night</p>
+          <p class="span" style="margin-left:80%">
+            {{ toShow.price }} TND/Night
+          </p>
         </div>
       </div>
     </modal>
