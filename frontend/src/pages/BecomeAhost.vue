@@ -1,4 +1,3 @@
-// :icon="{ url: require('../../src/assets/images/gmap2.png') }"
 <template>
   <div>
     <center>
@@ -18,7 +17,12 @@
                       <vs-input label-placeholder="Host Phone" v-model="hostPhone" class="col-10" />
                       <br />
                       <br />
-                      <vs-select placeholder="Guests allowed" v-model="guests" class="col-8">
+                      <vs-select
+                        placeholder="Guests allowed"
+                        v-model="guests"
+                        class="col-8"
+                        style="color : black"
+                      >
                         <vs-option label="1" value="1">1</vs-option>
                         <vs-option label="2" value="2">2</vs-option>
                         <vs-option label="3" value="3">3</vs-option>
@@ -26,7 +30,12 @@
                       </vs-select>
                       <br />
                       <br />
-                      <vs-select placeholder="Type of Place" v-model="typeOfPlace" class="col-8">
+                      <vs-select
+                        placeholder="Type of Place"
+                        v-model="typeOfPlace"
+                        class="col-8"
+                        style="color : black"
+                      >
                         <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
                         <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
                         <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
@@ -66,22 +75,18 @@
                 />
                 <br />
                 <br />
-
-                <vs-input v-model="price" placeholder="Price per Night In TND" class="col-8 inpts">
+                <vs-input v-model="price" placeholder="Price per Night" class="col-8 inpts">
                   <template #icon>
-                    <span class="material-icons">euro</span>
+                    <span class="material-icons">tnd</span>
                   </template>
                 </vs-input>
                 <br />
-
                 <label class="col-8">Availability from</label>
                 <vs-input type="date" v-model="start" class="col-8 inpts"></vs-input>
                 <br />
-
                 <label class="col-8">Availability to</label>
                 <vs-input type="date" v-model="end" class="col-8 inpts"></vs-input>
                 <br />
-
                 <vs-button
                   class="col-3 inptss"
                   flat
@@ -106,43 +111,6 @@
                     ></vue-google-autocomplete>
                     <br />
                     <br />
-
-                    <br />
-                    <vs-select
-                      placeholder="Guests allowed"
-                      v-model="guests"
-                      class="col-8"
-                      style="color : black"
-                    >
-                      <vs-option label="1" value="1">1</vs-option>
-                      <vs-option label="2" value="2">2</vs-option>
-                      <vs-option label="3" value="3">3</vs-option>
-                      <vs-option label="4" value="4">4 +</vs-option>
-                    </vs-select>
-                    <br />
-                    <br />
-                    <vs-select
-                      placeholder="Type of Place"
-                      v-model="typeOfPlace"
-                      class="col-8"
-                      style="color : black"
-                    >
-                      <vs-option label="Entire Place" value="Entire Place"
-                        >Entire Place</vs-option
-                      >
-                      <vs-option label="Private Room" value="Private Room"
-                        >Private Room</vs-option
-                      >
-                      <vs-option label="Shared Room" value="Shared Room"
-                        >Shared Room</vs-option
-                      >
-                    </vs-select>
-                    <br />
-                    <br />
-                    <vs-checkbox v-model="optionPet" class="col-8"
-                      >Pets Allowed</vs-checkbox
-                    >
-
                     <vue-google-autocomplete
                       :country="['TN']"
                       id="adress"
@@ -153,7 +121,6 @@
                     <br />
                     <br />
                     <p>Or use the automatic detection</p>
-
                     <vs-button
                       class="col-8 btns"
                       flat
@@ -168,123 +135,6 @@
                     >Next</vs-button>
                   </div>
                   <div class="col-md-6 txt">
-
-                    <p>We are going to guide you to host your house</p>
-                    <p>Please fill correctly your information</p>
-                    <p>to facilitate the contact with the traveler</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-show="div2" id="p2" class="content-center">
-              <h3>Please tell us more about your house</h3>
-              <br />
-              <vs-input
-                label-placeholder="Name of The house"
-                v-model="houseName"
-                class="col-8 inpts "
-              />
-              <br />
-              <br />
-              <vs-input
-                label-placeholder="Describe your house"
-                v-model="description"
-                class="col-8 inpts"
-              />
-              <br />
-              <br />
-
-              <vs-input
-                v-model="price"
-                placeholder="Price per Night"
-                class="col-8 inpts"
-              >
-                <template #icon>
-                  <span class="material-icons">tnd</span>
-                </template>
-              </vs-input>
-              <br />
-
-              <label class="col-8 ">Availability from</label>
-              <vs-input
-                type="date"
-                v-model="start"
-                class="col-8 inpts"
-              ></vs-input>
-              <br />
-
-              <label class="col-8 ">Availability to</label>
-              <vs-input
-                type="date"
-                v-model="end"
-                class="col-8 inpts"
-              ></vs-input>
-              <br />
-
-              <vs-button
-                class="col-3 inptss"
-                flat
-                :active="active == 0"
-                @click.prevent="toPage3"
-                >Next</vs-button
-              >
-            </div>
-            <br />
-            <br />
-            <div v-show="div3" id="p3">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3>Please fill the adress of your house</h3>
-                  <br />
-                  <vue-google-autocomplete
-                    :country="['TN']"
-                    types="(cities)"
-                    id="governorate"
-                    class="content vs-input col-8"
-                    placeholder="Choose a governorate"
-                    v-on:error="handleError"
-                  ></vue-google-autocomplete>
-                  <br />
-                  <br />
-                  <vue-google-autocomplete
-                    :country="['TN']"
-                    id="adress"
-                    class="content vs-input col-8"
-                    v-on:placechanged="getStreetAdress"
-                    placeholder="Choose an adress"
-                  ></vue-google-autocomplete>
-                  <br />
-                  <br />
-                  <p>Or use the automatic detection</p>
-                  <vs-button
-                    class="col-8 btns"
-                    flat
-                    :active="active == 0"
-                    @click.prevent="getMyPosition"
-                    >AutoDetect</vs-button
-                  >
-                  <vs-button
-                    class="col-8 btns"
-                    flat
-                    :active="active == 0"
-                    @click.prevent="toPage4"
-                    >Next</vs-button
-                  >
-                </div>
-                <div class="col-md-6 txt">
-                  <GmapMap
-                    ref="map"
-                    :center="houseCoordinates"
-                    :zoom="14"
-                    style="width:640px ; height:400px"
-                    map-type-id="terrain"
-                  >
-                    <GmapMarker
-                      :position="houseCoordinates"
-                      :clickable="true"
-                      :draggable="true"
-                      :icon="{
-
                     <GmapMap
                       ref="map"
                       :center="houseCoordinates"
@@ -297,7 +147,6 @@
                         :clickable="true"
                         :draggable="true"
                         :icon="{
-
                         url: require('../../src/assets/images/gmap2.png'),
                       }"
                       />
@@ -305,7 +154,6 @@
                   </div>
                 </div>
               </div>
-
               <div v-show="div4">
                 <div class="row">
                   <div class="col-md-6">
@@ -329,7 +177,6 @@
                           @change="selectFile"
                         />
                       </label>
-
                       <div v-for="(file, index) in files" :key="index" class="level">
                         <div class="level-left">
                           <div class="level-item">{{ file.name }}</div>
@@ -340,7 +187,6 @@
                           </div>
                         </div>
                       </div>
-
                       <vs-button
                         style="margin-left:35%"
                         flat
@@ -349,7 +195,6 @@
                       >Save your photos</vs-button>
                     </form>
                   </div>
-
                   <vs-card-group style="width:1500px">
                     <vs-card v-for="(image, index) in imagesResp" :key="index">
                       <template #img>
@@ -380,7 +225,6 @@ import Vuesax from "vuesax";
 import "vuesax/dist/vuesax.css";
 import { vsButton, vsSelect, vsPopup } from "vuesax";
 import MainNavbar from "./MainNavbar";
-
 export default {
   name: "BecomeAhost",
   components: { VueGoogleAutocomplete, [MainNavbar.name]: MainNavbar },
@@ -419,13 +263,13 @@ export default {
   }),
   methods: {
     openNotification(position = null, color) {
-          const noti = this.$vs.notification({
-            color,
-            position,
-            title: 'Your Request has been send to our team! ',
-            text: 'Please wait for us to get back to you'
-          })
-        },
+      const noti = this.$vs.notification({
+        color,
+        position,
+        title: "Your Request has been send to our team! ",
+        text: "Please wait for us to get back to you",
+      });
+    },
     handleClick() {
       alert("gey");
     },
@@ -439,7 +283,6 @@ export default {
       this.files.forEach((file) => {
         formData.append("files", file);
       });
-
       await this.axios
         .post("http://localhost:5000/multiple", formData)
         .then((data) => {
@@ -520,50 +363,26 @@ export default {
       obj.price = this.price;
       obj.marker = this.houseCoordinates;
       obj.images = this.imagesResp;
-      this.openNotification('top-right', 'success')
+      this.openNotification("top-right", "success");
       console.log("this.imagesRresp", this.imagesResp);
       console.log("obj.images", obj.images);
       console.log("to  DB", obj.marker);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log("hedhi", house);
       });
-     this.$router.push('/') 
+      this.$router.push("/");
     },
   },
 };
 </script>
 <style scoped>
-/* .content {
-  align-content: center !important;
-  margin-left: 650px;
-  border-radius: 14px;
-}
-#center {
-  margin-top: 150px;
-  align-content: center !important;
-}
-
-#content2 {
-  align-content: center !important;
-  margin-left: 690px;
-}
-#content3 {
-  align-content: center !important;
-  margin-left: 720px;
-}
-#p2 {
-  margin-top: -90px;
-}
-#p3 {
-  margin-top: -61px;
-} */
 #center {
   margin-top: 20%;
   align-content: center;
   text-align: center;
   align-items: center;
+  /* comment */
 }
-
 .imgs {
   align-content: center;
   text-align: center;
@@ -584,4 +403,8 @@ export default {
 .btns {
   margin-left: 70px;
 }
+
+/* .btns {
+  margin-left: 70px;
+} */
 </style>
