@@ -1,278 +1,218 @@
 // :icon="{ url: require('../../src/assets/images/gmap2.png') }"
 <template>
-  <div >
+  <div>
     <center>
-    <div class="page-header clear-filter">
-      <parallax
-        class="page-header-image"
-        style="background-image:url('img/header.jpg')"
-      ></parallax>
-      <main-navbar />
-      <div class="content-center">
-        <form enctype="multipart/form-data">
-          <div>
-            <div id="content-center">
-              <div v-show="div1">
+      <div class="page-header clear-filter">
+        <parallax class="page-header-image" style="background-image:url('img/header.jpg')"></parallax>
+        <main-navbar />
+        <div class="content-center">
+          <form enctype="multipart/form-data">
+            <div>
+              <div id="content-center">
+                <div v-show="div1">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <vs-input label-placeholder="Host Name" v-model="hostName" class="col-10" />
+                      <br />
+                      <br />
+                      <vs-input label-placeholder="Host Phone" v-model="hostPhone" class="col-10" />
+                      <br />
+                      <br />
+                      <vs-select placeholder="Guests allowed" v-model="guests" class="col-8">
+                        <vs-option label="1" value="1">1</vs-option>
+                        <vs-option label="2" value="2">2</vs-option>
+                        <vs-option label="3" value="3">3</vs-option>
+                        <vs-option label="4" value="4">4 +</vs-option>
+                      </vs-select>
+                      <br />
+                      <br />
+                      <vs-select placeholder="Type of Place" v-model="typeOfPlace" class="col-8">
+                        <vs-option label="Entire Place" value="Entire Place">Entire Place</vs-option>
+                        <vs-option label="Private Room" value="Private Room">Private Room</vs-option>
+                        <vs-option label="Shared Room" value="Shared Room">Shared Room</vs-option>
+                      </vs-select>
+                      <br />
+                      <br />
+                      <vs-checkbox v-model="optionPet" class="col-8">Pets Allowed</vs-checkbox>
+                      <vs-button
+                        id="content2"
+                        flat
+                        :active="active == 0"
+                        @click.prevent="toPage2"
+                      >Get Started</vs-button>
+                    </div>
+                    <div class="col-md-6 txt">
+                      <p>We are going to guide you to host your house</p>
+                      <p>Please fill correctly your information</p>
+                      <p>to facilitate the contact with the traveler</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-show="div2" id="p2" class="content-center">
+                <h3>Please tell us more about your house</h3>
+                <br />
+                <vs-input
+                  label-placeholder="Name of The house"
+                  v-model="houseName"
+                  class="col-8 inpts"
+                />
+                <br />
+                <br />
+                <vs-input
+                  label-placeholder="Describe your house"
+                  v-model="description"
+                  class="col-8 inpts"
+                />
+                <br />
+                <br />
+
+                <vs-input v-model="price" placeholder="Price per Night In TND" class="col-8 inpts">
+                  <template #icon>
+                    <span class="material-icons">euro</span>
+                  </template>
+                </vs-input>
+                <br />
+
+                <label class="col-8">Availability from</label>
+                <vs-input type="date" v-model="start" class="col-8 inpts"></vs-input>
+                <br />
+
+                <label class="col-8">Availability to</label>
+                <vs-input type="date" v-model="end" class="col-8 inpts"></vs-input>
+                <br />
+
+                <vs-button
+                  class="col-3 inptss"
+                  flat
+                  :active="active == 0"
+                  @click.prevent="toPage3"
+                >Next</vs-button>
+              </div>
+              <br />
+              <br />
+              <div v-show="div3" id="p3">
                 <div class="row">
                   <div class="col-md-6">
-                    <vs-input
-                      label-placeholder="Host Name"
-                      v-model="hostName"
-                      class="col-10"
-                    />
+                    <h3>Please fill the adress of your house</h3>
+                    <br />
+                    <vue-google-autocomplete
+                      :country="['TN']"
+                      types="(cities)"
+                      id="governorate"
+                      class="content vs-input col-8"
+                      placeholder="Choose a governorate"
+                      v-on:error="handleError"
+                    ></vue-google-autocomplete>
                     <br />
                     <br />
-                    <vs-input
-                      label-placeholder="Host Phone"
-                      v-model="hostPhone"
-                      class="col-10"
-                    />
+                    <vue-google-autocomplete
+                      :country="['TN']"
+                      id="adress"
+                      class="content vs-input col-8"
+                      v-on:placechanged="getStreetAdress"
+                      placeholder="Choose an adress"
+                    ></vue-google-autocomplete>
                     <br />
                     <br />
-                    <vs-select
-                      placeholder="Guests allowed"
-                      v-model="guests"
-                      class="col-8"
-                    >
-                      <vs-option label="1" value="1">1</vs-option>
-                      <vs-option label="2" value="2">2</vs-option>
-                      <vs-option label="3" value="3">3</vs-option>
-                      <vs-option label="4" value="4">4 +</vs-option>
-                    </vs-select>
-                    <br />
-                    <br />
-                    <vs-select
-                      placeholder="Type of Place"
-                      v-model="typeOfPlace"
-                      class="col-8"
-                    >
-                      <vs-option label="Entire Place" value="Entire Place"
-                        >Entire Place</vs-option
-                      >
-                      <vs-option label="Private Room" value="Private Room"
-                        >Private Room</vs-option
-                      >
-                      <vs-option label="Shared Room" value="Shared Room"
-                        >Shared Room</vs-option
-                      >
-                    </vs-select>
-                    <br />
-                    <br />
-                    <vs-checkbox v-model="optionPet" class="col-8"
-                      >Pets Allowed</vs-checkbox
-                    >
+                    <p>Or use the automatic detection</p>
                     <vs-button
-                      id="content2"
+                      class="col-8 btns"
                       flat
                       :active="active == 0"
-                      @click.prevent="toPage2"
-                      >Get Started</vs-button
-                    >
+                      @click.prevent="getMyPosition"
+                    >AutoDetect</vs-button>
+                    <vs-button
+                      class="col-8 btns"
+                      flat
+                      :active="active == 0"
+                      @click.prevent="toPage4"
+                    >Next</vs-button>
                   </div>
                   <div class="col-md-6 txt">
-                    <p>We are going to guide you to host your house</p>
-                    <p>Please fill correctly your information</p>
-                    <p>to facilitate the contact with the traveler</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-show="div2" id="p2" class="content-center">
-              <h3>Please tell us more about your house</h3>
-              <br />
-              <vs-input
-                label-placeholder="Name of The house"
-                v-model="houseName"
-                class="col-8 inpts "
-              />
-              <br />
-              <br />
-              <vs-input
-                label-placeholder="Describe your house"
-                v-model="description"
-                class="col-8 inpts"
-              />
-              <br />
-              <br />
-
-              <vs-input
-                v-model="price"
-                placeholder="Price per Night"
-                class="col-8 inpts"
-              >
-                <template #icon>
-                  <span class="material-icons">euro</span>
-                </template>
-              </vs-input>
-              <br />
-
-              <label class="col-8 ">Availability from</label>
-              <vs-input
-                type="date"
-                v-model="start"
-                class="col-8 inpts"
-              ></vs-input>
-              <br />
-
-              <label class="col-8 ">Availability to</label>
-              <vs-input
-                type="date"
-                v-model="end"
-                class="col-8 inpts"
-              ></vs-input>
-              <br />
-
-              <vs-button
-                class="col-3 inptss"
-                flat
-                :active="active == 0"
-                @click.prevent="toPage3"
-                >Next</vs-button
-              >
-            </div>
-            <br />
-            <br />
-            <div v-show="div3" id="p3">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3>Please fill the adress of your house</h3>
-                  <br />
-                  <vue-google-autocomplete
-                    :country="['TN']"
-                    types="(cities)"
-                    id="governorate"
-                    class="content vs-input col-8"
-                    placeholder="Choose a governorate"
-                    v-on:error="handleError"
-                  ></vue-google-autocomplete>
-                  <br />
-                  <br />
-                  <vue-google-autocomplete
-                    :country="['TN']"
-                    id="adress"
-                    class="content vs-input col-8"
-                    v-on:placechanged="getStreetAdress"
-                    placeholder="Choose an adress"
-                  ></vue-google-autocomplete>
-                  <br />
-                  <br />
-                  <p>Or use the automatic detection</p>
-                  <vs-button
-                    class="col-8 btns"
-                    flat
-                    :active="active == 0"
-                    @click.prevent="getMyPosition"
-                    >AutoDetect</vs-button
-                  >
-                  <vs-button
-                    class="col-8 btns"
-                    flat
-                    :active="active == 0"
-                    @click.prevent="toPage4"
-                    >Next</vs-button
-                  >
-                </div>
-                <div class="col-md-6 txt">
-                  <GmapMap
-                    ref="map"
-                    :center="houseCoordinates"
-                    :zoom="14"
-                    style="width:640px ; height:400px"
-                    map-type-id="terrain"
-                  >
-                    <GmapMarker
-                      :position="houseCoordinates"
-                      :clickable="true"
-                      :draggable="true"
-                      :icon="{
+                    <GmapMap
+                      ref="map"
+                      :center="houseCoordinates"
+                      :zoom="14"
+                      style="width:640px ; height:400px"
+                      map-type-id="terrain"
+                    >
+                      <GmapMarker
+                        :position="houseCoordinates"
+                        :clickable="true"
+                        :draggable="true"
+                        :icon="{
                         url: require('../../src/assets/images/gmap2.png'),
                       }"
-                    />
-                  </GmapMap>
+                      />
+                    </GmapMap>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div v-show="div4">
-              <div class="row ">
-                                <div class="col-md-6">
+              <div v-show="div4">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>Your informations will be sent to the ADMIN</h3>
+                    <h5>
+                      Send us your CIN , passport , Melkeya and the photo of your
+                      houses
+                    </h5>
+                  </div>
+                  <div class="col-md-6">
+                    <form enctype="multipart/form-data">
+                      <label for="upload">
+                        <span class="now-ui-icons media-1_camera-compact" aria-hidden="true"></span>
+                        <input
+                          multiple
+                          type="file"
+                          ref="files"
+                          id="upload"
+                          style="display:none"
+                          class="file-input"
+                          @change="selectFile"
+                        />
+                      </label>
 
-                <h3>Your informations will be sent to the ADMIN</h3>
-                <h5>
-                  Send us your CIN , passport , Melkeya and the photo of your
-                  houses
-                </h5>
-                                  </div>
-                                <div class="col-md-6">
-
-                <form enctype="multipart/form-data" >
-                  <label for="upload">
-                    <span
-                      class="now-ui-icons media-1_camera-compact"
-                      aria-hidden="true"
-                    ></span>
-                    <input
-                      multiple
-                      type="file"
-                      ref="files"
-                      id="upload"
-                      style="display:none"
-                      class="file-input"
-                      @change="selectFile"
-                    />
-                  </label>
-
-                  <div
-                    v-for="(file, index) in files"
-                    :key="index"
-                    class="level"
-                  >
-                    <div class="level-left">
-                      <div class="level-item">{{ file.name }}</div>
-                    </div>
-                    <div class="level-right">
-                      <div class="level-item">
-                        <a
-                          @click.prevent="files.splice(index, 1)"
-                          class="delete"
-                          >Delete</a
-                        >
+                      <div v-for="(file, index) in files" :key="index" class="level">
+                        <div class="level-left">
+                          <div class="level-item">{{ file.name }}</div>
+                        </div>
+                        <div class="level-right">
+                          <div class="level-item">
+                            <a @click.prevent="files.splice(index, 1)" class="delete">Delete</a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+
+                      <vs-button
+                        style="margin-left:35%"
+                        flat
+                        :active="active == 0"
+                        @click.prevent="sendFile"
+                      >Save your photos</vs-button>
+                    </form>
                   </div>
 
-                  <vs-button
-                                style="margin-left:35%"
-
-                    flat
-                    :active="active == 0"
-                    @click.prevent="sendFile"
-                    >Save your photos
-                  </vs-button>
-                </form>
-
+                  <vs-card-group style="width:1500px">
+                    <vs-card v-for="(image, index) in imagesResp" :key="index">
+                      <template #img>
+                        <img :src="`${image.url}`" alt id="hi" />
+                      </template>
+                    </vs-card>
+                  </vs-card-group>
+                </div>
+                <vs-button
+                  style="margin-left:37%"
+                  flat
+                  :active="active == 0"
+                  @click.prevent="postToDB"
+                >Submit you informations</vs-button>
               </div>
-             
-                <vs-card-group style="width:1500px">
-                  <vs-card v-for="(image, index) in imagesResp" :key="index">
-                    <template #img>
-                      <img :src="`${image.url}`" alt id="hi" />
-                    </template>
-                  </vs-card>
-                </vs-card-group>
-              </div>
-              <vs-button
-              style="margin-left:37%"
-                flat
-                :active="active == 0"
-                @click.prevent="postToDB"
-                >Submit you informations</vs-button
-              >
             </div>
-            </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
     </center>
   </div>
 </template>
@@ -457,7 +397,6 @@ export default {
   text-align: center;
   align-items: center;
 }
-
 
 .imgs {
   align-content: center;
