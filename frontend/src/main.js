@@ -14,6 +14,7 @@ import Vuetify from "vuetify";
 import VueToast from "vue-toast-notification";
 
 Vue.config.productionTip = false;
+
 Vue.use(Vuetify);
 Vue.use(VueToast);
 Vue.use(NowUiKit);

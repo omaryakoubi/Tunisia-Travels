@@ -95,8 +95,10 @@ export default {
       axios
         .delete(`http://localhost:5000/api/users/delete/${id}`)
         .then((res) => {
-          console.log("user deleted");
-          location.reload()
+          console.log("user deleted", res);
+         this.usersList = this.usersList.filter(user => {
+            return user._id !== res.data._id
+          })
         })
         .catch((err) => console.log(err));
     },
