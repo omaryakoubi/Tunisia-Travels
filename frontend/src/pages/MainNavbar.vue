@@ -119,7 +119,7 @@
         ></fg-input>
 
         <div class="text-center">
-          <a @click="login" class="btn btn-danger btn-round btn-lg">Login</a>
+          <vs-button @click="login" class="btn btn-danger btn-round btn-lg">Login</vs-button>
         </div>
 
         <div class="footer">
@@ -230,6 +230,7 @@
 </template>
 
 <script>
+import { vsButton } from "vuesax";
 import Dropdown from "../components/Dropdown";
 import Navbar from "../components/Navbar";
 import { Popover } from "element-ui";
@@ -278,6 +279,23 @@ export default {
   },
 
   methods: {
+    openNotification(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "You are logged In !",
+      });
+    },
+    openNotification2(position = null, color) {
+      const noti = this.$vs.notification({
+        flat: true,
+        color,
+        position,
+        title: "Please try again",
+        text: "Wrong password or email.",
+      });
+    },
     hideAndShow() {
       console.log("hideandshow", localStorage.token);
       this.hide = !this.hide;
@@ -305,10 +323,11 @@ export default {
             this.modals.login = false;
             this.auth = true;
             this.hideAndShow();
+            this.openNotification("top-right", "success");
           }
         })
         .catch(() => {
-          alert("Wrong password or username");
+          this.openNotification2("top-left", "danger");
         });
     },
 
@@ -316,7 +335,8 @@ export default {
       window.FB.api(
         `/me`,
         { fields: "name", access_token: window.FB.getAccessToken() },
-        async function(data) {
+        async function (data) {
+          console.log("before", data);
           await axios.post("http://localhost:5000/api/facebook-auth/user", {
             data: data,
           });
@@ -337,8 +357,9 @@ export default {
               "accessToken",
               response.authResponse.accessToken
             );
-
-            window.FB.getLoginStatus(function(ressponse) {
+            // console.log(window.FB.getAccessToken());
+            // console.log(window.FB.getAuthResponse());
+            window.FB.getLoginStatus(function (ressponse) {
               console.log(ressponse);
             });
             console.log(window.FB.getUserID());

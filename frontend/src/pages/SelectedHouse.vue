@@ -195,6 +195,9 @@ export default {
   border-radius: 15px 50px 30px;
   padding: 10px;
 }
+.content-center {
+  z-index: 0;
+}
 
 .collections {
   margin-top: 50px;
