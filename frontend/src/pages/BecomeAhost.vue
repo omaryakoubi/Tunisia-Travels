@@ -33,6 +33,7 @@
                       placeholder="Guests allowed"
                       v-model="guests"
                       class="col-8"
+                      style="color : black"
                     >
                       <vs-option label="1" value="1">1</vs-option>
                       <vs-option label="2" value="2">2</vs-option>
@@ -45,6 +46,7 @@
                       placeholder="Type of Place"
                       v-model="typeOfPlace"
                       class="col-8"
+                      style="color : black"
                     >
                       <vs-option label="Entire Place" value="Entire Place"
                         >Entire Place</vs-option
@@ -101,7 +103,7 @@
                 class="col-8 inpts"
               >
                 <template #icon>
-                  <span class="material-icons">euro</span>
+                  <span class="material-icons">tnd</span>
                 </template>
               </vs-input>
               <br />
@@ -322,6 +324,14 @@ export default {
     },
   }),
   methods: {
+    openNotification(position = null, color) {
+          const noti = this.$vs.notification({
+            color,
+            position,
+            title: 'Your Request has been send to our team! ',
+            text: 'Please wait for us to get back to you'
+          })
+        },
     handleClick() {
       alert("gey");
     },
@@ -416,12 +426,14 @@ export default {
       obj.price = this.price;
       obj.marker = this.houseCoordinates;
       obj.images = this.imagesResp;
+      this.openNotification('top-right', 'success')
       console.log("this.imagesRresp", this.imagesResp);
       console.log("obj.images", obj.images);
       console.log("to  DB", obj.marker);
       this.axios.post("http://localhost:5000/houses", obj).then((house) => {
         console.log("hedhi", house);
       });
+     this.$router.push('/') 
     },
   },
 };
