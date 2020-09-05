@@ -21,7 +21,6 @@
         </div>
       </Tab>
       <Tab title="Users">
-        <i slot="label" class="now-ui-icons location_world"></i>
         <i slot="label" class="now-ui-icons business_badge"></i>
         <div class="col-md-10 ml-auto mr-auto">
           <div class="row collections">
