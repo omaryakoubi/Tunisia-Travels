@@ -1,3 +1,4 @@
+// :icon="{ url: require('../../src/assets/images/gmap2.png') }"
 <template>
   <div >
     <center>
