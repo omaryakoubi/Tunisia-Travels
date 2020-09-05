@@ -17,21 +17,24 @@
       <vs-col>
         <div class="row">
           <h5>
-            There is {{ numberOfHouses }} house(s) in {{ coordinates.locality }}
+            There is <b>{{ numberOfHouses }} </b>house(s) in
+            <b>{{ coordinates.locality }}</b>
           </h5>
-          <h4>
-            There is {{ availableHouses }} house(s) available from
-            {{ coordinates.start }} to {{ coordinates.end }}
-          </h4>
-
-          <h3>
-            Traveler Number :{{
+        </div>
+        <div class="row">
+          <h5>
+            There is <b>{{ availableHouses }}</b> house(s) available from
+            <b> {{ coordinates.start }}</b> to <b>{{ coordinates.end }}</b>
+          </h5>
+        </div>
+        <div class="row">
+          <h5>
+            Traveler number :<b>{{
               coordinates.guestsNum[0] +
                 coordinates.guestsNum[1] +
                 coordinates.guestsNum[2]
-            }}
-          </h3>
-          <br />
+            }}</b>
+          </h5>
         </div>
         <n-button type="primary" size="sm" round @click="showAllHouses"
           >Show all houses in {{ coordinates.locality }}</n-button
@@ -42,6 +45,7 @@
             <div class="row insi">
               <div class="col-md-4">
                 <img
+                style="max-height:200px; "
                   :src="`${one.images[one.images.length - 1].url}`"
                   @click="redirectfunc(one._id)"
                   alt
@@ -53,10 +57,12 @@
                     >{{ one.houseName }}, {{ one.typeOfPlace }}</a
                   >
                 </h3>
-                <p class="card-description">{{ one.description }}</p>
-                <p class="card-description">{{ petMessage }}</p>
-                <p class="phone">Phone: {{ one.hostPhone }}</p>
-                <p class="span">{{ one.price }} euro/night</p>
+                <p class="card-description">
+                  <b>Description : </b>{{ one.description }}
+                </p>
+                <p class="card-description"><b> </b>{{ petMessage }}</p>
+                <p class="phone"><b>Phone: </b>{{ one.hostPhone }}</p>
+                <p class="span">{{ one.price }} TND/Night</p>
               </div>
             </div>
           </div>
@@ -66,7 +72,7 @@
         <GmapMap
           ref="map"
           :center="coordinates"
-          :zoom="13"
+          :zoom="12"
           style="width:640px ; height:360px"
           map-type-id="terrain"
         >
@@ -84,24 +90,34 @@
     <!-- GmapMarker hover -->
     <modal :show.sync="modals.gmark" headerClasses="justify-content-center">
       <template slot="header">
-        <h2 slot="header" class="title title-up">{{ toShow.houseName }}, {{ toShow.typeOfPlace }}</h2>
+        <h2 slot="header" class="title title-up">
+          {{ toShow.houseName }}, {{ toShow.typeOfPlace }}
+        </h2>
       </template>
-      <div class="card-body" v-if='hovered'>
-        <div class="row insi">
-          <div class="col-md-5">
-            <img
-              :src="`${toShow.images[toShow.images.length - 1].url}`"
-              @click="redirectfunc(toShow._id)"
-              
-            />
-          </div>
-          <div class="col-md-5 cont">
-            
-            <p class="card-description">{{ toShow.description }}</p>
-            <p class="card-description">{{ petMessage }}</p>
-            <p class="phone">Phone: {{ toShow.hostPhone }}</p>
-            <p class="span">{{ toShow.price }} euro/night</p>
-          </div>
+      <div class="card-body" v-if="hovered">
+        <div class="row">
+          <img
+            style="max-height:200px; max-width:400px; margin-left:27%"
+            :src="`${toShow.images[toShow.images.length - 1].url}`"
+            @click="redirectfunc(toShow._id)"
+          />
+        </div>
+        <br />
+        <p class="card-description">{{ toShow.description }}</p>
+        <br />
+        <div class="row">
+          <h5 class="card-description">{{ petMessage }}</h5>
+          <br />
+        </div>
+
+        <div class="row">
+          <h5 class="phone"><b>Phone: </b>{{ toShow.hostPhone }}</h5>
+        </div>
+
+        <div class="row">
+          <p class="span" style="margin-left:80%">
+            {{ toShow.price }} TND/Night
+          </p>
         </div>
       </div>
     </modal>
@@ -127,7 +143,7 @@ export default {
   data() {
     return {
       toShow: {},
-      hovered:false,
+      hovered: false,
       modals: {
         gmark: false,
       },
@@ -186,7 +202,7 @@ export default {
           this.toShow = this.arr[i];
         }
       }
-      this.hovered = true
+      this.hovered = true;
       this.modals.gmark = true;
     },
   },
@@ -251,7 +267,7 @@ export default {
   margin-top: 40px;
 }
 .span {
-  float: right;
+  float: right !important;
   font-size: 130%;
   font-weight: bold;
   margin-bottom: auto;
